@@ -9,20 +9,23 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { login } from '../redux/slices/authSlice';
 
-interface LoginScreenProps {
-  onLogin: () => void;
-  onSignUp: () => void;
-}
-
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignUp }) => {
+const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const dispatch = useDispatch();
 
   const handleLogin = (): void => {
-    // TODO: Implement actual login logic
+    // TODO: Implement actual login logic with API call
     console.log('Login attempt with:', email, password);
-    onLogin();
+    dispatch(login({ id: '1', username: email })); // Using email as username for now
+  };
+
+  const handleSignUp = (): void => {
+    // TODO: Implement navigation to sign up screen
+    console.log('Navigate to sign up');
   };
 
   return (
@@ -35,7 +38,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignUp }) => {
           <Text style={styles.logo}>🇺🇸</Text>
           <Text style={styles.title}>Welcome to Referendum</Text>
           <Text style={styles.subtitle}>Your platform for democratic engagement</Text>
-
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -51,12 +53,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignUp }) => {
             onChangeText={setPassword}
             secureTextEntry
           />
-
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Log In</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity style={styles.signUpButton} onPress={onSignUp}>
+          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
             <Text style={styles.signUpButtonText}>Don't have an account? Sign up!</Text>
           </TouchableOpacity>
         </View>
