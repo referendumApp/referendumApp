@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './src/screens/LoginScreen';
 import MainScreen from './src/screens/MainScreen';
+import FeedScreen from './src/screens/FeedScreen';
+import CatalogScreen from './src/screens/CatalogScreen';
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
-    // Implement your login logic here
+    // TODO - real user logins
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    // Implement your login logic here
     setIsLoggedIn(false);
   };
 
@@ -23,8 +28,20 @@ const App = () => {
   if (!isLoggedIn) {
     return <LoginScreen onLogin={handleLogin} onSignUp={handleSignUp} />;
   }
+
   return (
-    <MainScreen onLogout={handleLogout} />
+    <NavigationContainer>
+      <Tab.Navigator screenOptions={{
+    headerShown: false // This will hide the header for all tabs
+  }}>
+        <Tab.Screen name="Feed" component={FeedScreen}  />
+        <Tab.Screen name="Catalog" component={CatalogScreen} />
+        <Tab.Screen 
+          name="Settings" 
+          children={()=><MainScreen onLogout={handleLogout} />}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
