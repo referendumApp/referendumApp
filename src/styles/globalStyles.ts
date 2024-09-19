@@ -51,16 +51,19 @@ const componentStyles = StyleSheet.create({
     justifyContent: 'center',
   },
   headerText: typography.largeTitle,
+  subHeader: {
+    backgroundColor: colors.oldGloryBlue,
+    paddingBottom: 8,
+  },
   input: {
     width: '100%',
     backgroundColor: colors.white,
     borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
+    padding: 8,
   },
   button: {
     borderRadius: 8,
-    padding: 15,
+    padding: 12,
     alignItems: 'center',
   },
   buttonText: {
@@ -79,6 +82,12 @@ const componentStyles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
+  },
+  dividerVertical: {
+    height: '100%',
+    width: 1,
+    backgroundColor: '#CCCCCC', // or any color you prefer
+    marginHorizontal: 10, // adjust as needed
   },
   linkText: {
     color: colors.oldGloryBlue,

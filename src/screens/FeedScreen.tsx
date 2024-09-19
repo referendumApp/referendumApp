@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { format } from 'date-fns';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {format} from 'date-fns';
 
-import { colors, componentStyles, typography } from '../styles/globalStyles';
+import {colors, componentStyles, typography} from '../styles/globalStyles';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';
@@ -29,12 +36,15 @@ const TagFilterButton: React.FC<{
   tag: string;
   isSelected: boolean;
   onPress: () => void;
-}> = ({ tag, isSelected, onPress }) => (
+}> = ({tag, isSelected, onPress}) => (
   <TouchableOpacity
     style={[styles.tagButton, isSelected && styles.tagButtonSelected]}
-    onPress={onPress}
-  >
-    <Text style={[styles.tagButtonText, isSelected && styles.tagButtonTextSelected]}>
+    onPress={onPress}>
+    <Text
+      style={[
+        styles.tagButtonText,
+        isSelected && styles.tagButtonTextSelected,
+      ]}>
       {tag}
     </Text>
   </TouchableOpacity>
@@ -44,7 +54,7 @@ const TagFilterView: React.FC<{
   allTags: string[];
   selectedTags: Set<string>;
   onTagPress: (tag: string) => void;
-}> = ({ allTags, selectedTags, onTagPress }) => (
+}> = ({allTags, selectedTags, onTagPress}) => (
   <View style={styles.tagFilterContainer}>
     <Text style={styles.tagFilterTitle}>Tags</Text>
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -63,7 +73,7 @@ const TagFilterView: React.FC<{
 const AssociatedItemCard: React.FC<{
   item: AssociatedItem;
   onPress: (item: AssociatedItem) => void;
-}> = ({ item, onPress }) => (
+}> = ({item, onPress}) => (
   <TouchableOpacity onPress={() => onPress(item)}>
     <Text style={styles.associatedItemText}>{item.title}</Text>
   </TouchableOpacity>
@@ -72,10 +82,10 @@ const AssociatedItemCard: React.FC<{
 const AssociatedItemsCarousel: React.FC<{
   items: AssociatedItem[];
   onItemPress: (item: AssociatedItem) => void;
-}> = ({ items, onItemPress }) => (
+}> = ({items, onItemPress}) => (
   <FlatList
     data={items}
-    renderItem={({ item }: { item: AssociatedItem }) => (
+    renderItem={({item}: {item: AssociatedItem}) => (
       <AssociatedItemCard item={item} onPress={onItemPress} />
     )}
     keyExtractor={(item: AssociatedItem) => item.id}
@@ -87,11 +97,9 @@ const AssociatedItemsCarousel: React.FC<{
 const FeedItemView: React.FC<{
   item: FeedItem;
   onAssociatedItemPress: (item: AssociatedItem) => void;
-}> = ({ item, onAssociatedItemPress }) => (
+}> = ({item, onAssociatedItemPress}) => (
   <View style={styles.feedItem}>
-    <Text style={styles.feedItemBody}>
-      {format(item.date, 'MMM d, yyyy')}
-    </Text>
+    <Text style={styles.feedItemBody}>{format(item.date, 'MMM d, yyyy')}</Text>
     <Text style={styles.feedItemTitle}>{item.title}</Text>
     <Text style={styles.feedItemBody}>{item.description}</Text>
     <View style={styles.feedItemTags}>
@@ -123,7 +131,8 @@ const FeedScreen: React.FC = () => {
       {
         id: '1',
         title: 'Town hall announced by a senator you follow',
-        description: 'Senator Patty Murray to hold town hall with Fox 13 Seattle',
+        description:
+          'Senator Patty Murray to hold town hall with Fox 13 Seattle',
         date: new Date(Date.now() + 86400000 * 30), // One month from now
         associatedItems: [
           {
@@ -135,16 +144,57 @@ const FeedScreen: React.FC = () => {
         ],
         tags: ['Town Hall', 'Community Engagement'],
       },
-      // ... Add other mock items here
+      {
+        id: '2',
+        title: 'A bill you follow has failed to proceed',
+        description: 'Border Act of 2024 cloture motion fails in Senate, 43-50',
+        date: new Date(), // "05/23/2024"
+        associatedItems: [
+          {
+            id: '1',
+            type: 'bill',
+            itemId: 92,
+            title: 'Border Act of 2024',
+          },
+        ],
+        tags: ['Senate', 'Immigration', 'Procedural Vote'],
+      },
+      {
+        id: '3',
+        title: 'A bill you follow has progressed',
+        description: 'Right to Contraception Act passes Senate',
+        date: new Date(), // "05/05/2024"
+        associatedItems: [
+          {
+            id: '3',
+            type: 'bill',
+            itemId: 92,
+            title: 'Right to Contraception Act',
+          },
+        ],
+        tags: ['Healthcare', 'Contraception'],
+      },
+      {
+        id: '4',
+        title: 'Hearing scheduled on a topic you follow',
+        description:
+          'House Education Committee schedules hearing on Voting Access',
+        date: new Date(), // "04/21/2024"
+        associatedItems: [],
+        tags: ['House', 'Voting Access', 'Committee Hearing'],
+      },
     ];
     setFeedItems(mockFeedItems);
   };
 
-  const allTags: string[] = Array.from(new Set(feedItems.flatMap(item => item.tags))).sort();
+  const allTags: string[] = Array.from(
+    new Set(feedItems.flatMap(item => item.tags)),
+  ).sort();
 
-  const filteredFeedItems: FeedItem[] = selectedTags.size === 0
-    ? feedItems
-    : feedItems.filter(item => item.tags.some(tag => selectedTags.has(tag)));
+  const filteredFeedItems: FeedItem[] =
+    selectedTags.size === 0
+      ? feedItems
+      : feedItems.filter(item => item.tags.some(tag => selectedTags.has(tag)));
 
   const handleTagPress = (tag: string): void => {
     setSelectedTags(prev => {
@@ -175,8 +225,11 @@ const FeedScreen: React.FC = () => {
       />
       <FlatList
         data={filteredFeedItems}
-        renderItem={({ item }: { item: FeedItem }) => (
-          <FeedItemView item={item} onAssociatedItemPress={handleAssociatedItemPress} />
+        renderItem={({item}: {item: FeedItem}) => (
+          <FeedItemView
+            item={item}
+            onAssociatedItemPress={handleAssociatedItemPress}
+          />
         )}
         keyExtractor={(item: FeedItem) => item.id}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -191,12 +244,13 @@ const styles = StyleSheet.create({
   headerText: componentStyles.headerText,
   tagFilterContainer: {
     backgroundColor: colors.oldGloryBlue,
-    padding: 16,
+    paddingBottom: 16,
+    paddingLeft: 16,
   },
   tagFilterTitle: {
     ...typography.subtitle,
     paddingBottom: 8,
-},
+  },
   tagButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.66)',
     borderRadius: 15,
