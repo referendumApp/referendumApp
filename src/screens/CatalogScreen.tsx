@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { componentStyles } from '../styles/globalStyles';
 
 const CatalogScreen = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Catalog Screen</Text>
+    <View style={componentStyles.container}>
+            <Text>Catalog Screen</Text>
     </View>
   );
 };

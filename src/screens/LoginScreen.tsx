@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
+import { colors, componentStyles, typography } from '../styles/globalStyles';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -67,8 +68,8 @@ const LoginScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#002868', // oldGloryBlue
+    ...componentStyles.container,
+    backgroundColor: colors.oldGloryBlue,
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -84,43 +85,33 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
+    ...typography.title,
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 16,
-    color: 'white',
+    ...typography.subtitle,
     textAlign: 'center',
     marginBottom: 30,
   },
   input: {
-    width: '100%',
-    backgroundColor: 'white',
+    width: '80%',
+    backgroundColor: colors.white,
     borderRadius: 8,
     padding: 15,
     marginBottom: 15,
   },
   loginButton: {
-    width: '100%',
-    backgroundColor: '#BF0A30', // oldGloryRed
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
+    ...componentStyles.button,
+    width: '80%',
+    backgroundColor: colors.oldGloryRed,
   },
-  loginButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  loginButtonText: componentStyles.buttonText,
   signUpButton: {
     marginTop: 15,
   },
   signUpButtonText: {
-    color: 'white',
-    fontSize: 16,
+    ...componentStyles.buttonText,
+    fontWeight: 'semibold',
   },
 });
 

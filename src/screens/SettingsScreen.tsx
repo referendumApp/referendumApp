@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
+import { colors, componentStyles, typography } from '../styles/globalStyles';
 
 interface NavItemProps {
 title: string;
@@ -53,31 +54,20 @@ const SettingsScreen: React.FC = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#f0f0f0',
-    },
+    container: componentStyles.container,
     scrollView: {
       flex: 1,
     },
-    header: {
-      backgroundColor: '#002868',
-      padding: 20,
-    },
-    headerText: {
-      fontSize: 32,
-      fontWeight: 'bold',
-      color: 'white',
-    },
+    header: componentStyles.header,
+    headerText: componentStyles.headerText,
     section: {
-      backgroundColor: 'white',
+      backgroundColor: colors.white,
       marginTop: 20,
       paddingVertical: 10,
     },
     sectionHeader: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      color: '#002868',
+      ...typography.subtitle,
+      color: colors.oldGloryBlue,
       marginLeft: 15,
       marginBottom: 10,
     },
@@ -88,11 +78,9 @@ const styles = StyleSheet.create({
       paddingVertical: 15,
       paddingHorizontal: 15,
       borderBottomWidth: 1,
-      borderBottomColor: '#e0e0e0',
+      borderBottomColor: colors.mediumGray,
     },
-    navItemText: {
-      fontSize: 16,
-    },
+    navItemText: typography.body,
     toggleItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -100,19 +88,16 @@ const styles = StyleSheet.create({
       paddingVertical: 15,
       paddingHorizontal: 15,
       borderBottomWidth: 1,
-      borderBottomColor: '#e0e0e0',
+      borderBottomColor: colors.mediumGray,
     },
-    toggleItemText: {
-      fontSize: 16,
-    },
+    toggleItemText: typography.body,
     logoutButton: {
       paddingVertical: 15,
       paddingHorizontal: 15,
     },
     logoutButtonText: {
-      fontSize: 16,
-      color: '#BF0A30',
-      fontWeight: 'bold',
+      ...typography.subtitle,
+      color: colors.oldGloryRed,
     },
   });
 
