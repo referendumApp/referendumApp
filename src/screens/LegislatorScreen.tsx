@@ -1,24 +1,12 @@
-import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
+import { CatalogStackParamList } from '../types/navigation';
 import {colors, componentStyles, typography} from '../styles/styles';
-import {Legislator} from '../types/types';
 
-interface LegislatorScreenProps {
-  route: {params: {legislator: Legislator}};
-  // votingManager: any; // Replace 'any' with the actual type
-  // settingsManager: any; // Replace 'any' with the actual type
-  // dataManager: any; // Replace 'any' with the actual type
-}
+type LegislatorScreenProps = StackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
 
 const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
   const {legislator} = route.params;

@@ -9,21 +9,13 @@ import Icon from 'react-native-vector-icons/Feather';
 import LoginScreen from '../screens/LoginScreen';
 import FeedScreen from '../screens/FeedScreen';
 import CatalogScreen from '../screens/CatalogScreen';
+import BillScreen from '../screens/BillScreen';
 import LegislatorScreen from '../screens/LegislatorScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { colors } from '../styles/styles';
-import { Legislator } from '../types/types';
+import { RootStackParamList, CatalogStackParamList } from '../types/navigation';
 
-type RootStackParamList = {
-  Feed: undefined;
-  CatalogStack: undefined;
-  Settings: undefined;
-};
 
-type CatalogStackParamList = {
-  Catalog: undefined;
-  LegislatorScreen: { legislator: Legislator };
-};
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 const CatalogStack = createStackNavigator<CatalogStackParamList>();
@@ -40,6 +32,7 @@ const CatalogStackScreen = () => (
   <CatalogStack.Navigator screenOptions={{ headerShown: false }}>
     <CatalogStack.Screen name="Catalog" component={CatalogScreen} />
     <CatalogStack.Screen name="LegislatorScreen" component={LegislatorScreen} />
+    <CatalogStack.Screen name="BillScreen" component={BillScreen} />
   </CatalogStack.Navigator>
 );
 

@@ -124,7 +124,7 @@ const componentStyles = StyleSheet.create({
   },
   section: {
     padding: 16,
-  }
+  },
 });
 
 export {colors, typography, componentStyles, withOpacity};

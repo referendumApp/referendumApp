@@ -54,7 +54,7 @@ const FeedItemView: React.FC<{
           id: assocItem.id,
           title: assocItem.title,
         }))}
-        onItemPress={item => onAssociatedItemPress(item as AssociatedItem)}
+        onItemPress={pressedItem => onAssociatedItemPress(pressedItem as AssociatedItem)}
         title="Links:"
         containerStyle={styles.feedItemCarouselContainer}
         titleStyle={styles.feedItemCarouselTitle}

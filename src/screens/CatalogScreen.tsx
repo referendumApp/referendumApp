@@ -20,12 +20,9 @@ import {
   typography,
   withOpacity,
 } from '../styles/styles';
-import {Legislator, Bill, ItemType} from '../types/types';
+import { CatalogStackParamList } from '../types/navigation';
+import { Legislator, Bill, ItemType } from '../types/types';
 
-type CatalogStackParamList = {
-  Catalog: undefined;
-  LegislatorScreen: {legislator: Legislator};
-};
 
 type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
