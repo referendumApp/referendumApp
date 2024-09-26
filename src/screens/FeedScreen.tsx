@@ -9,7 +9,7 @@ import {
   componentStyles,
   typography,
   withOpacity,
-} from '../styles/globalStyles';
+} from '../styles/styles';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';

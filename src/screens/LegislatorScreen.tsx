@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,136 +6,188 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Linking,
+  SafeAreaView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { RouteProp } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Feather';
+import {useNavigation} from '@react-navigation/native';
 
-import { colors, componentStyles, typography } from '../styles/globalStyles';
-
-// Types
-interface Legislator {
-  id: string;
-  name: string;
-  chamber: string;
-  party: string;
-  state: string;
-  imageUrl: string;
-  attendanceScore: string;
-  alignmentScore: string;
-  contactInfo: {
-    email: string;
-    phone: string;
-    office: string;
-  };
-  socialMedia: {
-    twitter: string;
-    facebook?: string;
-    instagram?: string;
-  };
-  recentVotingRecord: Array<{
-    bill: string;
-    vote: string;
-  }>;
-  fundingRecord: Array<{
-    source: string;
-    amount: string;
-    cycle: string;
-  }>;
-}
-
-type RootStackParamList = {
-  LegislatorScreen: { legislator: Legislator };
-};
-
-type LegislatorScreenRouteProp = RouteProp<RootStackParamList, 'LegislatorScreen'>;
+import {colors, componentStyles, typography} from '../styles/styles';
+import {Legislator} from '../types/types';
 
 interface LegislatorScreenProps {
-  route: LegislatorScreenRouteProp;
+  route: {params: {legislator: Legislator}};
+  // votingManager: any; // Replace 'any' with the actual type
+  // settingsManager: any; // Replace 'any' with the actual type
+  // dataManager: any; // Replace 'any' with the actual type
 }
 
-const LegislatorScreen: React.FC<LegislatorScreenProps> = ({ route }) => {
-  const { legislator } = route.params;
+const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
+  const {legislator} = route.params;
+  const navigation = useNavigation();
+  const [isFollowing, setIsFollowing] = useState(false);
 
-  const handlePhonePress = () => {
-    Linking.openURL(`tel:${legislator.contactInfo.phone}`);
+  const handleBack = () => {
+    navigation.goBack();
   };
 
-  const handleTwitterPress = () => {
-    Linking.openURL(`https://twitter.com/${legislator.socialMedia.twitter}`);
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
   };
+
+  const attendanceScore = null; // votingManager.getLegislatorAttendanceScore(legislator.id);
+  const alignmentScore = null; // votingManager.getUserLegislatorAlignmentScore(legislator.id, settingsManager.userId);
+  const legislatorVotes: any[] = [];
+  const bills: any[] = [];
+  const legislatorFundingRecords: any[] = [];
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <View style={styles.headerNavBar}>
+          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+            <Text style={styles.backButtonText}>‹ Back</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleFollow}
+            style={
+              isFollowing ? styles.selectedFollowButton : styles.followButton
+            }>
+            <Text
+              style={
+                isFollowing
+                  ? styles.selectedFollowButtonText
+                  : styles.followButtonText
+              }>
+              {isFollowing ? 'Following' : 'Follow'}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.header}>
-          <Image source={{ uri: legislator.imageUrl }} style={styles.image} />
+          <Image source={{uri: legislator.imageUrl}} style={styles.image} />
           <Text style={styles.name}>{legislator.name}</Text>
-          <Text style={styles.position}>{legislator.chamber}</Text>
-          <Text style={styles.partyState}>{`${legislator.party} - ${legislator.state}`}</Text>
+          <Text style={styles.subtitle}>{legislator.chamber}</Text>
+          <Text
+            style={
+              styles.subtitle
+            }>{`${legislator.party} - ${legislator.state}`}</Text>
+            {legislator.district && (
+            <Text style={styles.subtitle}>{`${legislator.district} District`}</Text>
+          )}
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Attendance Score: {legislator.attendanceScore}</Text>
-          <Text style={styles.sectionTitle}>Alignment Score: {legislator.alignmentScore}</Text>
+          <Text style={styles.sectionTitle}>Referendum Scores</Text>
+          <Text style={styles.sectionBody}>
+            Attendance Score: {formatScore(attendanceScore)}
+          </Text>
+          <Text style={styles.sectionBody}>
+            Alignment Score: {formatScore(alignmentScore)}
+          </Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Top Issues</Text>
-          {/* Add Top Issues content here */}
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Contact Information</Text>
-          <Text style={styles.contactText}>Email: {legislator.contactInfo.email}</Text>
-          <TouchableOpacity onPress={handlePhonePress}>
-            <Text style={styles.contactText}>Phone: {legislator.contactInfo.phone}</Text>
-          </TouchableOpacity>
-          <Text style={styles.contactText}>Office: {legislator.contactInfo.office}</Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Social Media</Text>
-          <TouchableOpacity style={styles.socialMediaButton} onPress={handleTwitterPress}>
-            <Icon name="twitter" size={24} color={colors.white} />
-            <Text style={styles.socialMediaText}>@{legislator.socialMedia.twitter}</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Recent Voting Record</Text>
-          {legislator.recentVotingRecord.map((record, index) => (
-            <View key={index} style={styles.votingRecord}>
-              <Text style={styles.billText}>{record.bill}</Text>
-              <Text style={styles.voteText}>{record.vote}</Text>
-            </View>
+          {legislator.topIssues?.map((issue, index) => (
+            <Text key={index} style={styles.sectionBody}>• {issue}</Text>
           ))}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Contact & Social</Text>
+          <Text style={styles.sectionBody}>Phone: {legislator.phone}</Text>
+          <Text style={styles.sectionBody}>Office: {legislator.office}</Text>
+          {legislator.twitter && (
+            <Text style={styles.sectionBody}>Twitter: {legislator.twitter}</Text>
+          )}
+          {legislator.facebook && (
+            <Text style={styles.sectionBody}>Facebook: {legislator.facebook}</Text>
+          )}
+          {legislator.instagram && (
+            <Text style={styles.sectionBody}>Instagram: {legislator.instagram}</Text>
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Voting Record</Text>
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={styles.tableHeaderText}>Bill</Text>
+              <Text style={styles.tableHeaderText}>Vote</Text>
+            </View>
+            {legislatorVotes.slice(0, 5).map((vote, index) => (
+              <View key={index} style={styles.tableRow}>
+                <Text style={styles.tableCell}>
+                  {bills.find((bill) => bill.id === vote.billId)?.title || 'Unknown Bill'}
+                </Text>
+                <Text style={styles.tableCell}>{vote.vote}</Text>
+              </View>
+            ))}
+          </View>
+          {legislatorVotes.length > 5 && (
+            <TouchableOpacity onPress={() => {/* Navigate to full voting record */}}>
+              <Text style={styles.seeMoreText}>See full voting record</Text>
+            </TouchableOpacity>
+          )}
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Funding Record</Text>
-          {legislator.fundingRecord.map((record, index) => (
-            <View key={index} style={styles.fundingRecord}>
-              <Text style={styles.sourceText}>{record.source}</Text>
-              <Text style={styles.amountText}>${record.amount}</Text>
-              <Text style={styles.cycleText}>{record.cycle}</Text>
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={styles.tableHeaderText}>Source</Text>
+              <Text style={styles.tableHeaderText}>Amount</Text>
+              <Text style={styles.tableHeaderText}>Cycle</Text>
             </View>
-          ))}
+            {legislatorFundingRecords.slice(0, 5).map((record, index) => (
+              <View key={index} style={styles.tableRow}>
+                <Text style={styles.tableCell}>{record.source}</Text>
+                <Text style={styles.tableCell}>${record.amount.toFixed(2)}</Text>
+                <Text style={styles.tableCell}>{record.cycle}</Text>
+              </View>
+            ))}
+          </View>
+          {legislatorFundingRecords.length > 5 && (
+            <TouchableOpacity onPress={() => {/* Navigate to full funding record */}}>
+              <Text style={styles.seeMoreText}>See all funding records</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
+const formatScore = (score: number | null): string => {
+  return score !== null ? `${score.toFixed(0)}%` : 'N/A';
+};
+
 const styles = StyleSheet.create({
   container: {
     ...componentStyles.container,
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.white,
+    flex: 1,
   },
-  header: {
-    alignItems: 'center',
-    padding: 16,
+  header: componentStyles.header,
+  headerNavBar: {
+    ...componentStyles.header,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: 0,
+  },
+  backButton: {},
+  backButtonText: {
+    ...typography.body,
+    color: 'white',
+  },
+  followButton: {
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
+  },
+  followButtonText: {
+    ...typography.body,
+    color: 'white',
   },
   image: {
     width: 100,
@@ -143,87 +195,60 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 8,
   },
-  name: {
-    ...typography.title,
-    color: colors.white,
-    fontWeight: 'bold',
-    textAlign: 'center',
+  selectedFollowButton: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 16,
   },
-  position: {
-    ...typography.subtitle,
-    color: colors.white,
-    textAlign: 'center',
-  },
-  partyState: {
+  selectedFollowButtonText: {
     ...typography.body,
-    color: colors.white,
-    textAlign: 'center',
+    color: colors.oldGloryRed,
+    fontWeight: 'bold',
   },
-  section: {
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.darkGray,
+  profileContainer: {
+    alignItems: 'center',
+    marginTop: 32,
   },
+  name: typography.title,
+  subtitle: typography.subtitle,
+  section: componentStyles.section,
   sectionTitle: {
     ...typography.subtitle,
-    color: colors.white,
-    fontWeight: 'bold',
+    color: colors.oldGloryRed,
     marginBottom: 8,
   },
-  contactText: {
-    ...typography.body,
-    color: colors.white,
-    marginBottom: 4,
+  sectionBody: typography.body,
+  table: {
+    backgroundColor: colors.white,
+    borderRadius: 8,
+    marginTop: 8,
   },
-  socialMediaButton: {
+  tableHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
     backgroundColor: colors.oldGloryBlue,
     padding: 8,
-    borderRadius: 4,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
-  socialMediaText: {
-    ...typography.body,
-    color: colors.white,
-    marginLeft: 8,
+  tableHeaderText: {
+    ...typography.subtitle,
+    flex: 1,
   },
-  votingRecord: {
+  tableRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
+    padding: 8,
+    borderBottomWidth: 1,
   },
-  billText: {
+  tableCell: {
     ...typography.body,
-    color: colors.white,
-    flex: 3,
-  },
-  voteText: {
-    ...typography.body,
-    color: colors.white,
     flex: 1,
-    textAlign: 'right',
   },
-  fundingRecord: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  sourceText: {
-    ...typography.body,
-    color: colors.white,
-    flex: 2,
-  },
-  amountText: {
-    ...typography.body,
-    color: colors.white,
-    flex: 1,
-    textAlign: 'right',
-  },
-  cycleText: {
-    ...typography.body,
-    color: colors.white,
-    flex: 1,
-    textAlign: 'right',
+  seeMoreText: {
+    ...typography.caption,
+    color: colors.oldGloryBlue,
+    marginTop: 8,
   },
 });
 

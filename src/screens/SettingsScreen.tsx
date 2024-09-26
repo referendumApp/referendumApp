@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/slices/authSlice';
-import { colors, componentStyles, typography } from '../styles/globalStyles';
+import { colors, componentStyles, typography } from '../styles/styles';
 
 interface NavItemProps {
 title: string;

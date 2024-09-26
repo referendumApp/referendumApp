@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { View, Text, TouchableOpacity, FlatList, ViewStyle, TextStyle } from 'react-native';
-import { componentStyles, typography } from '../styles/globalStyles';
+import { componentStyles, typography } from '../styles/styles';
 
 interface CarouselItem {
   id: string;

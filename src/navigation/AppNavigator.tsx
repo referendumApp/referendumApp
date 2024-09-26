@@ -1,22 +1,32 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import { colors } from '../styles/globalStyles';
+
 import LoginScreen from '../screens/LoginScreen';
 import FeedScreen from '../screens/FeedScreen';
 import CatalogScreen from '../screens/CatalogScreen';
+import LegislatorScreen from '../screens/LegislatorScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { colors } from '../styles/styles';
+import { Legislator } from '../types/types';
 
 type RootStackParamList = {
   Feed: undefined;
-  Catalog: undefined;
+  CatalogStack: undefined;
   Settings: undefined;
 };
 
+type CatalogStackParamList = {
+  Catalog: undefined;
+  LegislatorScreen: { legislator: Legislator };
+};
+
 const Tab = createBottomTabNavigator<RootStackParamList>();
+const CatalogStack = createStackNavigator<CatalogStackParamList>();
 
 const TabBarIcon = ({ name, color }: { name: string; color: string }) => (
   <Icon name={name} size={24} color={color} />
@@ -24,6 +34,13 @@ const TabBarIcon = ({ name, color }: { name: string; color: string }) => (
 
 const TabBarLabel = ({ label, color }: { label: string; color: string }) => (
   <Text style={[styles.tabBarLabel, { color }]}>{label}</Text>
+);
+
+const CatalogStackScreen = () => (
+  <CatalogStack.Navigator screenOptions={{ headerShown: false }}>
+    <CatalogStack.Screen name="Catalog" component={CatalogScreen} />
+    <CatalogStack.Screen name="LegislatorScreen" component={LegislatorScreen} />
+  </CatalogStack.Navigator>
 );
 
 const AppNavigator: React.FC = () => {
@@ -46,7 +63,7 @@ const AppNavigator: React.FC = () => {
             case 'Feed':
               iconName = 'home';
               break;
-            case 'Catalog':
+            case 'CatalogStack':
               iconName = 'list';
               break;
             case 'Settings':
@@ -58,12 +75,12 @@ const AppNavigator: React.FC = () => {
           return <TabBarIcon name={iconName} color={color} />;
         },
         tabBarLabel: ({ color }) => (
-          <TabBarLabel label={route.name} color={color} />
+          <TabBarLabel label={route.name === 'CatalogStack' ? 'Catalog' : route.name} color={color} />
         ),
       })}
     >
       <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="Catalog" component={CatalogScreen} />
+      <Tab.Screen name="CatalogStack" component={CatalogStackScreen} />
       <Tab.Screen name="Settings" component={SettingsScreen} />
     </Tab.Navigator>
   );

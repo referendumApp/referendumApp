@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
-import { colors, componentStyles, typography } from '../styles/globalStyles';
+import { colors, componentStyles, typography } from '../styles/styles';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');

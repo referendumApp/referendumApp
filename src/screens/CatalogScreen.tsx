@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import {
   View,
   Text,
@@ -8,60 +8,47 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-import { Carousel } from '../components/carousel';
-import { colors, componentStyles, typography, withOpacity } from '../styles/globalStyles';
+import {Carousel} from '../components/carousel';
+import {
+  colors,
+  componentStyles,
+  typography,
+  withOpacity,
+} from '../styles/styles';
+import {Legislator, Bill, ItemType} from '../types/types';
 
-// Types
-type ItemType = 'bill' | 'legislator';
-
-interface Bill {
-  id: string;
-  title: string;
-  description: string;
-  tags: string[];
-}
-
-interface Legislator {
-  id: string;
-  name: string;
-  party: string;
-  state: string;
-  chamber: string;
-  imageUrl: string;
-}
-
-type RootStackParamList = {
-  BillScreen: { bill: Bill };
-  LegislatorScreen: { legislator: Legislator };
+type CatalogStackParamList = {
+  Catalog: undefined;
+  LegislatorScreen: {legislator: Legislator};
 };
 
-type NavigationProp = StackNavigationProp<RootStackParamList>;
+type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
 // Components
 const SearchBar: React.FC<{
   onSearch: (text: string) => void;
   onFilterSort: () => void;
   placeholder?: string;
-}> = ({ onSearch, onFilterSort, placeholder = 'Search' }) => (
+}> = ({onSearch, onFilterSort, placeholder = 'Search'}) => (
   <View style={styles.searchBarContainer}>
     <View style={[styles.searchContainer]}>
-    <Icon
-      name="search"
-      size={20}
-      color={colors.mediumGray}
-      style={styles.searchIcon}
-    />
-    <TextInput
-      style={styles.searchInput}
-      placeholder={placeholder}
-      placeholderTextColor={colors.mediumGray}
-      onChangeText={onSearch}
-    />
+      <Icon
+        name="search"
+        size={20}
+        color={colors.mediumGray}
+        style={styles.searchIcon}
+      />
+      <TextInput
+        style={styles.searchInput}
+        placeholder={placeholder}
+        placeholderTextColor={colors.mediumGray}
+        onChangeText={onSearch}
+      />
     </View>
     <TouchableOpacity style={styles.filterSortButton} onPress={onFilterSort}>
       <Text style={styles.filterSortButtonText}>Filter & Sort</Text>
@@ -73,7 +60,7 @@ const TabButton: React.FC<{
   title: string;
   isSelected: boolean;
   onPress: () => void;
-}> = ({ title, isSelected, onPress }) => (
+}> = ({title, isSelected, onPress}) => (
   <TouchableOpacity
     style={[styles.tabButton, isSelected && styles.tabButtonSelected]}
     onPress={onPress}>
@@ -87,39 +74,47 @@ const TabButton: React.FC<{
   </TouchableOpacity>
 );
 
-const BillItem: React.FC<{ bill: Bill; onPress: () => void }> = React.memo(({ bill, onPress }) => (
-  <TouchableOpacity style={styles.billItem} onPress={onPress}>
-    <View style={styles.billTitleLine}>
-      <Text style={styles.itemTitle}>US</Text>
-      <View style={styles.dividerVertical} />
-      <Text style={styles.itemTitle}>{bill.title}</Text>
-    </View>
-    <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
-      {bill.description}
-    </Text>
-    <Carousel
-      items={bill.tags.map(tag => ({ id: tag, title: tag }))}
-      onItemPress={() => {}}
-      containerStyle={styles.tagCarouselContainer}
-      itemStyle={styles.tagCarouselItem}
-      textStyle={styles.tagCarouselItemText}
-    />
-  </TouchableOpacity>
-));
-
-const LegislatorItem: React.FC<{ legislator: Legislator; onPress: () => void  }> = React.memo(({ legislator, onPress }) => (
-  <TouchableOpacity style={styles.legislatorItem} onPress={onPress}>
-    <Image source={{ uri: legislator.imageUrl }} style={styles.legislatorImage} />
-    <View style={styles.legislatorInfo}>
-      <Text style={styles.legislatorName}>{legislator.name}</Text>
-      <Text style={styles.legislatorDetails}>
-        {`${legislator.party} - ${legislator.state}`}
+const BillItem: React.FC<{bill: Bill; onPress: () => void}> = React.memo(
+  ({bill, onPress}) => (
+    <TouchableOpacity style={styles.billItem} onPress={onPress}>
+      <View style={styles.billTitleLine}>
+        <Text style={styles.itemTitle}>US</Text>
+        <View style={styles.dividerVertical} />
+        <Text style={styles.itemTitle}>{bill.title}</Text>
+      </View>
+      <Text
+        style={styles.itemDescription}
+        numberOfLines={3}
+        ellipsizeMode="tail">
+        {bill.description}
       </Text>
-      <Text style={styles.legislatorChamber}>{legislator.chamber}</Text>
-    </View>
-    <Icon name="chevron-right" size={24} color={colors.mediumGray} />
-  </TouchableOpacity>
-));
+      <Carousel
+        items={bill.tags.map(tag => ({id: tag, title: tag}))}
+        onItemPress={() => {}}
+        containerStyle={styles.tagCarouselContainer}
+        itemStyle={styles.tagCarouselItem}
+        textStyle={styles.tagCarouselItemText}
+      />
+    </TouchableOpacity>
+  ),
+);
+
+const LegislatorItem: React.FC<{legislator: Legislator; onPress: () => void}> =
+  React.memo(({legislator, onPress}) => (
+    <TouchableOpacity style={styles.legislatorItem} onPress={onPress}>
+      <Image
+        source={{uri: legislator.imageUrl}}
+        style={styles.legislatorImage}
+      />
+      <View style={styles.legislatorInfo}>
+        <Text style={styles.legislatorName}>{legislator.name}</Text>
+        <Text style={styles.legislatorDetails}>
+          {`${legislator.party} - ${legislator.state}`}
+        </Text>
+        <Text style={styles.legislatorChamber}>{legislator.chamber}</Text>
+      </View>
+    </TouchableOpacity>
+  ));
 
 // Main component
 const CatalogScreen: React.FC = () => {
@@ -176,6 +171,12 @@ const CatalogScreen: React.FC = () => {
         state: 'VT',
         chamber: 'Senate',
         imageUrl: 'https://www.congress.gov/img/member/s000033_200.jpg',
+        topIssues: ['Healthcare'],
+        phone: '(202) 224-5141',
+        office: '332 Dirksen Senate Office Building Washington, DC 20510',
+        facebook: '',
+        instagram: '',
+        twitter: '',
       },
       {
         id: '2',
@@ -184,6 +185,12 @@ const CatalogScreen: React.FC = () => {
         state: 'LA',
         chamber: 'Senate',
         imageUrl: 'https://www.congress.gov/img/member/c001075_200.jpg',
+        topIssues: [],
+        phone: '',
+        office: '',
+        facebook: '',
+        instagram: '',
+        twitter: '',
       },
       {
         id: '3',
@@ -192,6 +199,12 @@ const CatalogScreen: React.FC = () => {
         state: 'TN',
         chamber: 'Senate',
         imageUrl: 'https://www.congress.gov/img/member/h000601_200.jpg',
+        topIssues: [],
+        phone: '',
+        office: '',
+        facebook: '',
+        instagram: '',
+        twitter: '',
       },
       {
         id: '4',
@@ -200,6 +213,12 @@ const CatalogScreen: React.FC = () => {
         state: 'HI',
         chamber: 'Senate',
         imageUrl: 'https://www.congress.gov/img/member/s001194_200.jpg',
+        topIssues: [],
+        phone: '',
+        office: '',
+        facebook: '',
+        instagram: '',
+        twitter: '',
       },
       {
         id: '5',
@@ -208,6 +227,12 @@ const CatalogScreen: React.FC = () => {
         state: 'NV',
         chamber: 'Senate',
         imageUrl: 'https://www.congress.gov/img/member/c001113_200.jpg',
+        topIssues: [],
+        phone: '',
+        office: '',
+        facebook: '',
+        instagram: '',
+        twitter: '',
       },
     ];
     setLegislators(mockLegislators);
@@ -223,14 +248,14 @@ const CatalogScreen: React.FC = () => {
       return bills.filter(
         bill =>
           bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          bill.description.toLowerCase().includes(searchQuery.toLowerCase())
+          bill.description.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     } else {
       return legislators.filter(
         legislator =>
           legislator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           legislator.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          legislator.state.toLowerCase().includes(searchQuery.toLowerCase())
+          legislator.state.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     }
   }, [bills, legislators, selectedTab, searchQuery]);
@@ -244,21 +269,35 @@ const CatalogScreen: React.FC = () => {
     console.log('Filter & Sort button pressed');
   }, []);
 
-  const handleBillPress = useCallback((bill: Bill) => {
-    navigation.navigate('BillScreen', { bill });
-  }, [navigation]);
+  const handleBillPress = useCallback(
+    (bill: Bill) => {
+      navigation.navigate('BillScreen', {bill});
+    },
+    [navigation],
+  );
 
-  const handleLegislatorPress = useCallback((legislator: Legislator) => {
-    navigation.navigate('LegislatorScreen', { legislator });
-  }, [navigation]);
+  const handleLegislatorPress = useCallback(
+    (legislator: Legislator) => {
+      navigation.navigate('LegislatorScreen', {legislator});
+    },
+    [navigation],
+  );
 
-  const renderItem = useCallback(({ item }: { item: Bill | Legislator }) => {
-    if ('title' in item) {
-      return <BillItem bill={item} onPress={() => handleBillPress(item)} />;
-    } else {
-      return <LegislatorItem legislator={item} onPress={() => handleLegislatorPress(item)} />;
-    }
-  }, [handleBillPress, handleLegislatorPress]);
+  const renderItem = useCallback(
+    ({item}: {item: Bill | Legislator}) => {
+      if ('title' in item) {
+        return <BillItem bill={item} onPress={() => handleBillPress(item)} />;
+      } else {
+        return (
+          <LegislatorItem
+            legislator={item}
+            onPress={() => handleLegislatorPress(item)}
+          />
+        );
+      }
+    },
+    [handleBillPress, handleLegislatorPress],
+  );
 
   const keyExtractor = useCallback((item: Bill | Legislator) => item.id, []);
 
