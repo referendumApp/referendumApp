@@ -16,9 +16,18 @@ export interface Legislator {
 
 export interface Bill {
   id: string;
+  identifier: string;
+  state: string;
+  body: string;
+  session: string;
+  sponsorIds: string[];
+  status: string;
   title: string;
   description: string;
   tags: string[];
+  briefing: string;
+  communityYesVotes: number;
+  communityNoVotes: number;
 }
 
 export type ItemType = 'bill' | 'legislator';

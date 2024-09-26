@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {format} from 'date-fns';
 
-import {Carousel, CarouselItem} from '../components/carousel';
+import {Carousel, CarouselItem} from '../components/Carousel';
 import {
   colors,
   componentStyles,

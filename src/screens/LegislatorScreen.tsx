@@ -29,38 +29,38 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+    <View style={styles.headerNavBar}>
+      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+        <Text style={styles.backButtonText}>‹ Back</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handleFollow}
+        style={
+          isFollowing ? styles.selectedFollowButton : styles.followButton
+        }>
+        <Text
+          style={
+            isFollowing
+              ? styles.selectedFollowButtonText
+              : styles.followButtonText
+          }>
+          {isFollowing ? 'Following' : 'Follow'}
+        </Text>
+      </TouchableOpacity>
+    </View>
+    <View style={styles.header}>
+      <Image source={{uri: legislator.imageUrl}} style={styles.image} />
+      <Text style={styles.name}>{legislator.name}</Text>
+      <Text style={styles.subtitle}>{legislator.chamber}</Text>
+      <Text
+        style={
+          styles.subtitle
+        }>{`${legislator.party} - ${legislator.state}`}</Text>
+        {legislator.district && (
+        <Text style={styles.subtitle}>{`${legislator.district} District`}</Text>
+      )}
+    </View>
       <ScrollView>
-        <View style={styles.headerNavBar}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backButtonText}>‹ Back</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={handleFollow}
-            style={
-              isFollowing ? styles.selectedFollowButton : styles.followButton
-            }>
-            <Text
-              style={
-                isFollowing
-                  ? styles.selectedFollowButtonText
-                  : styles.followButtonText
-              }>
-              {isFollowing ? 'Following' : 'Follow'}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.header}>
-          <Image source={{uri: legislator.imageUrl}} style={styles.image} />
-          <Text style={styles.name}>{legislator.name}</Text>
-          <Text style={styles.subtitle}>{legislator.chamber}</Text>
-          <Text
-            style={
-              styles.subtitle
-            }>{`${legislator.party} - ${legislator.state}`}</Text>
-            {legislator.district && (
-            <Text style={styles.subtitle}>{`${legislator.district} District`}</Text>
-          )}
-        </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Referendum Scores</Text>
@@ -154,7 +154,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     flex: 1,
   },
-  header: componentStyles.header,
+  header: {
+    ...componentStyles.header,
+    paddingTop: 2,
+  },
   headerNavBar: {
     ...componentStyles.header,
     flexDirection: 'row',
