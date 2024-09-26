@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
-  ViewStyle,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
@@ -17,12 +17,20 @@ import { colors, componentStyles, typography, withOpacity } from '../styles/glob
 // Types
 type ItemType = 'bill' | 'legislator';
 
-interface CatalogItem {
+interface Bill {
   id: string;
-  type: ItemType;
   title: string;
   description: string;
   tags: string[];
+}
+
+interface Legislator {
+  id: string;
+  name: string;
+  party: string;
+  state: string;
+  chamber: string;
+  imageUrl: string;
 }
 
 // Components
@@ -30,22 +38,21 @@ const SearchBar: React.FC<{
   onSearch: (text: string) => void;
   onFilterSort: () => void;
   placeholder?: string;
-  style?: ViewStyle;
-}> = ({ onSearch, onFilterSort, placeholder = 'Search', style }) => (
+}> = ({ onSearch, onFilterSort, placeholder = 'Search' }) => (
   <View style={styles.searchBarContainer}>
-    <View style={[styles.searchContainer, style]}>
-      <Icon
-        name="search"
-        size={20}
-        color={colors.mediumGray}
-        style={styles.searchIcon}
-      />
-      <TextInput
-        style={styles.searchInput}
-        placeholder={placeholder}
-        placeholderTextColor={colors.mediumGray}
-        onChangeText={onSearch}
-      />
+    <View style={[styles.searchContainer]}>
+    <Icon
+      name="search"
+      size={20}
+      color={colors.mediumGray}
+      style={styles.searchIcon}
+    />
+    <TextInput
+      style={styles.searchInput}
+      placeholder={placeholder}
+      placeholderTextColor={colors.mediumGray}
+      onChangeText={onSearch}
+    />
     </View>
     <TouchableOpacity style={styles.filterSortButton} onPress={onFilterSort}>
       <Text style={styles.filterSortButtonText}>Filter & Sort</Text>
@@ -71,20 +78,18 @@ const TabButton: React.FC<{
   </TouchableOpacity>
 );
 
-const CatalogItemView: React.FC<{ item: CatalogItem }> = React.memo(({ item }) => (
-  <TouchableOpacity style={styles.catalogItem}>
-    <View style={styles.catalogTitleLine}>
-      <Text style={styles.itemTitle}>
-        {item.type === 'bill' ? 'US' : item.type.toUpperCase()}
-      </Text>
+const BillItem: React.FC<{ bill: Bill }> = React.memo(({ bill }) => (
+  <TouchableOpacity style={styles.billItem}>
+    <View style={styles.billTitleLine}>
+      <Text style={styles.itemTitle}>US</Text>
       <View style={styles.dividerVertical} />
-      <Text style={styles.itemTitle}>{item.title}</Text>
+      <Text style={styles.itemTitle}>{bill.title}</Text>
     </View>
     <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
-      {item.description}
+      {bill.description}
     </Text>
     <Carousel
-      items={item.tags.map(tag => ({ id: tag, title: tag }))}
+      items={bill.tags.map(tag => ({ id: tag, title: tag }))}
       onItemPress={() => {}}
       containerStyle={styles.tagCarouselContainer}
       itemStyle={styles.tagCarouselItem}
@@ -93,18 +98,32 @@ const CatalogItemView: React.FC<{ item: CatalogItem }> = React.memo(({ item }) =
   </TouchableOpacity>
 ));
 
+const LegislatorItem: React.FC<{ legislator: Legislator }> = React.memo(({ legislator }) => (
+  <TouchableOpacity style={styles.legislatorItem}>
+    <Image source={{ uri: legislator.imageUrl }} style={styles.legislatorImage} />
+    <View style={styles.legislatorInfo}>
+      <Text style={styles.legislatorName}>{legislator.name}</Text>
+      <Text style={styles.legislatorDetails}>
+        {`${legislator.party} - ${legislator.state}`}
+      </Text>
+      <Text style={styles.legislatorChamber}>{legislator.chamber}</Text>
+    </View>
+    <Icon name="chevron-right" size={24} color={colors.mediumGray} />
+  </TouchableOpacity>
+));
+
 // Main component
 const CatalogScreen: React.FC = () => {
-  const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
+  const [bills, setBills] = useState<Bill[]>([]);
+  const [legislators, setLegislators] = useState<Legislator[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const loadCatalogItems = useCallback((): void => {
+  const loadBills = useCallback((): void => {
     // TODO: Replace this with actual API call
-    const mockCatalogItems: CatalogItem[] = [
+    const mockBills: Bill[] = [
       {
         id: '1',
-        type: 'bill',
         title: 'H.J.Res.26',
         description:
           'Disapproving the action of the District of Columbia Council in approving the Revised Criminal Code Act of 2022.',
@@ -116,43 +135,95 @@ const CatalogScreen: React.FC = () => {
       },
       {
         id: '2',
-        type: 'bill',
         title: 'S.4361',
         description: 'Border Act of 2024',
         tags: ['Immigration', 'Appropriations', 'Border Security', 'Smuggling'],
       },
       {
         id: '3',
-        type: 'bill',
         title: 'S.4381',
         description: 'Right to Contraception Act',
         tags: ['Healthcare', 'Contraception'],
       },
       {
         id: '4',
-        type: 'bill',
         title: 'S.4802',
         description:
           'Department of the Interior, Environment, and Related Agencies Appropriations Act, 2023',
         tags: ['Appropriations', 'Environment', 'Government Operations'],
       },
     ];
-    setCatalogItems(mockCatalogItems);
+    setBills(mockBills);
+  }, []);
+
+  const loadLegislators = useCallback((): void => {
+    // TODO: Replace this with actual API call
+    const mockLegislators: Legislator[] = [
+      {
+        id: '1',
+        name: 'Bernard Sanders',
+        party: 'Independent',
+        state: 'VT',
+        chamber: 'Senate',
+        imageUrl: 'https://example.com/sanders.jpg',
+      },
+      {
+        id: '2',
+        name: 'Bill Cassidy',
+        party: 'Republican',
+        state: 'LA',
+        chamber: 'Senate',
+        imageUrl: 'https://example.com/cassidy.jpg',
+      },
+      {
+        id: '3',
+        name: 'Bill Hagerty',
+        party: 'Republican',
+        state: 'TN',
+        chamber: 'Senate',
+        imageUrl: 'https://example.com/hagerty.jpg',
+      },
+      {
+        id: '4',
+        name: 'Brian Schatz',
+        party: 'Democrat',
+        state: 'HI',
+        chamber: 'Senate',
+        imageUrl: 'https://example.com/schatz.jpg',
+      },
+      {
+        id: '5',
+        name: 'Catherine Cortez Masto',
+        party: 'Democrat',
+        state: 'NV',
+        chamber: 'Senate',
+        imageUrl: 'https://example.com/masto.jpg',
+      },
+    ];
+    setLegislators(mockLegislators);
   }, []);
 
   useEffect(() => {
-    loadCatalogItems();
-  }, [loadCatalogItems]);
+    loadBills();
+    loadLegislators();
+  }, [loadBills, loadLegislators]);
 
-  const filteredItems = useMemo(() =>
-    catalogItems.filter(
-      item =>
-        item.type === selectedTab &&
-        (item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    ),
-    [catalogItems, selectedTab, searchQuery]
-  );
+  const filteredItems = useMemo(() => {
+    if (selectedTab === 'bill') {
+      return bills.filter(
+        bill =>
+          bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          bill.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    } else {
+      return legislators.filter(
+        legislator =>
+          legislator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          legislator.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          legislator.state.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+  }, [bills, legislators, selectedTab, searchQuery]);
 
   const handleSearch = useCallback((text: string): void => {
     setSearchQuery(text);
@@ -163,11 +234,15 @@ const CatalogScreen: React.FC = () => {
     console.log('Filter & Sort button pressed');
   }, []);
 
-  const renderCatalogItem = useCallback(({ item }: { item: CatalogItem }) => (
-    <CatalogItemView item={item} />
-  ), []);
+  const renderItem = useCallback(({ item }: { item: Bill | Legislator }) => {
+    if ('title' in item) {
+      return <BillItem bill={item} />;
+    } else {
+      return <LegislatorItem legislator={item} />;
+    }
+  }, []);
 
-  const keyExtractor = useCallback((item: CatalogItem) => item.id, []);
+  const keyExtractor = useCallback((item: Bill | Legislator) => item.id, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -191,7 +266,7 @@ const CatalogScreen: React.FC = () => {
       </View>
       <FlatList
         data={filteredItems}
-        renderItem={renderCatalogItem}
+        renderItem={renderItem}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.catalogList}
       />
@@ -261,10 +336,41 @@ const styles = StyleSheet.create({
   catalogList: {
     paddingVertical: 16,
   },
-  catalogItem: componentStyles.card,
-  catalogTitleLine: {
+  billItem: componentStyles.card,
+  billTitleLine: {
     flexDirection: 'row',
     marginBottom: 8,
+  },
+  legislatorItem: {
+    ...componentStyles.card,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lightGray,
+  },
+  legislatorImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
+  },
+  legislatorInfo: {
+    flex: 1,
+  },
+  legislatorName: {
+    ...typography.subtitle,
+    color: colors.oldGloryRed,
+    fontWeight: 'bold',
+  },
+  legislatorDetails: {
+    ...typography.body,
+    color: colors.darkGray,
+  },
+  legislatorChamber: {
+    ...typography.small,
+    color: colors.darkGray,
   },
   itemTitle: {
     ...typography.subtitle,
