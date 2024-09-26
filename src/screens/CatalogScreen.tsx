@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Carousel } from '../components/carousel';
 import { colors, componentStyles, typography, withOpacity } from '../styles/globalStyles';
@@ -32,6 +34,13 @@ interface Legislator {
   chamber: string;
   imageUrl: string;
 }
+
+type RootStackParamList = {
+  BillScreen: { bill: Bill };
+  LegislatorScreen: { legislator: Legislator };
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList>;
 
 // Components
 const SearchBar: React.FC<{
@@ -78,8 +87,8 @@ const TabButton: React.FC<{
   </TouchableOpacity>
 );
 
-const BillItem: React.FC<{ bill: Bill }> = React.memo(({ bill }) => (
-  <TouchableOpacity style={styles.billItem}>
+const BillItem: React.FC<{ bill: Bill; onPress: () => void }> = React.memo(({ bill, onPress }) => (
+  <TouchableOpacity style={styles.billItem} onPress={onPress}>
     <View style={styles.billTitleLine}>
       <Text style={styles.itemTitle}>US</Text>
       <View style={styles.dividerVertical} />
@@ -98,8 +107,8 @@ const BillItem: React.FC<{ bill: Bill }> = React.memo(({ bill }) => (
   </TouchableOpacity>
 ));
 
-const LegislatorItem: React.FC<{ legislator: Legislator }> = React.memo(({ legislator }) => (
-  <TouchableOpacity style={styles.legislatorItem}>
+const LegislatorItem: React.FC<{ legislator: Legislator; onPress: () => void  }> = React.memo(({ legislator, onPress }) => (
+  <TouchableOpacity style={styles.legislatorItem} onPress={onPress}>
     <Image source={{ uri: legislator.imageUrl }} style={styles.legislatorImage} />
     <View style={styles.legislatorInfo}>
       <Text style={styles.legislatorName}>{legislator.name}</Text>
@@ -114,6 +123,7 @@ const LegislatorItem: React.FC<{ legislator: Legislator }> = React.memo(({ legis
 
 // Main component
 const CatalogScreen: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [bills, setBills] = useState<Bill[]>([]);
   const [legislators, setLegislators] = useState<Legislator[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
@@ -234,13 +244,21 @@ const CatalogScreen: React.FC = () => {
     console.log('Filter & Sort button pressed');
   }, []);
 
+  const handleBillPress = useCallback((bill: Bill) => {
+    navigation.navigate('BillScreen', { bill });
+  }, [navigation]);
+
+  const handleLegislatorPress = useCallback((legislator: Legislator) => {
+    navigation.navigate('LegislatorScreen', { legislator });
+  }, [navigation]);
+
   const renderItem = useCallback(({ item }: { item: Bill | Legislator }) => {
     if ('title' in item) {
-      return <BillItem bill={item} />;
+      return <BillItem bill={item} onPress={() => handleBillPress(item)} />;
     } else {
-      return <LegislatorItem legislator={item} />;
+      return <LegislatorItem legislator={item} onPress={() => handleLegislatorPress(item)} />;
     }
-  }, []);
+  }, [handleBillPress, handleLegislatorPress]);
 
   const keyExtractor = useCallback((item: Bill | Legislator) => item.id, []);
 
