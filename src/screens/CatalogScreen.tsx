@@ -165,7 +165,7 @@ const CatalogScreen: React.FC = () => {
         party: 'Independent',
         state: 'VT',
         chamber: 'Senate',
-        imageUrl: 'https://example.com/sanders.jpg',
+        imageUrl: 'https://www.congress.gov/img/member/s000033_200.jpg',
       },
       {
         id: '2',
@@ -173,7 +173,7 @@ const CatalogScreen: React.FC = () => {
         party: 'Republican',
         state: 'LA',
         chamber: 'Senate',
-        imageUrl: 'https://example.com/cassidy.jpg',
+        imageUrl: 'https://www.congress.gov/img/member/c001075_200.jpg',
       },
       {
         id: '3',
@@ -181,7 +181,7 @@ const CatalogScreen: React.FC = () => {
         party: 'Republican',
         state: 'TN',
         chamber: 'Senate',
-        imageUrl: 'https://example.com/hagerty.jpg',
+        imageUrl: 'https://www.congress.gov/img/member/h000601_200.jpg',
       },
       {
         id: '4',
@@ -189,7 +189,7 @@ const CatalogScreen: React.FC = () => {
         party: 'Democrat',
         state: 'HI',
         chamber: 'Senate',
-        imageUrl: 'https://example.com/schatz.jpg',
+        imageUrl: 'https://www.congress.gov/img/member/s001194_200.jpg',
       },
       {
         id: '5',
@@ -197,7 +197,7 @@ const CatalogScreen: React.FC = () => {
         party: 'Democrat',
         state: 'NV',
         chamber: 'Senate',
-        imageUrl: 'https://example.com/masto.jpg',
+        imageUrl: 'https://www.congress.gov/img/member/c001113_200.jpg',
       },
     ];
     setLegislators(mockLegislators);
