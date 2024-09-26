@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 
-import { Carousel, CarouselItem } from '../components/carousel';
+import { Carousel } from '../components/carousel';
 import { colors, componentStyles, typography, withOpacity } from '../styles/globalStyles';
 
 // Types
@@ -98,11 +98,6 @@ const CatalogScreen: React.FC = () => {
   const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
-
-  useEffect(() => {
-    loadCatalogItems();
-  }, []);
 
   const loadCatalogItems = useCallback((): void => {
     // TODO: Replace this with actual API call
@@ -145,22 +140,18 @@ const CatalogScreen: React.FC = () => {
     setCatalogItems(mockCatalogItems);
   }, []);
 
-  const allTags: CarouselItem[] = useMemo(() => 
-    Array.from(new Set(catalogItems.flatMap(item => item.tags)))
-      .sort()
-      .map(tag => ({ id: tag, title: tag })),
-    [catalogItems]
-  );
+  useEffect(() => {
+    loadCatalogItems();
+  }, [loadCatalogItems]);
 
-  const filteredItems = useMemo(() => 
+  const filteredItems = useMemo(() =>
     catalogItems.filter(
       item =>
         item.type === selectedTab &&
         (item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
-        (selectedTags.size === 0 || item.tags.some(tag => selectedTags.has(tag)))
+          item.description.toLowerCase().includes(searchQuery.toLowerCase()))
     ),
-    [catalogItems, selectedTab, searchQuery, selectedTags]
+    [catalogItems, selectedTab, searchQuery]
   );
 
   const handleSearch = useCallback((text: string): void => {
@@ -170,18 +161,6 @@ const CatalogScreen: React.FC = () => {
   const handleFilterSort = useCallback((): void => {
     // TODO: Implement filter and sort functionality
     console.log('Filter & Sort button pressed');
-  }, []);
-
-  const handleTagPress = useCallback((tag: CarouselItem): void => {
-    setSelectedTags(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(tag.id)) {
-        newSet.delete(tag.id);
-      } else {
-        newSet.add(tag.id);
-      }
-      return newSet;
-    });
   }, []);
 
   const renderCatalogItem = useCallback(({ item }: { item: CatalogItem }) => (

@@ -42,7 +42,6 @@ const FeedItemView: React.FC<{
       <Carousel
         items={item.tags.map(tag => ({id: tag, title: tag}))}
         onItemPress={() => {}}
-        title="Topics:"
         containerStyle={styles.feedItemCarouselContainer}
         titleStyle={styles.feedItemCarouselTitle}
         itemStyle={styles.feedItemCarouselItem}
@@ -235,22 +234,10 @@ const FeedScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    ...componentStyles.container,
-    backgroundColor: colors.lightGray,
-  },
-  header: {
-    ...componentStyles.header,
-    paddingVertical: 16,
-  },
-  headerText: {
-    ...componentStyles.headerText,
-    fontSize: 28,
-  },
-  subHeader: {
-    ...componentStyles.subHeader,
-    paddingBottom: 12,
-  },
+  container: componentStyles.container,
+  header: componentStyles.header,
+  headerText: componentStyles.headerText,
+  subHeader: componentStyles.subHeader,
   tagCarouselContainer: {
     ...componentStyles.carouselContainer,
     paddingHorizontal: 16,
