@@ -2,12 +2,16 @@ import {StyleSheet, TextStyle} from 'react-native';
 
 // Color palette
 const colors = {
-  oldGloryBlue: '#002868',
-  oldGloryRed: '#BF0A30',
-  white: 'white',
-  lightGray: '#F0F0F0',
-  mediumGray: '#E0E0E0',
-  darkGray: '#222',
+  oldGloryBlue: 'rgb(0, 40, 104)',  // #002868
+  oldGloryRed: 'rgb(191, 10, 48)',  // #BF0A30
+  white: 'rgb(255, 255, 255)',      // white
+  lightGray: 'rgb(240, 240, 240)',  // #F0F0F0
+  mediumGray: 'rgb(208, 208, 208)', // #D0D0D0
+  darkGray: 'rgb(34, 34, 34)',      // #222
+};
+
+const withOpacity = (color: string, opacity: number) => {
+  return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
 };
 
 // Typography
@@ -107,6 +111,17 @@ const componentStyles = StyleSheet.create({
     color: colors.oldGloryBlue,
     fontSize: 12,
   },
+  carouselContainer: {
+    paddingBottom: 8,
+    paddingLeft: 8,
+    marginLeft: 8,
+  },
+  carouselItem: {
+    backgroundColor: colors.white,
+    borderRadius: 12,
+    padding: 6,
+    marginRight: 8,
+  },
 });
 
-export {colors, typography, componentStyles};
+export {colors, typography, componentStyles, withOpacity};

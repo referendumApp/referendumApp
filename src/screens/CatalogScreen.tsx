@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   ViewStyle,
@@ -8,10 +8,11 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
 
-import {colors, componentStyles, typography} from '../styles/globalStyles';
+import { Carousel, CarouselItem } from '../components/carousel';
+import { colors, componentStyles, typography, withOpacity } from '../styles/globalStyles';
 
 // Types
 type ItemType = 'bill' | 'legislator';
@@ -30,8 +31,8 @@ const SearchBar: React.FC<{
   onFilterSort: () => void;
   placeholder?: string;
   style?: ViewStyle;
-}> = ({onSearch, onFilterSort, placeholder = 'Search', style}) => (
-  <View style={styles.subHeader}>
+}> = ({ onSearch, onFilterSort, placeholder = 'Search', style }) => (
+  <View style={styles.searchBarContainer}>
     <View style={[styles.searchContainer, style]}>
       <Icon
         name="search"
@@ -56,7 +57,7 @@ const TabButton: React.FC<{
   title: string;
   isSelected: boolean;
   onPress: () => void;
-}> = ({title, isSelected, onPress}) => (
+}> = ({ title, isSelected, onPress }) => (
   <TouchableOpacity
     style={[styles.tabButton, isSelected && styles.tabButtonSelected]}
     onPress={onPress}>
@@ -70,7 +71,7 @@ const TabButton: React.FC<{
   </TouchableOpacity>
 );
 
-const CatalogItemView: React.FC<{item: CatalogItem}> = ({item}) => (
+const CatalogItemView: React.FC<{ item: CatalogItem }> = React.memo(({ item }) => (
   <TouchableOpacity style={styles.catalogItem}>
     <View style={styles.catalogTitleLine}>
       <Text style={styles.itemTitle}>
@@ -82,27 +83,28 @@ const CatalogItemView: React.FC<{item: CatalogItem}> = ({item}) => (
     <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
       {item.description}
     </Text>
-    <View style={styles.tagsContainer}>
-      {item.tags.map((tag: string) => (
-        <View key={tag} style={styles.tag}>
-          <Text style={styles.tagText}>{tag}</Text>
-        </View>
-      ))}
-    </View>
+    <Carousel
+      items={item.tags.map(tag => ({ id: tag, title: tag }))}
+      onItemPress={() => {}}
+      containerStyle={styles.tagCarouselContainer}
+      itemStyle={styles.tagCarouselItem}
+      textStyle={styles.tagCarouselItemText}
+    />
   </TouchableOpacity>
-);
+));
 
 // Main component
 const CatalogScreen: React.FC = () => {
   const [catalogItems, setCatalogItems] = useState<CatalogItem[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadCatalogItems();
   }, []);
 
-  const loadCatalogItems = (): void => {
+  const loadCatalogItems = useCallback((): void => {
     // TODO: Replace this with actual API call
     const mockCatalogItems: CatalogItem[] = [
       {
@@ -141,23 +143,52 @@ const CatalogScreen: React.FC = () => {
       },
     ];
     setCatalogItems(mockCatalogItems);
-  };
+  }, []);
 
-  const filteredItems = catalogItems.filter(
-    item =>
-      item.type === selectedTab &&
-      (item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchQuery.toLowerCase())),
+  const allTags: CarouselItem[] = useMemo(() => 
+    Array.from(new Set(catalogItems.flatMap(item => item.tags)))
+      .sort()
+      .map(tag => ({ id: tag, title: tag })),
+    [catalogItems]
   );
 
-  const handleSearch = (text: string): void => {
-    setSearchQuery(text);
-  };
+  const filteredItems = useMemo(() => 
+    catalogItems.filter(
+      item =>
+        item.type === selectedTab &&
+        (item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchQuery.toLowerCase())) &&
+        (selectedTags.size === 0 || item.tags.some(tag => selectedTags.has(tag)))
+    ),
+    [catalogItems, selectedTab, searchQuery, selectedTags]
+  );
 
-  const handleFilterSort = (): void => {
+  const handleSearch = useCallback((text: string): void => {
+    setSearchQuery(text);
+  }, []);
+
+  const handleFilterSort = useCallback((): void => {
     // TODO: Implement filter and sort functionality
     console.log('Filter & Sort button pressed');
-  };
+  }, []);
+
+  const handleTagPress = useCallback((tag: CarouselItem): void => {
+    setSelectedTags(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(tag.id)) {
+        newSet.delete(tag.id);
+      } else {
+        newSet.add(tag.id);
+      }
+      return newSet;
+    });
+  }, []);
+
+  const renderCatalogItem = useCallback(({ item }: { item: CatalogItem }) => (
+    <CatalogItemView item={item} />
+  ), []);
+
+  const keyExtractor = useCallback((item: CatalogItem) => item.id, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -181,10 +212,9 @@ const CatalogScreen: React.FC = () => {
       </View>
       <FlatList
         data={filteredItems}
-        renderItem={({item}: {item: CatalogItem}) => (
-          <CatalogItemView item={item} />
-        )}
-        keyExtractor={(item: CatalogItem) => item.id}
+        renderItem={renderCatalogItem}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={styles.catalogList}
       />
     </SafeAreaView>
   );
@@ -194,53 +224,46 @@ const styles = StyleSheet.create({
   container: componentStyles.container,
   header: componentStyles.header,
   headerText: componentStyles.headerText,
-  subHeader: {...componentStyles.subHeader, flexDirection: 'row'},
+  subHeader: componentStyles.subHeader,
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingBottom: 12,
+  },
   searchContainer: {
     ...componentStyles.input,
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 10,
-    backgroundColor: colors.white,
-    width: '60%',
+    flex: 1,
+    marginRight: 12,
   },
   searchInput: {
     flex: 1,
     color: colors.darkGray,
     fontSize: 16,
   },
-  filterSortButton: {
-    ...componentStyles.button,
-    backgroundColor: colors.oldGloryRed,
-  },
-  filterSortButtonText: componentStyles.buttonText,
   searchIcon: {
     marginRight: 8,
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 24,
-  },
-  redButton: {
+  filterSortButton: {
     ...componentStyles.button,
     backgroundColor: colors.oldGloryRed,
+    paddingHorizontal: 12,
   },
-  filterButtonText: {
+  filterSortButtonText: {
     ...componentStyles.buttonText,
-    color: colors.white,
-  },
-  sortButtonText: {
-    ...componentStyles.buttonText,
-    marginLeft: 4,
-    color: colors.white,
+    fontSize: 14,
   },
   tabContainer: {
     flexDirection: 'row',
     backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.mediumGray,
   },
   tabButton: {
     flex: 1,
-    paddingVertical: 6,
+    paddingVertical: 12,
     alignItems: 'center',
   },
   tabButtonSelected: {
@@ -256,25 +279,81 @@ const styles = StyleSheet.create({
     color: colors.oldGloryRed,
     fontWeight: 'bold',
   },
+  catalogList: {
+    paddingVertical: 16,
+  },
   catalogItem: componentStyles.card,
   catalogTitleLine: {
     flexDirection: 'row',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   itemTitle: {
     ...typography.subtitle,
     color: colors.oldGloryRed,
     fontWeight: 'bold',
   },
-  itemDescription: typography.body,
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 8,
+  itemDescription: {
+    ...typography.body,
+    marginBottom: 12,
   },
-  tag: componentStyles.tag,
-  tagText: componentStyles.tagText,
   dividerVertical: componentStyles.dividerVertical,
+  tagCarouselContainer: {
+    ...componentStyles.carouselContainer,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 0,
+    paddingLeft: 0,
+  },
+  tagCarouselTitle: {
+    ...typography.body,
+    fontWeight: 'bold',
+    paddingRight: 8,
+    color: colors.oldGloryBlue,
+  },
+  tagCarouselItem: {
+    ...componentStyles.carouselItem,
+    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+  },
+  tagCarouselItemText: {
+    ...typography.small,
+    color: colors.oldGloryBlue,
+  },
+  filterTagsContainer: {
+    ...componentStyles.carouselContainer,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: colors.lightGray,
+  },
+  filterTagsTitle: {
+    ...typography.subtitle,
+    color: colors.oldGloryBlue,
+    paddingBottom: 8,
+  },
+  filterTagsItem: {
+    ...componentStyles.carouselItem,
+    backgroundColor: withOpacity(colors.white, 0.6),
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  filterTagsSelectedItem: {
+    ...componentStyles.carouselItem,
+    backgroundColor: colors.white,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+  },
+  filterTagsItemText: {
+    ...typography.body,
+    fontSize: 14,
+    color: colors.oldGloryBlue,
+  },
+  filterTagsSelectedItemText: {
+    ...typography.body,
+    fontSize: 14,
+    color: colors.oldGloryRed,
+    fontWeight: 'bold',
+  },
 });
 
 export default CatalogScreen;
