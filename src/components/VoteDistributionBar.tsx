@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-
 import { colors } from '../styles/styles';
 
-const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number, noVotes: number }) => {
+const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes: number }) => {
   const totalVotes = yesVotes + noVotes;
   const yesPercentage = totalVotes > 0 ? yesVotes / totalVotes : 0;
+  const floatingVoteThreshhold = 0.15;
 
   const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(1)}%`;
@@ -25,12 +25,26 @@ const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number, noVotes:
     <View style={styles.container}>
       <View style={styles.bar}>
         <View style={[styles.yesBar, { flex: yesPercentage }]}>
-          <Text style={styles.percentageText}>{formatPercentage(yesPercentage)}</Text>
+          {yesPercentage > floatingVoteThreshhold && (
+            <Text style={styles.percentageText}>{formatPercentage(yesPercentage)}</Text>
+          )}
         </View>
         <View style={[styles.noBar, { flex: 1 - yesPercentage }]}>
-          <Text style={styles.percentageText}>{formatPercentage(1 - yesPercentage)}</Text>
+          {(1 - yesPercentage) > floatingVoteThreshhold && (
+            <Text style={styles.percentageText}>{formatPercentage(1 - yesPercentage)}</Text>
+          )}
         </View>
       </View>
+      {yesPercentage <= floatingVoteThreshhold && (
+        <View style={[styles.floatingTextContainer, styles.leftFloatingText]}>
+          <Text style={styles.floatingText}>{formatPercentage(yesPercentage)}</Text>
+        </View>
+      )}
+      {(1 - yesPercentage) <= floatingVoteThreshhold && (
+        <View style={[styles.floatingTextContainer, styles.rightFloatingText]}>
+          <Text style={styles.floatingText}>{formatPercentage(1 - yesPercentage)}</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -40,6 +54,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 15,
     overflow: 'hidden',
+    position: 'relative',
   },
   bar: {
     flexDirection: 'row',
@@ -60,7 +75,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
     paddingHorizontal: 4,
-    flexDirection: 'row',
+  },
+  floatingTextContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+  },
+  floatingText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  leftFloatingText: {
+    left: 2,
+  },
+  rightFloatingText: {
+    right: 2,
   },
   emptyBar: {
     backgroundColor: '#E0E0E0',
