@@ -1,21 +1,22 @@
-import {StyleSheet, TextStyle} from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 
 // Color palette
-const colors = {
-  oldGloryBlue: 'rgb(0, 40, 104)',  // #002868
-  oldGloryRed: 'rgb(191, 10, 48)',  // #BF0A30
-  white: 'rgb(255, 255, 255)',      // white
-  lightGray: 'rgb(240, 240, 240)',  // #F0F0F0
-  mediumGray: 'rgb(208, 208, 208)', // #D0D0D0
-  darkGray: 'rgb(34, 34, 34)',      // #222
+export const colors = {
+  oldGloryBlue: 'rgb(0, 40, 104)',    // #002868
+  oldGloryRed: 'rgb(191, 10, 48)',    // #BF0A30
+  white: 'rgb(255, 255, 255)',        // white
+  lightGray: 'rgb(240, 240, 240)',    // #F0F0F0
+  mediumGray: 'rgb(208, 208, 208)',   // #D0D0D0
+  darkGray: 'rgb(34, 34, 34)',        // #222
+  yesVoteGreen: 'rgb(102, 184, 90)', // #66B85A
 };
 
-const withOpacity = (color: string, opacity: number) => {
+export const withOpacity = (color: string, opacity: number) => {
   return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
 };
 
 // Typography
-const typography: Record<string, TextStyle> = {
+export const typography: Record<string, TextStyle> = {
   largeTitle: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -25,7 +26,6 @@ const typography: Record<string, TextStyle> = {
     fontSize: 24,
     fontWeight: 'bold',
     color: colors.white,
-    textAlign: 'center',
   },
   subtitle: {
     fontSize: 18,
@@ -38,93 +38,122 @@ const typography: Record<string, TextStyle> = {
   },
   small: {
     fontSize: 14,
-    color: 'gray',
+    color: colors.mediumGray,
+  },
+  caption: {
+    fontSize: 12,
+    color: colors.mediumGray,
   },
 };
 
+// Spacing
+export const spacing = {
+  xs: 4,
+  s: 8,
+  m: 16,
+  l: 24,
+  xl: 32,
+  xxl: 40,
+};
+
 // Shared styles
-const componentStyles = StyleSheet.create({
+export const componentStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.lightGray,
   },
   header: {
     backgroundColor: colors.oldGloryBlue,
-    padding: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding: spacing.m,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
   },
   headerText: typography.largeTitle,
   subHeader: {
     backgroundColor: colors.oldGloryBlue,
-    paddingBottom: 8,
+    paddingBottom: spacing.s,
   },
   input: {
     width: '100%',
     backgroundColor: colors.white,
     borderRadius: 8,
-    padding: 8,
+    padding: spacing.s,
+    ...typography.body,
   },
   button: {
     borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
+    padding: spacing.m,
+    alignItems: 'center' as const,
+    backgroundColor: colors.oldGloryRed,
   },
   buttonText: {
+    ...typography.body,
     color: colors.white,
     fontWeight: 'bold',
-    fontSize: 16,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 12,
-    marginHorizontal: 16,
-    marginVertical: 8,
-    padding: 16,
+    marginHorizontal: spacing.m,
+    marginVertical: spacing.s,
+    padding: spacing.m,
     elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
+    shadowColor: colors.darkGray,
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
   dividerVertical: {
     height: '100%',
     width: 1,
-    backgroundColor: '#CCCCCC', // or any color you prefer
-    marginHorizontal: 10, // adjust as needed
+    backgroundColor: colors.mediumGray,
+    marginHorizontal: spacing.s,
   },
   linkText: {
+    ...typography.small,
     color: colors.oldGloryBlue,
     textDecorationLine: 'underline',
-    fontSize: 14,
-    fontWeight: 'semibold',
+    fontWeight: '600',
   },
   tag: {
-    backgroundColor: 'rgba(0, 0, 139, 0.1)',
+    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
     borderRadius: 8,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    marginRight: 6,
-    marginBottom: 4,
+    paddingHorizontal: spacing.s,
+    paddingVertical: spacing.xs,
+    marginRight: spacing.s,
+    marginBottom: spacing.xs,
   },
   tagText: {
+    ...typography.caption,
     color: colors.oldGloryBlue,
-    fontSize: 12,
   },
   carouselContainer: {
-    paddingBottom: 8,
-    paddingLeft: 8,
-    marginLeft: 8,
+    paddingBottom: spacing.s,
+    paddingLeft: spacing.s,
+    marginLeft: spacing.s,
   },
   carouselItem: {
     backgroundColor: colors.white,
     borderRadius: 12,
-    padding: 6,
-    marginRight: 8,
+    padding: spacing.s,
+    marginRight: spacing.s,
   },
   section: {
-    padding: 16,
+    padding: spacing.m,
   },
 });
 
-export {colors, typography, componentStyles, withOpacity};
+// Theme object
+export const theme = {
+  colors,
+  typography,
+  spacing,
+  componentStyles,
+  withOpacity,
+};
+
+// Types
+export type Theme = typeof theme;
+export type ColorName = keyof typeof colors;
+export type TypographyName = keyof typeof typography;
+export type SpacingName = keyof typeof spacing;

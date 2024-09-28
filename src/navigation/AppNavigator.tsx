@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { useTheme } from '../styles/ThemeProvider';
+import { Theme } from '../styles/styles';
 
 import LoginScreen from '../screens/LoginScreen';
 import FeedScreen from '../screens/FeedScreen';
@@ -12,10 +14,7 @@ import CatalogScreen from '../screens/CatalogScreen';
 import BillScreen from '../screens/BillScreen';
 import LegislatorScreen from '../screens/LegislatorScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import { colors } from '../styles/styles';
 import { RootStackParamList, CatalogStackParamList } from '../types/navigation';
-
-
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 const CatalogStack = createStackNavigator<CatalogStackParamList>();
@@ -24,9 +23,11 @@ const TabBarIcon = ({ name, color }: { name: string; color: string }) => (
   <Icon name={name} size={24} color={color} />
 );
 
-const TabBarLabel = ({ label, color }: { label: string; color: string }) => (
-  <Text style={[styles.tabBarLabel, { color }]}>{label}</Text>
-);
+const TabBarLabel = ({ label, color }: { label: string; color: string }) => {
+  const theme = useTheme();
+  const styles = createStyles(theme);
+  return <Text style={[styles.tabBarLabel, { color }]}>{label}</Text>;
+};
 
 const CatalogStackScreen = () => (
   <CatalogStack.Navigator screenOptions={{ headerShown: false }}>
@@ -38,6 +39,8 @@ const CatalogStackScreen = () => (
 
 const AppNavigator: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  const theme = useTheme();
+  const styles = createStyles(theme);
 
   if (!isLoggedIn) {
     return <LoginScreen />;
@@ -48,8 +51,8 @@ const AppNavigator: React.FC = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: colors.oldGloryRed,
-        tabBarInactiveTintColor: colors.white,
+        tabBarActiveTintColor: theme.colors.oldGloryRed,
+        tabBarInactiveTintColor: theme.colors.white,
         tabBarIcon: ({ color }) => {
           let iconName: string;
           switch (route.name) {
@@ -79,16 +82,16 @@ const AppNavigator: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   tabBar: {
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: theme.colors.oldGloryBlue,
     borderTopWidth: 0,
     elevation: 0,
     height: 60,
-    paddingBottom: 5,
+    paddingBottom: theme.spacing.xs,
   },
   tabBarLabel: {
-    fontSize: 12,
+    fontSize: theme.typography.caption.fontSize,
     fontWeight: 'bold',
   },
 });

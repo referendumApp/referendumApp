@@ -11,23 +11,68 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/slices/authSlice';
-import { colors, componentStyles, typography } from '../styles/styles';
+import { useTheme } from '../styles/ThemeProvider';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const handleLogin = (): void => {
-    // TODO: Implement actual login logic with API call
     console.log('Login attempt with:', email, password);
-    dispatch(login({ id: '1', username: email })); // Using email as username for now
+    dispatch(login({ id: '1', username: email }));
   };
 
   const handleSignUp = (): void => {
-    // TODO: Implement navigation to sign up screen
     console.log('Navigate to sign up');
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      ...theme.componentStyles.container,
+      backgroundColor: theme.colors.oldGloryBlue,
+    },
+    keyboardAvoidingView: {
+      flex: 1,
+    },
+    content: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: theme.spacing.xl,
+    },
+    logo: {
+      fontSize: 100,
+      marginBottom: theme.spacing.xl,
+    },
+    title: {
+      ...theme.typography.title,
+      marginBottom: theme.spacing.s,
+    },
+    subtitle: {
+      ...theme.typography.subtitle,
+      textAlign: 'center',
+      marginBottom: theme.spacing.xl,
+    },
+    input: {
+      ...theme.componentStyles.input,
+      width: '80%',
+      marginBottom: theme.spacing.m,
+    },
+    loginButton: {
+      ...theme.componentStyles.button,
+      width: '80%',
+    },
+    loginButtonText: theme.componentStyles.buttonText,
+    signUpButton: {
+      marginTop: theme.spacing.m,
+    },
+    signUpButtonText: {
+      ...theme.componentStyles.buttonText,
+      color: theme.colors.white,
+    },
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -46,6 +91,7 @@ const LoginScreen: React.FC = () => {
             onChangeText={setEmail}
             autoCapitalize="none"
             keyboardType="email-address"
+            placeholderTextColor={theme.colors.mediumGray}
           />
           <TextInput
             style={styles.input}
@@ -53,6 +99,7 @@ const LoginScreen: React.FC = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            placeholderTextColor={theme.colors.mediumGray}
           />
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.loginButtonText}>Log In</Text>
@@ -65,54 +112,5 @@ const LoginScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...componentStyles.container,
-    backgroundColor: colors.oldGloryBlue,
-  },
-  keyboardAvoidingView: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  logo: {
-    fontSize: 100,
-    marginBottom: 20,
-  },
-  title: {
-    ...typography.title,
-    marginBottom: 10,
-  },
-  subtitle: {
-    ...typography.subtitle,
-    textAlign: 'center',
-    marginBottom: 30,
-  },
-  input: {
-    width: '80%',
-    backgroundColor: colors.white,
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
-  },
-  loginButton: {
-    ...componentStyles.button,
-    width: '80%',
-    backgroundColor: colors.oldGloryRed,
-  },
-  loginButtonText: componentStyles.buttonText,
-  signUpButton: {
-    marginTop: 15,
-  },
-  signUpButtonText: {
-    ...componentStyles.buttonText,
-    fontWeight: 'semibold',
-  },
-});
 
 export default LoginScreen;

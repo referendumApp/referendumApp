@@ -39,4 +39,5 @@ target 'referendum' do
   end
 end
 
+pod 'React-Core', :path => '../node_modules/react-native/'
 pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

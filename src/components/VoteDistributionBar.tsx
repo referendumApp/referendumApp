@@ -1,11 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '../styles/styles';
+import { useTheme } from '../styles/ThemeProvider';
+import { Theme } from '../styles/styles';
 
 const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes: number }) => {
+  const theme = useTheme();
+  const styles = createStyles(theme);
+
   const totalVotes = yesVotes + noVotes;
   const yesPercentage = totalVotes > 0 ? yesVotes / totalVotes : 0;
-  const floatingVoteThreshhold = 0.15;
+  const floatingVoteThreshold = 0.15;
 
   const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(1)}%`;
@@ -25,22 +29,22 @@ const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes:
     <View style={styles.container}>
       <View style={styles.bar}>
         <View style={[styles.yesBar, { flex: yesPercentage }]}>
-          {yesPercentage > floatingVoteThreshhold && (
+          {yesPercentage > floatingVoteThreshold && (
             <Text style={styles.percentageText}>{formatPercentage(yesPercentage)}</Text>
           )}
         </View>
         <View style={[styles.noBar, { flex: 1 - yesPercentage }]}>
-          {(1 - yesPercentage) > floatingVoteThreshhold && (
+          {(1 - yesPercentage) > floatingVoteThreshold && (
             <Text style={styles.percentageText}>{formatPercentage(1 - yesPercentage)}</Text>
           )}
         </View>
       </View>
-      {yesPercentage <= floatingVoteThreshhold && (
+      {yesPercentage <= floatingVoteThreshold && (
         <View style={[styles.floatingTextContainer, styles.leftFloatingText]}>
           <Text style={styles.floatingText}>{formatPercentage(yesPercentage)}</Text>
         </View>
       )}
-      {(1 - yesPercentage) <= floatingVoteThreshhold && (
+      {(1 - yesPercentage) <= floatingVoteThreshold && (
         <View style={[styles.floatingTextContainer, styles.rightFloatingText]}>
           <Text style={styles.floatingText}>{formatPercentage(1 - yesPercentage)}</Text>
         </View>
@@ -49,7 +53,7 @@ const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes:
   );
 };
 
-const styles = StyleSheet.create({
+const createStyles = (theme: Theme) => StyleSheet.create({
   container: {
     height: 30,
     borderRadius: 15,
@@ -61,20 +65,20 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   yesBar: {
-    backgroundColor: '#4CAF50', // Replace with your app's green color
+    backgroundColor: theme.colors.yesVoteGreen,
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
   noBar: {
-    backgroundColor: colors.oldGloryRed,
+    backgroundColor: theme.colors.oldGloryRed,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   percentageText: {
-    color: 'white',
+    color: theme.colors.white,
     fontWeight: 'bold',
-    fontSize: 12,
-    paddingHorizontal: 4,
+    fontSize: theme.typography.caption.fontSize,
+    paddingHorizontal: theme.spacing.xs,
   },
   floatingTextContainer: {
     position: 'absolute',
@@ -83,26 +87,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   floatingText: {
-    color: 'white',
+    color: theme.colors.white,
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: theme.typography.caption.fontSize,
   },
   leftFloatingText: {
-    left: 2,
+    left: theme.spacing.xs,
   },
   rightFloatingText: {
-    right: 2,
+    right: theme.spacing.xs,
   },
   emptyBar: {
-    backgroundColor: '#E0E0E0',
+    backgroundColor: theme.colors.lightGray,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   emptyText: {
-    color: '#666',
+    color: theme.colors.mediumGray,
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: theme.typography.caption.fontSize,
   },
 });
 
