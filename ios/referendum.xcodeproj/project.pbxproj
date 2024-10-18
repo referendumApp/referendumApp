@@ -15,6 +15,8 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		85CEE157CF7075B238619806 /* libPods-referendum.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1999A8E1A0174EFE9838DD5C /* libPods-referendum.a */; };
 		A541EAA3C8ACCBFF1DF4D304 /* libPods-referendum-referendumTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CC3ED69E44B4B27E66DA650 /* libPods-referendum-referendumTests.a */; };
+		B4F6FCDE9A543A9CE0409E9A /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4443D2C49AE0BECC6901C4F2 /* ExpoModulesProvider.swift */; };
+		D729D94BCA02038EA8162C9F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF171E703189DCE8744D69CF /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,12 +43,14 @@
 		1999A8E1A0174EFE9838DD5C /* libPods-referendum.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-referendum.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		238104AEDE2BA18EC22CDF07 /* Pods-referendum.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-referendum.release.xcconfig"; path = "Target Support Files/Pods-referendum/Pods-referendum.release.xcconfig"; sourceTree = "<group>"; };
 		33BAC7EFFFFF4335966B0512 /* Pods-referendum-referendumTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-referendum-referendumTests.release.xcconfig"; path = "Target Support Files/Pods-referendum-referendumTests/Pods-referendum-referendumTests.release.xcconfig"; sourceTree = "<group>"; };
+		4443D2C49AE0BECC6901C4F2 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-referendum/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		4F97972EC1377DFB3EBC8033 /* Pods-referendum.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-referendum.debug.xcconfig"; path = "Target Support Files/Pods-referendum/Pods-referendum.debug.xcconfig"; sourceTree = "<group>"; };
 		5E4A7337D07611A9EE0E7300 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = referendum/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = referendum/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8CC3ED69E44B4B27E66DA650 /* libPods-referendum-referendumTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-referendum-referendumTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8373DC60F729E1A17F44B03 /* Pods-referendum-referendumTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-referendum-referendumTests.debug.xcconfig"; path = "Target Support Files/Pods-referendum-referendumTests/Pods-referendum-referendumTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		FF171E703189DCE8744D69CF /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-referendum-referendumTests/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4DE4A5A75426EBF4EC41CEA4 /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				ECE517BB67581DF2E65703BF /* referendum */,
+				C8C9CE47377C4CAAD29EC456 /* referendumTests */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +140,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				4DE4A5A75426EBF4EC41CEA4 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -153,6 +167,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		C8C9CE47377C4CAAD29EC456 /* referendumTests */ = {
+			isa = PBXGroup;
+			children = (
+				FF171E703189DCE8744D69CF /* ExpoModulesProvider.swift */,
+			);
+			name = referendumTests;
+			sourceTree = "<group>";
+		};
+		ECE517BB67581DF2E65703BF /* referendum */ = {
+			isa = PBXGroup;
+			children = (
+				4443D2C49AE0BECC6901C4F2 /* ExpoModulesProvider.swift */,
+			);
+			name = referendum;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -161,6 +191,7 @@
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "referendumTests" */;
 			buildPhases = (
 				109180B8E7421F397149E2E5 /* [CP] Check Pods Manifest.lock */,
+				0BB88F04301C9AB712685986 /* [Expo] Configure project */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
@@ -182,6 +213,7 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "referendum" */;
 			buildPhases = (
 				5ED6D7BBDB8E512C9C01D448 /* [CP] Check Pods Manifest.lock */,
+				9D0E602F023BEED16D393F1D /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
@@ -269,7 +301,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli')\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n";
+		};
+		0BB88F04301C9AB712685986 /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-referendum-referendumTests/expo-configure-project.sh\"\n";
 		};
 		0DE75FDADF58C6A47AF0D1BF /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -366,6 +417,25 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-referendum-referendumTests/Pods-referendum-referendumTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9D0E602F023BEED16D393F1D /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-referendum/expo-configure-project.sh\"\n";
+		};
 		F5A33F61C316AFAC1406E47E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -391,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* referendumTests.m in Sources */,
+				D729D94BCA02038EA8162C9F /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +471,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				B4F6FCDE9A543A9CE0409E9A /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +507,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/referendum.app/referendum";
@@ -459,6 +532,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/referendum.app/referendum";
@@ -485,6 +559,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = referendumusa.referendum;
 				PRODUCT_NAME = referendum;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -512,6 +587,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = referendumusa.referendum;
 				PRODUCT_NAME = referendum;
 				SWIFT_VERSION = 5.0;

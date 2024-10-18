@@ -1,0 +1,17 @@
+{
+  "name": "referendum",
+  "displayName": "referendum",
+  "expo": {
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "referendum-app"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/referendum-app"
+    }
+  }
+}
