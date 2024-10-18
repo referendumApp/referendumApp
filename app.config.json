@@ -1,6 +1,4 @@
 {
-  "name": "referendum",
-  "displayName": "referendum",
   "expo": {
     "runtimeVersion": {
       "policy": "sdkVersion"
@@ -9,6 +7,9 @@
       "eas": {
         "projectId": "6bc5786b-adc9-476a-a4aa-4516db7d3936"
       }
+    },
+    "android": {
+      "package": "referendumapp.com"
     }
   }
 }
