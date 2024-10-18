@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../styles/ThemeProvider';
-import { Theme } from '../styles/styles';
+import { useTheme } from '@styles/ThemeProvider';
+import { Theme } from '@styles';
 
 const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes: number }) => {
   const theme = useTheme();

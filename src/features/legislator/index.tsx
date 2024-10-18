@@ -3,8 +3,8 @@ import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, SafeAreaVi
 import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { CatalogStackParamList } from '../types/navigation';
-import {colors, componentStyles, typography} from '../styles/styles';
+import { CatalogStackParamList } from '@navigation/types';
+import { colors, componentStyles, typography } from '@styles';
 
 type LegislatorScreenProps = StackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
 

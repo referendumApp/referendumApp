@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,20 +8,21 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-import {Carousel} from '../components/Carousel';
+import { useGetBillsQuery } from './api';
+import { Carousel } from '@components/carousel';
 import {
   colors,
   componentStyles,
   typography,
   withOpacity,
-} from '../styles/styles';
-import { CatalogStackParamList } from '../types/navigation';
-import { Legislator, Bill, ItemType } from '../types/types';
+} from '@styles';
+import { CatalogStackParamList } from '@navigation/types';
+import { Legislator, Bill, ItemType } from '@types';
 
 
 type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
@@ -116,6 +117,7 @@ const LegislatorItem: React.FC<{legislator: Legislator; onPress: () => void}> =
 // Main component
 const CatalogScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+  const { data: billData, isLoading } = useGetBillsQuery();
   const [bills, setBills] = useState<Bill[]>([]);
   const [legislators, setLegislators] = useState<Legislator[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');

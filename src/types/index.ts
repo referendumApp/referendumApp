@@ -14,20 +14,34 @@ export interface Legislator {
   instagram: string;
 }
 
+interface State {
+  id: number;
+  name: string;
+}
+
+interface LegislativeBody {
+  id: number;
+  roleId: number;
+  stateId: number;
+}
+
 export interface Bill {
-  id: string;
+  id: number;
+  legiscanId: number;
   identifier: string;
-  state: string;
-  body: string;
-  session: string;
-  sponsorIds: string[];
-  status: string;
+  stateId: number;
+  state: State;
+  legislativeBodyId: number;
+  legislativeBody: LegislativeBody;
+  sessionId: number;
+  statusId: number;
+  statusDate: string;
   title: string;
   description: string;
-  tags: string[];
+  tags?: string[];
   briefing: string;
-  communityYesVotes: number;
-  communityNoVotes: number;
+  communityYesVotes?: number;
+  communityNoVotes?: number;
 }
 
 export type ItemType = 'bill' | 'legislator';

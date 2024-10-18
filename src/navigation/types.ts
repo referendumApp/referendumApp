@@ -1,4 +1,4 @@
-import {Bill, Legislator} from './types';
+import { Bill, Legislator } from '@types';
 
 export type RootStackParamList = {
   Feed: undefined;

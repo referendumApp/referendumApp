@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {format} from 'date-fns';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { format } from 'date-fns';
 
-import {Carousel, CarouselItem} from '../components/Carousel';
+import { Carousel, CarouselItem } from '@components/carousel';
 import {
   colors,
   componentStyles,
   typography,
   withOpacity,
-} from '../styles/styles';
+} from '@styles';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';

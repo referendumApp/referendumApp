@@ -4,8 +4,8 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ThemeProvider } from './src/styles/ThemeProvider';
 
-import store from './src/redux/store';
-import AppNavigator from './src/navigation/AppNavigator';
+import store from './src/app-state/store';
+import AppNavigator from './src/navigation';
 
 const queryClient = new QueryClient();
 

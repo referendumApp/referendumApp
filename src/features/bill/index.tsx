@@ -10,11 +10,11 @@ import {
 import { StackScreenProps } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
-import { CatalogStackParamList } from '../types/navigation';
-import { useTheme } from '../styles/ThemeProvider';
-import { Theme } from '../styles/styles';
-import { Carousel } from '../components/Carousel';
-import VoteDistributionBar from '../components/VoteDistributionBar';
+import { CatalogStackParamList } from '@navigation/types';
+import { useTheme } from '@styles/ThemeProvider';
+import { Theme } from '@styles';
+import { Carousel } from '@components/carousel';
+import VoteDistributionBar from '@components/VoteDistributionBar';
 
 type BillDetailScreenProps = StackScreenProps<
   CatalogStackParamList,

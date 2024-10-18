@@ -10,8 +10,8 @@ import {
   Platform,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { login } from '../redux/slices/authSlice';
-import { useTheme } from '../styles/ThemeProvider';
+import { login } from '@app-state/slices/authSlice';
+import { useTheme } from '@styles/ThemeProvider';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
