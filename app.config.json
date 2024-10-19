@@ -9,7 +9,13 @@
       }
     },
     "android": {
-      "package": "referendumapp.com"
+      "package": "referendumapp.com",
+      "splash": {
+        "backgroundColor": "#002868"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "referendumapp.com"
     }
   }
 }
