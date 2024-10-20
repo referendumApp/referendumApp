@@ -1,15 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { format } from 'date-fns';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {format} from 'date-fns';
 
-import { Carousel, CarouselItem } from '@components/carousel';
-import {
-  colors,
-  componentStyles,
-  typography,
-  withOpacity,
-} from '@styles';
+import {Carousel, CarouselItem} from '@components/carousel';
+import {colors, componentStyles, typography, withOpacity} from '@styles';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';
@@ -54,7 +49,9 @@ const FeedItemView: React.FC<{
           id: assocItem.id,
           title: assocItem.title,
         }))}
-        onItemPress={pressedItem => onAssociatedItemPress(pressedItem as AssociatedItem)}
+        onItemPress={pressedItem =>
+          onAssociatedItemPress(pressedItem as AssociatedItem)
+        }
         title="Links:"
         containerStyle={styles.feedItemCarouselContainer}
         titleStyle={styles.feedItemCarouselTitle}

@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
-import { CatalogStackParamList } from '@navigation/types';
-import { colors, componentStyles, typography } from '@styles';
+import {CatalogStackParamList} from '@navigation/types';
+import {colors, componentStyles, typography} from '@styles';
 
-type LegislatorScreenProps = StackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
+type LegislatorScreenProps = StackScreenProps<
+  CatalogStackParamList,
+  'LegislatorScreen'
+>;
 
 const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
   const {legislator} = route.params;
@@ -29,39 +40,39 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <View style={styles.headerNavBar}>
-      <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-        <Text style={styles.backButtonText}>‹ Back</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={handleFollow}
-        style={
-          isFollowing ? styles.selectedFollowButton : styles.followButton
-        }>
+      <View style={styles.headerNavBar}>
+        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Text style={styles.backButtonText}>‹ Back</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={handleFollow}
+          style={
+            isFollowing ? styles.selectedFollowButton : styles.followButton
+          }>
+          <Text
+            style={
+              isFollowing
+                ? styles.selectedFollowButtonText
+                : styles.followButtonText
+            }>
+            {isFollowing ? 'Following' : 'Follow'}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.header}>
+        <Image source={{uri: legislator.imageUrl}} style={styles.image} />
+        <Text style={styles.name}>{legislator.name}</Text>
+        <Text style={styles.subtitle}>{legislator.chamber}</Text>
         <Text
           style={
-            isFollowing
-              ? styles.selectedFollowButtonText
-              : styles.followButtonText
-          }>
-          {isFollowing ? 'Following' : 'Follow'}
-        </Text>
-      </TouchableOpacity>
-    </View>
-    <View style={styles.header}>
-      <Image source={{uri: legislator.imageUrl}} style={styles.image} />
-      <Text style={styles.name}>{legislator.name}</Text>
-      <Text style={styles.subtitle}>{legislator.chamber}</Text>
-      <Text
-        style={
-          styles.subtitle
-        }>{`${legislator.party} - ${legislator.state}`}</Text>
+            styles.subtitle
+          }>{`${legislator.party} - ${legislator.state}`}</Text>
         {legislator.district && (
-        <Text style={styles.subtitle}>{`${legislator.district} District`}</Text>
-      )}
-    </View>
+          <Text
+            style={styles.subtitle}>{`${legislator.district} District`}</Text>
+        )}
+      </View>
       <ScrollView>
-
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Referendum Scores</Text>
           <Text style={styles.sectionBody}>
@@ -75,7 +86,9 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Top Issues</Text>
           {legislator.topIssues?.map((issue, index) => (
-            <Text key={index} style={styles.sectionBody}>• {issue}</Text>
+            <Text key={index} style={styles.sectionBody}>
+              • {issue}
+            </Text>
           ))}
         </View>
 
@@ -84,13 +97,19 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
           <Text style={styles.sectionBody}>Phone: {legislator.phone}</Text>
           <Text style={styles.sectionBody}>Office: {legislator.office}</Text>
           {legislator.twitter && (
-            <Text style={styles.sectionBody}>Twitter: {legislator.twitter}</Text>
+            <Text style={styles.sectionBody}>
+              Twitter: {legislator.twitter}
+            </Text>
           )}
           {legislator.facebook && (
-            <Text style={styles.sectionBody}>Facebook: {legislator.facebook}</Text>
+            <Text style={styles.sectionBody}>
+              Facebook: {legislator.facebook}
+            </Text>
           )}
           {legislator.instagram && (
-            <Text style={styles.sectionBody}>Instagram: {legislator.instagram}</Text>
+            <Text style={styles.sectionBody}>
+              Instagram: {legislator.instagram}
+            </Text>
           )}
         </View>
 
@@ -104,14 +123,18 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
             {legislatorVotes.slice(0, 5).map((vote, index) => (
               <View key={index} style={styles.tableRow}>
                 <Text style={styles.tableCell}>
-                  {bills.find((bill) => bill.id === vote.billId)?.title || 'Unknown Bill'}
+                  {bills.find(bill => bill.id === vote.billId)?.title ||
+                    'Unknown Bill'}
                 </Text>
                 <Text style={styles.tableCell}>{vote.vote}</Text>
               </View>
             ))}
           </View>
           {legislatorVotes.length > 5 && (
-            <TouchableOpacity onPress={() => {/* Navigate to full voting record */}}>
+            <TouchableOpacity
+              onPress={() => {
+                /* Navigate to full voting record */
+              }}>
               <Text style={styles.seeMoreText}>See full voting record</Text>
             </TouchableOpacity>
           )}
@@ -128,13 +151,18 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
             {legislatorFundingRecords.slice(0, 5).map((record, index) => (
               <View key={index} style={styles.tableRow}>
                 <Text style={styles.tableCell}>{record.source}</Text>
-                <Text style={styles.tableCell}>${record.amount.toFixed(2)}</Text>
+                <Text style={styles.tableCell}>
+                  ${record.amount.toFixed(2)}
+                </Text>
                 <Text style={styles.tableCell}>{record.cycle}</Text>
               </View>
             ))}
           </View>
           {legislatorFundingRecords.length > 5 && (
-            <TouchableOpacity onPress={() => {/* Navigate to full funding record */}}>
+            <TouchableOpacity
+              onPress={() => {
+                /* Navigate to full funding record */
+              }}>
               <Text style={styles.seeMoreText}>See all funding records</Text>
             </TouchableOpacity>
           )}

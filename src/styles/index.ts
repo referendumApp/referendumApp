@@ -1,13 +1,13 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import {StyleSheet, TextStyle} from 'react-native';
 
 // Color palette
 export const colors = {
-  oldGloryBlue: 'rgb(0, 40, 104)',    // #002868
-  oldGloryRed: 'rgb(191, 10, 48)',    // #BF0A30
-  white: 'rgb(255, 255, 255)',        // white
-  lightGray: 'rgb(240, 240, 240)',    // #F0F0F0
-  mediumGray: 'rgb(208, 208, 208)',   // #D0D0D0
-  darkGray: 'rgb(34, 34, 34)',        // #222
+  oldGloryBlue: 'rgb(0, 40, 104)', // #002868
+  oldGloryRed: 'rgb(191, 10, 48)', // #BF0A30
+  white: 'rgb(255, 255, 255)', // white
+  lightGray: 'rgb(240, 240, 240)', // #F0F0F0
+  mediumGray: 'rgb(208, 208, 208)', // #D0D0D0
+  darkGray: 'rgb(34, 34, 34)', // #222
   yesVoteGreen: 'rgb(102, 184, 90)', // #66B85A
 };
 
@@ -99,7 +99,7 @@ export const componentStyles = StyleSheet.create({
     padding: spacing.m,
     elevation: 3,
     shadowColor: colors.darkGray,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },

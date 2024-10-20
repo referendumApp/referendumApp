@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
-import { CatalogStackParamList } from '@navigation/types';
-import { useTheme } from '@styles/ThemeProvider';
-import { Theme } from '@styles';
-import { Carousel } from '@components/carousel';
+import {CatalogStackParamList} from '@navigation/types';
+import {useTheme} from '@styles/ThemeProvider';
+import {Theme} from '@styles';
+import {Carousel} from '@components/carousel';
 import VoteDistributionBar from '@components/VoteDistributionBar';
 
 type BillDetailScreenProps = StackScreenProps<
@@ -21,8 +21,8 @@ type BillDetailScreenProps = StackScreenProps<
   'BillScreen'
 >;
 
-const BillDetailScreen: React.FC<BillDetailScreenProps> = ({ route }) => {
-  const { bill } = route.params;
+const BillDetailScreen: React.FC<BillDetailScreenProps> = ({route}) => {
+  const {bill} = route.params;
   const navigation = useNavigation();
   const theme = useTheme();
   const styles = createStyles(theme);
@@ -72,7 +72,8 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({ route }) => {
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
-        <Text style={styles.title}>{`${bill.state}  -  ${bill.identifier}`}</Text>
+        <Text
+          style={styles.title}>{`${bill.state}  -  ${bill.identifier}`}</Text>
       </View>
       <ScrollView>
         <View style={styles.header}>
@@ -81,11 +82,12 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({ route }) => {
         <View style={styles.subHeader}>
           <Text style={styles.headerBody}>{`Body: ${bill.body}`}</Text>
           <Text style={styles.headerBody}>{`Session: ${bill.session}`}</Text>
-          <Text style={styles.headerBody}>{`Sponsors: ${bill.sponsorIds}`}</Text>
+          <Text
+            style={styles.headerBody}>{`Sponsors: ${bill.sponsorIds}`}</Text>
           <Text style={styles.headerBody}>{`Status: ${bill.status}`}</Text>
 
           <Carousel
-            items={bill.tags.map(tag => ({ id: tag, title: tag }))}
+            items={bill.tags.map(tag => ({id: tag, title: tag}))}
             onItemPress={() => {}}
             title="Topics"
             containerStyle={styles.tagCarouselContainer}
@@ -197,167 +199,168 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({ route }) => {
   );
 };
 
-const createStyles = (theme: Theme) => StyleSheet.create({
-  backGroundContainer: {
-    ...theme.componentStyles.container,
-    backgroundColor: theme.colors.oldGloryBlue,
-  },
-  container: {
-    ...theme.componentStyles.container,
-    backgroundColor: theme.colors.white,
-    flex: 1,
-  },
-  header: {
-    ...theme.componentStyles.header,
-    paddingTop: theme.spacing.xs,
-  },
-  subHeader: {
-    ...theme.componentStyles.subHeader,
-    padding: theme.spacing.m,
-  },
-  tagCarouselContainer: {
-    ...theme.componentStyles.carouselContainer,
-    paddingHorizontal: theme.spacing.m,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 0,
-    paddingLeft: 0,
-  },
-  tagCarouselTitle: {
-    ...theme.typography.body,
-    color: theme.colors.white,
-    paddingRight: theme.spacing.s,
-  },
-  tagCarouselItem: {
-    ...theme.componentStyles.carouselItem,
-    backgroundColor: theme.withOpacity(theme.colors.white, 0.95),
-    padding: theme.spacing.xs,
-  },
-  tagCarouselItemText: {
-    ...theme.typography.body,
-    color: theme.colors.oldGloryRed,
-  },
-  tagCarouselSelectedItemText: {
-    ...theme.typography.body,
-    color: theme.colors.oldGloryRed,
-  },
-  headerNavBar: {
-    ...theme.componentStyles.header,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
-  },
-  backButton: {},
-  backButtonText: {
-    ...theme.typography.body,
-    color: theme.colors.white,
-  },
-  followButton: {
-    borderColor: theme.colors.white,
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingVertical: theme.spacing.xs,
-    paddingHorizontal: theme.spacing.m,
-  },
-  followButtonText: {
-    ...theme.typography.body,
-    color: theme.colors.white,
-  },
-  selectedFollowButton: {
-    backgroundColor: theme.colors.white,
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingVertical: theme.spacing.xs,
-    paddingHorizontal: theme.spacing.m,
-  },
-  selectedFollowButtonText: {
-    ...theme.typography.body,
-    color: theme.colors.oldGloryRed,
-    fontWeight: 'bold',
-  },
-  title: { ...theme.typography.title, paddingBottom: theme.spacing.s },
-  subtitle: theme.typography.subtitle,
-  headerBody: {
-    ...theme.typography.body,
-    color: theme.colors.white,
-    padding: theme.spacing.xs,
-  },
-  section: theme.componentStyles.section,
-  sectionTitle: {
-    ...theme.typography.subtitle,
-    color: theme.colors.oldGloryRed,
-    marginBottom: theme.spacing.s,
-  },
-  sectionBody: theme.typography.body,
-  votingButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: theme.spacing.s,
-  },
-  voteButton: {
-    flex: 1,
-    padding: theme.spacing.m,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginHorizontal: theme.spacing.xs,
-    backgroundColor: theme.colors.lightGray,
-  },
-  selectedVoteButton: {
-    backgroundColor: theme.colors.oldGloryRed,
-  },
-  voteButtonText: {
-    ...theme.typography.body,
-    fontWeight: 'bold',
-  },
-  table: {
-    backgroundColor: theme.colors.white,
-    borderRadius: 8,
-    marginTop: theme.spacing.s,
-  },
-  tableHeader: {
-    flexDirection: 'row',
-    backgroundColor: theme.colors.oldGloryBlue,
-    padding: theme.spacing.s,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-  tableHeaderText: {
-    ...theme.typography.subtitle,
-    color: theme.colors.white,
-    flex: 1,
-  },
-  tableRow: {
-    flexDirection: 'row',
-    padding: theme.spacing.s,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.lightGray,
-  },
-  tableCell: {
-    ...theme.typography.body,
-    flex: 1,
-  },
-  seeMoreText: {
-    ...theme.typography.caption,
-    color: theme.colors.oldGloryBlue,
-    marginTop: theme.spacing.s,
-  },
-  commentContainer: {
-    marginBottom: theme.spacing.s,
-  },
-  commentAuthor: {
-    ...theme.typography.subtitle,
-    fontWeight: 'bold',
-  },
-  commentText: theme.typography.body,
-  voteCounts: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: theme.spacing.s,
-  },
-  voteCountBody: {
-    ...theme.typography.body,
-    fontWeight: 'bold',
-  },
-});
+const createStyles = (theme: Theme) =>
+  StyleSheet.create({
+    backGroundContainer: {
+      ...theme.componentStyles.container,
+      backgroundColor: theme.colors.oldGloryBlue,
+    },
+    container: {
+      ...theme.componentStyles.container,
+      backgroundColor: theme.colors.white,
+      flex: 1,
+    },
+    header: {
+      ...theme.componentStyles.header,
+      paddingTop: theme.spacing.xs,
+    },
+    subHeader: {
+      ...theme.componentStyles.subHeader,
+      padding: theme.spacing.m,
+    },
+    tagCarouselContainer: {
+      ...theme.componentStyles.carouselContainer,
+      paddingHorizontal: theme.spacing.m,
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginLeft: 0,
+      paddingLeft: 0,
+    },
+    tagCarouselTitle: {
+      ...theme.typography.body,
+      color: theme.colors.white,
+      paddingRight: theme.spacing.s,
+    },
+    tagCarouselItem: {
+      ...theme.componentStyles.carouselItem,
+      backgroundColor: theme.withOpacity(theme.colors.white, 0.95),
+      padding: theme.spacing.xs,
+    },
+    tagCarouselItemText: {
+      ...theme.typography.body,
+      color: theme.colors.oldGloryRed,
+    },
+    tagCarouselSelectedItemText: {
+      ...theme.typography.body,
+      color: theme.colors.oldGloryRed,
+    },
+    headerNavBar: {
+      ...theme.componentStyles.header,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingBottom: 0,
+    },
+    backButton: {},
+    backButtonText: {
+      ...theme.typography.body,
+      color: theme.colors.white,
+    },
+    followButton: {
+      borderColor: theme.colors.white,
+      borderWidth: 1,
+      borderRadius: 20,
+      paddingVertical: theme.spacing.xs,
+      paddingHorizontal: theme.spacing.m,
+    },
+    followButtonText: {
+      ...theme.typography.body,
+      color: theme.colors.white,
+    },
+    selectedFollowButton: {
+      backgroundColor: theme.colors.white,
+      borderWidth: 1,
+      borderRadius: 20,
+      paddingVertical: theme.spacing.xs,
+      paddingHorizontal: theme.spacing.m,
+    },
+    selectedFollowButtonText: {
+      ...theme.typography.body,
+      color: theme.colors.oldGloryRed,
+      fontWeight: 'bold',
+    },
+    title: {...theme.typography.title, paddingBottom: theme.spacing.s},
+    subtitle: theme.typography.subtitle,
+    headerBody: {
+      ...theme.typography.body,
+      color: theme.colors.white,
+      padding: theme.spacing.xs,
+    },
+    section: theme.componentStyles.section,
+    sectionTitle: {
+      ...theme.typography.subtitle,
+      color: theme.colors.oldGloryRed,
+      marginBottom: theme.spacing.s,
+    },
+    sectionBody: theme.typography.body,
+    votingButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: theme.spacing.s,
+    },
+    voteButton: {
+      flex: 1,
+      padding: theme.spacing.m,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginHorizontal: theme.spacing.xs,
+      backgroundColor: theme.colors.lightGray,
+    },
+    selectedVoteButton: {
+      backgroundColor: theme.colors.oldGloryRed,
+    },
+    voteButtonText: {
+      ...theme.typography.body,
+      fontWeight: 'bold',
+    },
+    table: {
+      backgroundColor: theme.colors.white,
+      borderRadius: 8,
+      marginTop: theme.spacing.s,
+    },
+    tableHeader: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.oldGloryBlue,
+      padding: theme.spacing.s,
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+    },
+    tableHeaderText: {
+      ...theme.typography.subtitle,
+      color: theme.colors.white,
+      flex: 1,
+    },
+    tableRow: {
+      flexDirection: 'row',
+      padding: theme.spacing.s,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.lightGray,
+    },
+    tableCell: {
+      ...theme.typography.body,
+      flex: 1,
+    },
+    seeMoreText: {
+      ...theme.typography.caption,
+      color: theme.colors.oldGloryBlue,
+      marginTop: theme.spacing.s,
+    },
+    commentContainer: {
+      marginBottom: theme.spacing.s,
+    },
+    commentAuthor: {
+      ...theme.typography.subtitle,
+      fontWeight: 'bold',
+    },
+    commentText: theme.typography.body,
+    voteCounts: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: theme.spacing.s,
+    },
+    voteCountBody: {
+      ...theme.typography.body,
+      fontWeight: 'bold',
+    },
+  });
 
 export default BillDetailScreen;

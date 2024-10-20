@@ -1,5 +1,5 @@
 export interface Legislator {
-  id: string;
+  id: number;
   name: string;
   party: string;
   state: string;
@@ -45,3 +45,9 @@ export interface Bill {
 }
 
 export type ItemType = 'bill' | 'legislator';
+
+export interface User {
+  token: string;
+  tokenType: string;
+  username: string;
+}

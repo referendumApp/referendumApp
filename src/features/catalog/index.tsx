@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import {
   View,
   Text,
@@ -8,22 +8,16 @@ import {
   FlatList,
   Image,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 
-import { useGetBillsQuery } from './api';
-import { Carousel } from '@components/carousel';
-import {
-  colors,
-  componentStyles,
-  typography,
-  withOpacity,
-} from '@styles';
-import { CatalogStackParamList } from '@navigation/types';
-import { Legislator, Bill, ItemType } from '@types';
-
+import {useGetBillsQuery} from './api';
+import {Carousel} from '@components/carousel';
+import {colors, componentStyles, typography, withOpacity} from '@styles';
+import {CatalogStackParamList} from '@navigation/types';
+import {Legislator, Bill, ItemType} from '@types';
 
 type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
@@ -87,7 +81,7 @@ const BillItem: React.FC<{bill: Bill; onPress: () => void}> = React.memo(
         {bill.title}
       </Text>
       <Carousel
-        items={bill.tags.map(tag => ({id: tag, title: tag}))}
+        items={bill?.tags?.map(tag => ({id: tag, title: tag})) ?? []}
         onItemPress={() => {}}
         containerStyle={styles.tagCarouselContainer}
         itemStyle={styles.tagCarouselItem}
@@ -117,59 +111,60 @@ const LegislatorItem: React.FC<{legislator: Legislator; onPress: () => void}> =
 // Main component
 const CatalogScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
-  const { data: billData, isLoading } = useGetBillsQuery();
-  const [bills, setBills] = useState<Bill[]>([]);
+  const {data: bills} = useGetBillsQuery();
+  // const {data: bills, isLoading, error} = useGetBillsQuery();
+  // const [bills, setBills] = useState<Bill[]>([]);
   const [legislators, setLegislators] = useState<Legislator[]>([]);
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const loadBills = useCallback((): void => {
-    // TODO: Replace this with actual API call
-    const mockBills: Bill[] = [
-      {
-        id: '1',
-        identifier: "H.J.Res.26",
-        description:
-          'This joint resolution nullifies the Revised Criminal Code Act of 2022, enacted by the council of the District of Columbia (DC). The act makes a variety of changes to DC criminal laws, including by providing statutory definitions for various elements of criminal offenses, modifying sentencing guidelines and penalties, and expanding the right to a jury trial for certain misdemeanor crimes.',
-        tags: [
-          'Government Operations',
-          'Congressional Oversight',
-          'Criminal Justice',
-        ],
-        title: 'Disapproving the action of the District of Columbia Council in approving the Revised Criminal Code Act of 2022',
-        state: 'US',
-        body: 'House',
-        session: '118',
-        sponsorIds: ['0'],
-        status: 'Became Law',
-        briefing: 'This joint resolution nullifies the Revised Criminal Code Act of 2022, enacted by the council of the District of Columbia (DC). The act makes a variety of changes to DC criminal laws, including by providing statutory definitions for various elements of criminal offenses, modifying sentencing guidelines and penalties, and expanding the right to a jury trial for certain misdemeanor crimes.',
-        communityYesVotes: 15,
-        communityNoVotes: 2,
-      },
-      {
-        id: '2',
-        identifier: 'S.4361',
-        description: 'The bill expands Department of Homeland Security (DHS) authority to address the processing of non-U.S. nationals and provides supplemental appropriations for related purposes.',
-        tags: ['Immigration', 'Appropriations', 'Border Security', 'Smuggling and Trafficking', 'Law Enforcement', 'Citizenship'],
-        title: 'Border Act of 2024',
-        state: 'US',
-        body: 'Senate',
-        session: '118',
-        sponsorIds: ['1'],
-        status: 'Introduced',
-        briefing: 'Among other provisions, the bill provides DHS emergency authority to summarily remove or prohibit the entry of certain non-U.S. nationals within 100 miles of the southwest land border. DHS may exercise this authority if DHS encounters an average of 4,000 non-U.S. nationals within a seven-day period. If the number of encounters reach certain higher thresholds, DHS must exercise the emergency authority. This emergency border authority expires after three years and may be modified by the President under specified circumstances. Next, the bill establishes an expedited process that authorizes asylum officers to adjudicate certain asylum claims. Among other provisions, these provisional noncustodial removal proceedings impose certain target timelines for determining asylum claims and limit review of denied claims. The bill also establishes a stricter threshold for individuals to remain in the United States pending adjudication of an asylum petition. The bill extends and establishes immigration pathways for Afghan citizens or nationals, including by (1) making certain individuals admitted or paroled to the United States eligible for conditional permanent resident status, and (2) expanding eligibility for special immigrant visas for certain individuals who were injured while supporting the U.S. mission in Afghanistan. The bill also increases base pay for asylum officers and grants DHS temporary direct hire authority to hire personnel to implement the bill.',
-        communityYesVotes: 325,
-        communityNoVotes: 41,
-      },
-    ];
-    setBills(mockBills);
-  }, []);
+  // const loadBills = useCallback((): void => {
+  //   // TODO: Replace this with actual API call
+  //   const mockBills: Bill[] = [
+  //     {
+  //       id: '1',
+  //       identifier: "H.J.Res.26",
+  //       description:
+  //         'This joint resolution nullifies the Revised Criminal Code Act of 2022, enacted by the council of the District of Columbia (DC). The act makes a variety of changes to DC criminal laws, including by providing statutory definitions for various elements of criminal offenses, modifying sentencing guidelines and penalties, and expanding the right to a jury trial for certain misdemeanor crimes.',
+  //       tags: [
+  //         'Government Operations',
+  //         'Congressional Oversight',
+  //         'Criminal Justice',
+  //       ],
+  //       title: 'Disapproving the action of the District of Columbia Council in approving the Revised Criminal Code Act of 2022',
+  //       state: 'US',
+  //       body: 'House',
+  //       session: '118',
+  //       sponsorIds: ['0'],
+  //       status: 'Became Law',
+  //       briefing: 'This joint resolution nullifies the Revised Criminal Code Act of 2022, enacted by the council of the District of Columbia (DC). The act makes a variety of changes to DC criminal laws, including by providing statutory definitions for various elements of criminal offenses, modifying sentencing guidelines and penalties, and expanding the right to a jury trial for certain misdemeanor crimes.',
+  //       communityYesVotes: 15,
+  //       communityNoVotes: 2,
+  //     },
+  //     {
+  //       id: '2',
+  //       identifier: 'S.4361',
+  //       description: 'The bill expands Department of Homeland Security (DHS) authority to address the processing of non-U.S. nationals and provides supplemental appropriations for related purposes.',
+  //       tags: ['Immigration', 'Appropriations', 'Border Security', 'Smuggling and Trafficking', 'Law Enforcement', 'Citizenship'],
+  //       title: 'Border Act of 2024',
+  //       state: 'US',
+  //       body: 'Senate',
+  //       session: '118',
+  //       sponsorIds: ['1'],
+  //       status: 'Introduced',
+  //       briefing: 'Among other provisions, the bill provides DHS emergency authority to summarily remove or prohibit the entry of certain non-U.S. nationals within 100 miles of the southwest land border. DHS may exercise this authority if DHS encounters an average of 4,000 non-U.S. nationals within a seven-day period. If the number of encounters reach certain higher thresholds, DHS must exercise the emergency authority. This emergency border authority expires after three years and may be modified by the President under specified circumstances. Next, the bill establishes an expedited process that authorizes asylum officers to adjudicate certain asylum claims. Among other provisions, these provisional noncustodial removal proceedings impose certain target timelines for determining asylum claims and limit review of denied claims. The bill also establishes a stricter threshold for individuals to remain in the United States pending adjudication of an asylum petition. The bill extends and establishes immigration pathways for Afghan citizens or nationals, including by (1) making certain individuals admitted or paroled to the United States eligible for conditional permanent resident status, and (2) expanding eligibility for special immigrant visas for certain individuals who were injured while supporting the U.S. mission in Afghanistan. The bill also increases base pay for asylum officers and grants DHS temporary direct hire authority to hire personnel to implement the bill.',
+  //       communityYesVotes: 325,
+  //       communityNoVotes: 41,
+  //     },
+  //   ];
+  //   setBills(mockBills);
+  // }, []);
 
   const loadLegislators = useCallback((): void => {
     // TODO: Replace this with actual API call
     const mockLegislators: Legislator[] = [
       {
-        id: '1',
+        id: 1,
         name: 'Bernard Sanders',
         party: 'Independent',
         state: 'VT',
@@ -183,7 +178,7 @@ const CatalogScreen: React.FC = () => {
         twitter: '',
       },
       {
-        id: '2',
+        id: 2,
         name: 'Bill Cassidy',
         party: 'Republican',
         state: 'LA',
@@ -197,7 +192,7 @@ const CatalogScreen: React.FC = () => {
         twitter: '',
       },
       {
-        id: '3',
+        id: 3,
         name: 'Bill Hagerty',
         party: 'Republican',
         state: 'TN',
@@ -211,7 +206,7 @@ const CatalogScreen: React.FC = () => {
         twitter: '',
       },
       {
-        id: '4',
+        id: 4,
         name: 'Brian Schatz',
         party: 'Democrat',
         state: 'HI',
@@ -225,7 +220,7 @@ const CatalogScreen: React.FC = () => {
         twitter: '',
       },
       {
-        id: '5',
+        id: 5,
         name: 'Catherine Cortez Masto',
         party: 'Democrat',
         state: 'NV',
@@ -243,13 +238,21 @@ const CatalogScreen: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    loadBills();
+    // loadBills();
     loadLegislators();
-  }, [loadBills, loadLegislators]);
+  }, [loadLegislators]);
+  // }, [loadBills, loadLegislators]);
 
   const filteredItems = useMemo(() => {
     if (selectedTab === 'bill') {
-      return bills.filter(
+      // if (isLoading) {
+      //   return <div>Loading...</div>;
+      // }
+      // if (error) {
+      //   return <div>Error</div>;
+      // }
+
+      return bills?.filter(
         bill =>
           bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           bill.description.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -303,7 +306,7 @@ const CatalogScreen: React.FC = () => {
     [handleBillPress, handleLegislatorPress],
   );
 
-  const keyExtractor = useCallback((item: Bill | Legislator) => item.id, []);
+  const keyExtractor = useCallback((item: Bill | Legislator) => String(item.id), []);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -5,7 +5,8 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@navigation/*": ["src/navigation/*"],
-      "@app-state/*": ["src/app-state/*"],
+      "@store": ["src/store"],
+      "@store/*": ["src/store/*"],
       "@features/*": ["src/features/*"],
       "@styles": ["src/styles"],
       "@styles/*": ["src/styles/*"],
