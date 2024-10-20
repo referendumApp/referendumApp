@@ -8,6 +8,7 @@
         "projectId": "6bc5786b-adc9-476a-a4aa-4516db7d3936"
       }
     },
+    "icon": "./referendum_icon.png",
     "android": {
       "package": "referendumapp.com",
       "splash": {
