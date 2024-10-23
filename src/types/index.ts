@@ -47,7 +47,7 @@ export interface Bill {
 export type ItemType = 'bill' | 'legislator';
 
 export interface User {
-  token: string;
+  accessToken: string;
   tokenType: string;
   username: string;
 }

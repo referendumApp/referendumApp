@@ -79,3 +79,5 @@ dist/
 web-build/
 /android
 /ios
+*.tar.gz
+referendum.app/

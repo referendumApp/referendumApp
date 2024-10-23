@@ -6,7 +6,7 @@ const catalogApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getBills: builder.query({
       query: () => ({
-        url: ApiResource.bills,
+        url: `${ApiResource.bills}/`,
       }),
       async onQueryStarted(
         _: void,
@@ -17,6 +17,7 @@ const catalogApi = baseApi.injectEndpoints({
       },
     }),
   }),
+  overrideExisting: true,
 });
 
 export const {useGetBillsQuery} = catalogApi;
