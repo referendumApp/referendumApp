@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,19 +8,20 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
 
-import {CatalogStackParamList} from '@navigation/types';
-import {colors, componentStyles, typography} from '@styles';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+
+import { CatalogStackParamList } from '@/navigation/types';
+import { colors, componentStyles, typography } from '@/themes';
 
 type LegislatorScreenProps = StackScreenProps<
   CatalogStackParamList,
   'LegislatorScreen'
 >;
 
-const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
-  const {legislator} = route.params;
+const LegislatorScreen: React.FC<LegislatorScreenProps> = ({ route }) => {
+  const { legislator } = route.params;
   const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = useState(false);
 
@@ -60,7 +61,7 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({route}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.header}>
-        <Image source={{uri: legislator.imageUrl}} style={styles.image} />
+        <Image source={{ uri: legislator.imageUrl }} style={styles.image} />
         <Text style={styles.name}>{legislator.name}</Text>
         <Text style={styles.subtitle}>{legislator.chamber}</Text>
         <Text

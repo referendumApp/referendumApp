@@ -1,6 +1,11 @@
-import baseApi, {ApiResource, HttpMethod, OnQueryStarted} from '@store/baseApi';
-import {login} from './duck';
-import {LoginCredentials, LoginSession} from './types';
+import baseApi, {
+  ApiResource,
+  HttpMethod,
+  OnQueryStarted,
+} from '@/store/baseApi';
+
+import { login } from './duck';
+import { LoginCredentials, LoginSession } from './types';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -19,7 +24,7 @@ const authApi = baseApi.injectEndpoints({
           body: formData,
           method: HttpMethod.post,
           headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           url: `${ApiResource.auth}/login`,
@@ -27,12 +32,12 @@ const authApi = baseApi.injectEndpoints({
       },
       async onQueryStarted(
         args: LoginCredentials,
-        {dispatch, queryFulfilled}: OnQueryStarted<LoginSession>,
+        { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>,
       ) {
-        const {username} = args;
+        const { username } = args;
         try {
-          const {data} = await queryFulfilled;
-          dispatch(login({ ...data, username}));
+          const { data } = await queryFulfilled;
+          dispatch(login({ ...data, username }));
         } catch (error) {
           console.error(error);
         }
@@ -42,4 +47,4 @@ const authApi = baseApi.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useGetUserSessionMutation} = authApi;
+export const { useGetUserSessionMutation } = authApi;

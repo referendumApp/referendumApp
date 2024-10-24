@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {format} from 'date-fns';
+import { format } from 'date-fns';
+import React, { useState, useEffect, useCallback } from 'react';
+import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {Carousel, CarouselItem} from '@components/carousel';
-import {colors, componentStyles, typography, withOpacity} from '@styles';
+import { Carousel, CarouselItem } from '@/components/carousel';
+import { colors, componentStyles, typography, withOpacity } from '@/themes';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';
@@ -28,14 +28,14 @@ interface FeedItem {
 const FeedItemView: React.FC<{
   item: FeedItem;
   onAssociatedItemPress: (item: AssociatedItem) => void;
-}> = React.memo(({item, onAssociatedItemPress}) => (
+}> = React.memo(({ item, onAssociatedItemPress }) => (
   <View style={styles.feedItem}>
     <Text style={styles.feedItemDate}>{format(item.date, 'MMM d, yyyy')}</Text>
     <Text style={styles.feedItemTitle}>{item.title}</Text>
     <Text style={styles.feedItemBody}>{item.description}</Text>
     {item.tags.length > 0 && (
       <Carousel
-        items={item.tags.map(tag => ({id: tag, title: tag}))}
+        items={item.tags.map(tag => ({ id: tag, title: tag }))}
         onItemPress={() => {}}
         containerStyle={styles.feedItemCarouselContainer}
         titleStyle={styles.feedItemCarouselTitle}
@@ -147,7 +147,7 @@ const FeedScreen: React.FC = () => {
     () =>
       Array.from(new Set(feedItems.flatMap(item => item.tags)))
         .sort()
-        .map(tag => ({id: tag, title: tag})),
+        .map(tag => ({ id: tag, title: tag })),
     [feedItems],
   );
 
@@ -184,7 +184,7 @@ const FeedScreen: React.FC = () => {
   );
 
   const renderFeedItem = useCallback(
-    ({item}: {item: FeedItem}) => (
+    ({ item }: { item: FeedItem }) => (
       <FeedItemView
         item={item}
         onAssociatedItemPress={handleAssociatedItemPress}

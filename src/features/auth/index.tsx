@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,21 +9,18 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-// import {useDispatch} from 'react-redux';
-import {useGetUserSessionMutation} from '@features/auth/api';
-import {useTheme} from '@styles/ThemeProvider';
+
+import { useGetUserSessionMutation } from '@/features/auth/api';
+import { useTheme } from '@/themes/ThemeProvider';
 
 const LoginScreen: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [getUserSession] = useGetUserSessionMutation();
-  // const dispatch = useDispatch();
   const theme = useTheme();
 
   const handleLogin = (): void => {
-    console.log('Login attempt with:', email, password);
-    getUserSession({password, username: email});
-    // dispatch(login({id: '1', username: email}));
+    getUserSession({ password, username: email });
   };
 
   const handleSignUp = (): void => {

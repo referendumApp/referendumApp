@@ -1,6 +1,7 @@
-import {setBills} from './duck';
-import baseApi, {ApiResource, OnQueryStarted} from '@store/baseApi';
-import {Bill} from '@types';
+import { Bill } from '@/appTypes';
+import baseApi, { ApiResource, OnQueryStarted } from '@/store/baseApi';
+
+import { setBills } from './duck';
 
 const catalogApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -10,9 +11,9 @@ const catalogApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(
         _: void,
-        {dispatch, queryFulfilled}: OnQueryStarted<Bill[]>,
+        { dispatch, queryFulfilled }: OnQueryStarted<Bill[]>,
       ) {
-        const {data} = await queryFulfilled;
+        const { data } = await queryFulfilled;
         dispatch(setBills(data));
       },
     }),
@@ -20,4 +21,4 @@ const catalogApi = baseApi.injectEndpoints({
   overrideExisting: true,
 });
 
-export const {useGetBillsQuery} = catalogApi;
+export const { useGetBillsQuery } = catalogApi;

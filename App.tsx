@@ -1,12 +1,6 @@
-import {isDevEnv} from './src/store/utils';
-
-if (isDevEnv()) {
-  import('./src/configs/ReactotronConfig');
-}
-
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {ThemeProvider} from './src/styles/ThemeProvider';
+import {ThemeProvider} from './src/themes/ThemeProvider';
 
 import store from './src/store';
 import {Provider} from 'react-redux';

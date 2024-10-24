@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Bill } from '@types';
+import { Bill } from '@/appTypes';
 
 interface CatalogState {
   bills: Bill[];

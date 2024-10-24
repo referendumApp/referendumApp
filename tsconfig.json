@@ -3,19 +3,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["src/components/*"],
-      "@configs/*": ["src/configs/*"],
-      "@navigation/*": ["src/navigation/*"],
-      "@store": ["src/store"],
-      "@store/*": ["src/store/*"],
-      "@features/*": ["src/features/*"],
-      "@styles": ["src/styles"],
-      "@styles/*": ["src/styles/*"],
-      "@types": ["src/types"],
-      "@types/*": ["src/types/*"]
-    }
+      "@/*": ["src/*"]
+    },
+    "skipLibCheck": true,
+    "strict": true
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": [
     "node_modules",
     "babel.config.js",

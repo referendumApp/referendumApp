@@ -1,6 +1,7 @@
-import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import {AppDispatch, RootState} from '@store';
+import { AppDispatch, RootState } from '@/store';
+
 import baseUrl from './utils';
 
 export enum HttpMethod {
@@ -27,20 +28,19 @@ export enum ApiResource {
 
 export interface OnQueryStarted<T> {
   dispatch: AppDispatch;
-  queryFulfilled: Promise<{data: T}>;
+  queryFulfilled: Promise<{ data: T }>;
 }
 
 const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: (headers: Headers, {getState}) => {
+    prepareHeaders: (headers: Headers, { getState }) => {
       const state = getState() as RootState;
-      console.log('Preparing headers, state:', state.auth);
-      const {accessToken, tokenType} = state.auth.user ?? {};
+      const { accessToken, tokenType } = state.auth.user ?? {};
       if (accessToken) {
         headers.set('Authorization', `${tokenType} ${accessToken}`);
       }
-      console.log(headers);
+
       return headers;
     },
   }),

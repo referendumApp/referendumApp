@@ -1,9 +1,12 @@
-import React, {createContext, useContext, ReactNode} from 'react';
-import {theme as defaultTheme, Theme} from '@styles';
+import React, { createContext, useContext, ReactNode } from 'react';
+
+import { theme as defaultTheme, Theme } from '@/themes';
 
 const ThemeContext = createContext<Theme>(defaultTheme);
 
-export const ThemeProvider: React.FC<{children: ReactNode}> = ({children}) => {
+export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   return (
     <ThemeContext.Provider value={defaultTheme}>
       {children}

@@ -7,16 +7,17 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
-import {logout} from '@features/auth/duck';
-import {colors, componentStyles, typography} from '@styles';
+import { useDispatch } from 'react-redux';
+
+import { logout } from '@/features/auth/duck';
+import { colors, componentStyles, typography } from '@/themes';
 
 interface NavItemProps {
   title: string;
   onPress: () => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({title, onPress}) => (
+const NavItem: React.FC<NavItemProps> = ({ title, onPress }) => (
   <TouchableOpacity style={styles.navItem} onPress={onPress}>
     <Text style={styles.navItemText}>{title}</Text>
   </TouchableOpacity>

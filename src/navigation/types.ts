@@ -1,4 +1,4 @@
-import {Bill, Legislator} from '@types';
+import { Bill, Legislator } from '@/appTypes';
 
 export type RootStackParamList = {
   Feed: undefined;
@@ -8,6 +8,6 @@ export type RootStackParamList = {
 
 export type CatalogStackParamList = {
   Catalog: undefined;
-  LegislatorScreen: {legislator: Legislator};
-  BillScreen: {bill: Bill};
+  LegislatorScreen: { legislator: Legislator };
+  BillScreen: { bill: Bill };
 };

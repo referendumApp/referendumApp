@@ -1,17 +1,18 @@
-import {configureStore} from '@reduxjs/toolkit';
-import reactotron from '@configs/ReactotronConfig';
-import rootReducer from './rootReducer';
+import devToolsEnhancer from 'redux-devtools-expo-dev-plugin';
+
+import { configureStore } from '@reduxjs/toolkit';
+
 import baseApi from './baseApi';
-import {isDevEnv} from './utils';
+import rootReducer from './rootReducer';
+import { getMiddlewareOptions } from './utils';
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware(getMiddlewareOptions()).concat(baseApi.middleware),
+  devTools: false,
   enhancers: getDefaultEnhancers =>
-    isDevEnv()
-      ? getDefaultEnhancers().concat(reactotron.createEnhancer())
-      : getDefaultEnhancers(),
+    getDefaultEnhancers().concat(devToolsEnhancer()),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

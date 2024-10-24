@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,22 +7,23 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import {StackScreenProps} from '@react-navigation/stack';
-import {useNavigation} from '@react-navigation/native';
 
-import {CatalogStackParamList} from '@navigation/types';
-import {useTheme} from '@styles/ThemeProvider';
-import {Theme} from '@styles';
-import {Carousel} from '@components/carousel';
-import VoteDistributionBar from '@components/VoteDistributionBar';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
+
+import { Carousel } from '@/components/carousel';
+import VoteDistributionBar from '@/components/VoteDistributionBar';
+import { CatalogStackParamList } from '@/navigation/types';
+import { Theme } from '@/themes';
+import { useTheme } from '@/themes/ThemeProvider';
 
 type BillDetailScreenProps = StackScreenProps<
   CatalogStackParamList,
   'BillScreen'
 >;
 
-const BillDetailScreen: React.FC<BillDetailScreenProps> = ({route}) => {
-  const {bill} = route.params;
+const BillDetailScreen: React.FC<BillDetailScreenProps> = ({ route }) => {
+  const { bill } = route.params;
   const navigation = useNavigation();
   const theme = useTheme();
   const styles = createStyles(theme);
@@ -87,7 +88,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({route}) => {
           <Text style={styles.headerBody}>{`Status: ${bill.status}`}</Text>
 
           <Carousel
-            items={bill.tags.map(tag => ({id: tag, title: tag}))}
+            items={bill.tags.map(tag => ({ id: tag, title: tag }))}
             onItemPress={() => {}}
             title="Topics"
             containerStyle={styles.tagCarouselContainer}
@@ -278,7 +279,7 @@ const createStyles = (theme: Theme) =>
       color: theme.colors.oldGloryRed,
       fontWeight: 'bold',
     },
-    title: {...theme.typography.title, paddingBottom: theme.spacing.s},
+    title: { ...theme.typography.title, paddingBottom: theme.spacing.s },
     subtitle: theme.typography.subtitle,
     headerBody: {
       ...theme.typography.body,

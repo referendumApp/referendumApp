@@ -14,10 +14,12 @@
     "@react-navigation/bottom-tabs": "^6.6.1",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/stack": "^6.4.1",
+    "@redux-devtools/core": "^4.0.0",
     "@reduxjs/toolkit": "^2.2.7",
     "date-fns": "^4.1.0",
     "expo": "^51.0.38",
     "expo-dev-client": "~4.0.28",
+    "immutable": "^4.3.4",
     "lucide-react": "^0.441.0",
     "react": "18.2.0",
     "react-native": "0.74.5",
@@ -27,7 +29,9 @@
     "react-native-screens": "3.31.1",
     "react-native-vector-icons": "^10.2.0",
     "react-redux": "^9.1.2",
-    "react-test-renderer": "^18.2.0"
+    "react-test-renderer": "18.2.0",
+    "redux": "^5.0.1",
+    "redux-devtools-expo-dev-plugin": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -43,10 +47,10 @@
     "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
+    "eslint-import-resolver-babel-module": "^5.3.2",
+    "eslint-plugin-import": "^2.31.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
-    "reactotron-react-native": "^5.1.9",
-    "reactotron-redux": "^3.1.10",
     "typescript": "~5.3.3"
   },
   "engines": {

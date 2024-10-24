@@ -1,4 +1,4 @@
-import {StyleSheet, TextStyle} from 'react-native';
+import { StyleSheet, TextStyle } from 'react-native';
 
 // Color palette
 export const colors = {
@@ -99,7 +99,7 @@ export const componentStyles = StyleSheet.create({
     padding: spacing.m,
     elevation: 3,
     shadowColor: colors.darkGray,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },

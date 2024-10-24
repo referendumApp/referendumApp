@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import {User} from '@types';
+import { User } from '@/appTypes';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -20,7 +20,7 @@ const authSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload;
     },
-    logout: (state) => {
+    logout: state => {
       state.isLoggedIn = false;
       state.user = null;
     },
