@@ -2,58 +2,28 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
-
-## Step 1: Start the Metro Server
-
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
-
-To start Metro, run the following command from the _root_ of your React Native project:
+## Step 1: Install yarn package manager
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+npm install --global yarn
 ```
 
-## Step 2: Start your Application
+## Step 2: Run the `ios_local_dev_setup.sh` script to install all the local development dependencies listed below:
+ - Xcode CLI
+ - Default IOS Simulator (iPhone SE (3rd generation))
+ - Node v18
+ - Expo CLI
+ - EAS CLI
+ - Ruby and ruby dependencies
+ - CocoaPods
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
 
-### For Android
+# Local Development
 
-```bash
-# using npm
-npm run android
+All the commands you need can be found in `package.json`.
 
-# OR using Yarn
-yarn android
-```
-
-### For iOS
-
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+If you need to debug Redux then make sure to install the [Redux DevTools](https://chromewebstore.google.com/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) Chrome extension.
+Once the Metro Dev Server is up and the code has been bundled you can press `Shift + m` in the terminal to open the Dev tools menu. Select `Open redux-devtools-expo-dev-plugin` to launch chrome with the Redux DevTools extension.
 
 ## Congratulations! :tada:
 
