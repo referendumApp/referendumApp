@@ -1,0 +1,22 @@
+{
+  "expo": {
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6bc5786b-adc9-476a-a4aa-4516db7d3936"
+      }
+    },
+    "icon": "./referendum_icon.png",
+    "android": {
+      "package": "referendum.app",
+      "splash": {
+        "backgroundColor": "#002868"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "referendum.app"
+    }
+  }
+}

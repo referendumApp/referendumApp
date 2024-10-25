@@ -1,24 +1,19 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { Provider } from 'react-redux';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ThemeProvider } from './src/styles/ThemeProvider';
+import {NavigationContainer} from '@react-navigation/native';
+import {ThemeProvider} from './src/themes/ThemeProvider';
 
-import store from './src/redux/store';
-import AppNavigator from './src/navigation/AppNavigator';
-
-const queryClient = new QueryClient();
+import store from './src/store';
+import {Provider} from 'react-redux';
+import AppNavigator from './src/navigation';
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <NavigationContainer>
-            <AppNavigator />
-          </NavigationContainer>
-        </ThemeProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <NavigationContainer>
+          <AppNavigator />
+        </NavigationContainer>
+      </ThemeProvider>
     </Provider>
   );
 };

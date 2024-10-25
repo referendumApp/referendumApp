@@ -1,8 +1,16 @@
 import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, FlatList, ViewStyle, TextStyle, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  ViewStyle,
+  TextStyle,
+  StyleSheet,
+} from 'react-native';
 
-import { Theme } from '../styles/styles';
-import { useTheme } from '../styles/ThemeProvider';
+import { Theme } from '@/themes';
+import { useTheme } from '@/themes/ThemeProvider';
 
 export interface CarouselItem {
   id: string;
@@ -33,41 +41,41 @@ interface CarouselProps {
   renderItem?: (props: CarouselItemViewProps) => React.ReactElement;
 }
 
-const DefaultCarouselItemView: React.FC<CarouselItemViewProps> = React.memo(({
-  item,
-  isSelected,
-  onPress,
-  itemStyle,
-  itemSelectedStyle,
-  textStyle,
-  textSelectedStyle,
-}) => {
-  const theme = useTheme();
-  const styles = createStyles(theme);
+const DefaultCarouselItemView: React.FC<CarouselItemViewProps> = React.memo(
+  ({
+    item,
+    isSelected,
+    onPress,
+    itemStyle,
+    itemSelectedStyle,
+    textStyle,
+    textSelectedStyle,
+  }) => {
+    const theme = useTheme();
+    const styles = createStyles(theme);
 
-  return (
-    <TouchableOpacity
-      style={[
-        styles.item,
-        itemStyle,
-        isSelected && styles.itemSelected,
-        isSelected && itemSelectedStyle,
-      ]}
-      onPress={() => onPress(item)}
-    >
-      <Text
+    return (
+      <TouchableOpacity
         style={[
-          styles.itemText,
-          textStyle,
-          isSelected && styles.itemTextSelected,
-          isSelected && textSelectedStyle,
+          styles.item,
+          itemStyle,
+          isSelected && styles.itemSelected,
+          isSelected && itemSelectedStyle,
         ]}
-      >
-        {item.title}
-      </Text>
-    </TouchableOpacity>
-  );
-});
+        onPress={() => onPress(item)}>
+        <Text
+          style={[
+            styles.itemText,
+            textStyle,
+            isSelected && styles.itemTextSelected,
+            isSelected && textSelectedStyle,
+          ]}>
+          {item.title}
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+);
 
 export const Carousel: React.FC<CarouselProps> = ({
   items,
@@ -85,19 +93,34 @@ export const Carousel: React.FC<CarouselProps> = ({
   const theme = useTheme();
   const styles = createStyles(theme);
 
-  const renderCarouselItem = useCallback(({ item }: { item: CarouselItem }) => {
-    const isSelected = selectedItems?.has(item.id);
-    const itemProps: CarouselItemViewProps = {
-      item,
-      isSelected,
-      onPress: onItemPress,
+  const renderCarouselItem = useCallback(
+    ({ item }: { item: CarouselItem }) => {
+      const isSelected = selectedItems?.has(item.id);
+      const itemProps: CarouselItemViewProps = {
+        item,
+        isSelected,
+        onPress: onItemPress,
+        itemStyle,
+        itemSelectedStyle,
+        textStyle,
+        textSelectedStyle,
+      };
+      return renderItem ? (
+        renderItem(itemProps)
+      ) : (
+        <DefaultCarouselItemView {...itemProps} />
+      );
+    },
+    [
+      selectedItems,
+      onItemPress,
       itemStyle,
       itemSelectedStyle,
       textStyle,
       textSelectedStyle,
-    };
-    return renderItem ? renderItem(itemProps) : <DefaultCarouselItemView {...itemProps} />;
-  }, [selectedItems, onItemPress, itemStyle, itemSelectedStyle, textStyle, textSelectedStyle, renderItem]);
+      renderItem,
+    ],
+  );
 
   const keyExtractor = useCallback((item: CarouselItem) => item.id, []);
 
@@ -115,28 +138,29 @@ export const Carousel: React.FC<CarouselProps> = ({
   );
 };
 
-const createStyles = (theme: Theme) => StyleSheet.create({
-  container: {
-    ...theme.componentStyles.carouselContainer,
-  },
-  title: {
-    ...theme.typography.subtitle,
-    marginBottom: theme.spacing.s,
-  },
-  item: {
-    ...theme.componentStyles.carouselItem,
-    backgroundColor: theme.colors.white,
-  },
-  itemSelected: {
-    backgroundColor: theme.colors.oldGloryRed,
-  },
-  itemText: {
-    ...theme.typography.body,
-    color: theme.colors.oldGloryBlue,
-  },
-  itemTextSelected: {
-    color: theme.colors.white,
-  },
-});
+const createStyles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      ...theme.componentStyles.carouselContainer,
+    },
+    title: {
+      ...theme.typography.subtitle,
+      marginBottom: theme.spacing.s,
+    },
+    item: {
+      ...theme.componentStyles.carouselItem,
+      backgroundColor: theme.colors.white,
+    },
+    itemSelected: {
+      backgroundColor: theme.colors.oldGloryRed,
+    },
+    itemText: {
+      ...theme.typography.body,
+      color: theme.colors.oldGloryBlue,
+    },
+    itemTextSelected: {
+      color: theme.colors.white,
+    },
+  });
 
 export default Carousel;
