@@ -3,6 +3,7 @@ import baseApi, {
   HttpMethod,
   OnQueryStarted,
 } from '@/store/baseApi';
+import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
 import { LoginCredentials, LoginSession } from './types';
@@ -44,7 +45,7 @@ const authApi = baseApi.injectEndpoints({
       },
     }),
   }),
-  overrideExisting: true,
+  overrideExisting: isDevEnv(),
 });
 
 export const { useGetUserSessionMutation } = authApi;

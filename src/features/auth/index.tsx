@@ -60,15 +60,19 @@ const LoginScreen: React.FC = () => {
       marginBottom: theme.spacing.m,
     },
     loginButton: {
-      ...theme.componentStyles.button,
+      ...theme.buttonStyles.buttonMedium,
       width: '80%',
+      backgroundColor: theme.colors.oldGloryRed,
     },
-    loginButtonText: theme.componentStyles.buttonText,
+    loginButtonText: {
+      ...theme.componentStyles.boldButtonText,
+      color: theme.colors.white,
+    },
     signUpButton: {
       marginTop: theme.spacing.m,
     },
     signUpButtonText: {
-      ...theme.componentStyles.buttonText,
+      ...theme.componentStyles.boldButtonText,
       color: theme.colors.white,
     },
   });

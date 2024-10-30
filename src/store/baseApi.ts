@@ -1,5 +1,12 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import {
+  BaseQueryFn,
+  EndpointBuilder,
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 
+import { State, Role } from '@/appTypes';
 import { AppDispatch, RootState } from '@/store';
 
 import baseUrl from './utils';
@@ -31,6 +38,34 @@ export interface OnQueryStarted<T> {
   queryFulfilled: Promise<{ data: T }>;
 }
 
+interface CreateGetQuery<T> {
+  builder: EndpointBuilder<BaseQueryFn, string, string>;
+  resource: ApiResource;
+  pathParams?: string | ApiResource;
+  reducer?: ActionCreatorWithPayload<T>;
+}
+
+export const createGetQuery = <TResponse>({
+  builder,
+  resource,
+  pathParams,
+  reducer,
+}: CreateGetQuery<TResponse>) => {
+  const url = pathParams ? `${resource}/${pathParams}` : `${resource}/`;
+  return builder.query<TResponse, void>({
+    query: () => ({ url }),
+    ...(reducer && {
+      async onQueryStarted(
+        _: void,
+        { dispatch, queryFulfilled }: OnQueryStarted<TResponse>,
+      ) {
+        const { data } = await queryFulfilled;
+        dispatch(reducer(data));
+      },
+    }),
+  });
+};
+
 const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
@@ -44,8 +79,17 @@ const baseApi = createApi({
       return headers;
     },
   }),
-  endpoints: () => ({}),
+  endpoints: builder => ({
+    getStates: builder.query<State[], void>({
+      query: () => ({ url: `${ApiResource.states}/` }),
+    }),
+    getRoles: builder.query<Role[], void>({
+      query: () => ({ url: `${ApiResource.roles}/` }),
+    }),
+  }),
   reducerPath: 'api',
 });
 
 export default baseApi;
+
+export const { useGetStatesQuery, useGetRolesQuery } = baseApi;

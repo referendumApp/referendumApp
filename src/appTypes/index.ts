@@ -7,19 +7,25 @@ export interface Legislator {
   imageUrl: string;
   district?: string;
   topIssues: string[];
+  address: string;
   phone: string;
-  office: string;
+  committees: string[];
   facebook: string;
   twitter: string;
   instagram: string;
 }
 
-interface State {
+export interface Role {
   id: number;
   name: string;
 }
 
-interface LegislativeBody {
+export interface State {
+  id: number;
+  name: string;
+}
+
+export interface LegislativeBody {
   id: number;
   roleId: number;
   stateId: number;
