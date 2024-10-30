@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Carousel, CarouselItem } from '@/components/carousel';
+import Carousel, { CarouselItem } from '@/components/Carousel';
 import { colors, componentStyles, typography, withOpacity } from '@/themes';
 
 // Types

@@ -1,15 +1,16 @@
-import { StyleSheet, TextStyle } from 'react-native';
+import { Platform, StyleSheet, TextStyle } from 'react-native';
 
 // Color palette
-export const colors = {
-  oldGloryBlue: 'rgb(0, 40, 104)', // #002868
-  oldGloryRed: 'rgb(191, 10, 48)', // #BF0A30
-  white: 'rgb(255, 255, 255)', // white
-  lightGray: 'rgb(240, 240, 240)', // #F0F0F0
-  mediumGray: 'rgb(208, 208, 208)', // #D0D0D0
-  darkGray: 'rgb(34, 34, 34)', // #222
-  yesVoteGreen: 'rgb(102, 184, 90)', // #66B85A
-};
+export enum colors {
+  oldGloryBlue = 'rgb(0, 40, 104)', // #002868
+  oldGloryRed = 'rgb(191, 10, 48)', // #BF0A30
+  black = 'rgb(0, 0, 0)', // black
+  white = 'rgb(255, 255, 255)', // white
+  lightGray = 'rgb(240, 240, 240)', // #F0F0F0
+  mediumGray = 'rgb(208, 208, 208)', // #D0D0D0
+  darkGray = 'rgb(34, 34, 34)', // #222
+  yesVoteGreen = 'rgb(102, 184, 90)', // #66B85A
+}
 
 export const withOpacity = (color: string, opacity: number) => {
   return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
@@ -80,16 +81,24 @@ export const componentStyles = StyleSheet.create({
     padding: spacing.s,
     ...typography.body,
   },
-  button: {
-    borderRadius: 8,
-    padding: spacing.m,
+  rowContainer: {
+    flexDirection: 'row',
     alignItems: 'center' as const,
-    backgroundColor: colors.oldGloryRed,
+    gap: spacing.xs,
   },
-  buttonText: {
+  button: {
+    flexDirection: 'row',
+    borderRadius: 8,
+    justifyContent: 'center' as const,
+    backgroundColor: colors.lightGray,
+  },
+  boldButtonText: {
     ...typography.body,
-    color: colors.white,
     fontWeight: 'bold',
+  },
+  semiBoldButtonText: {
+    ...typography.body,
+    fontWeight: '500',
   },
   card: {
     backgroundColor: colors.white,
@@ -97,11 +106,17 @@ export const componentStyles = StyleSheet.create({
     marginHorizontal: spacing.m,
     marginVertical: spacing.s,
     padding: spacing.m,
-    elevation: 3,
-    shadowColor: colors.darkGray,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    ...Platform.select({
+      android: {
+        elevation: 3,
+      },
+      ios: {
+        shadowColor: colors.darkGray,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+      },
+    }),
   },
   dividerVertical: {
     height: '100%',
@@ -143,12 +158,29 @@ export const componentStyles = StyleSheet.create({
   },
 });
 
+// Button Styles
+export const buttonStyles = StyleSheet.create({
+  buttonSmall: {
+    ...componentStyles.button,
+    padding: spacing.s,
+  },
+  buttonMedium: {
+    ...componentStyles.button,
+    padding: spacing.m,
+  },
+  buttonLarge: {
+    ...componentStyles.button,
+    padding: spacing.l,
+  },
+});
+
 // Theme object
 export const theme = {
   colors,
   typography,
   spacing,
   componentStyles,
+  buttonStyles,
   withOpacity,
 };
 

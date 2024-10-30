@@ -11,7 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Carousel } from '@/components/carousel';
+import Carousel from '@/components/Carousel';
 import VoteDistributionBar from '@/components/VoteDistributionBar';
 import { CatalogStackParamList } from '@/navigation/types';
 import { Theme } from '@/themes';

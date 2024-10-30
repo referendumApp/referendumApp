@@ -1,55 +1,38 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   FlatList,
   Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/Feather';
 
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Legislator, Bill, ItemType } from '@/appTypes';
-import { Carousel } from '@/components/carousel';
+import Button, { IconSize } from '@/components/Button';
+import Carousel from '@/components/Carousel';
+import FilterModal from '@/components/FilterModal';
+import SearchInput from '@/components/SearchInput';
+import SortModal from '@/components/SortModal';
+import { useGetBillsQuery } from '@/features/bill/api';
+import { useGetLegislatorsQuery } from '@/features/legislator/api';
 import { CatalogStackParamList } from '@/navigation/types';
-import { colors, componentStyles, typography, withOpacity } from '@/themes';
-
-import { useGetBillsQuery } from './api';
+import {
+  buttonStyles,
+  colors,
+  componentStyles,
+  spacing,
+  typography,
+  withOpacity,
+} from '@/themes';
 
 type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
 // Components
-const SearchBar: React.FC<{
-  onSearch: (text: string) => void;
-  onFilterSort: () => void;
-  placeholder?: string;
-}> = ({ onSearch, onFilterSort, placeholder = 'Search' }) => (
-  <View style={styles.searchBarContainer}>
-    <View style={[styles.searchContainer]}>
-      <Icon
-        name="search"
-        size={20}
-        color={colors.mediumGray}
-        style={styles.searchIcon}
-      />
-      <TextInput
-        style={styles.searchInput}
-        placeholder={placeholder}
-        placeholderTextColor={colors.mediumGray}
-        onChangeText={onSearch}
-      />
-    </View>
-    <TouchableOpacity style={styles.filterSortButton} onPress={onFilterSort}>
-      <Text style={styles.filterSortButtonText}>Filter & Sort</Text>
-    </TouchableOpacity>
-  </View>
-);
-
 const TabButton: React.FC<{
   title: string;
   isSelected: boolean;
@@ -116,100 +99,21 @@ const LegislatorItem: React.FC<{
 const CatalogScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const { data: bills } = useGetBillsQuery();
-  const [legislators, setLegislators] = useState<Legislator[]>([]);
+  const { data: legislators } = useGetLegislatorsQuery();
   const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
-
-  const loadLegislators = useCallback((): void => {
-    // TODO: Replace this with actual API call
-    const mockLegislators: Legislator[] = [
-      {
-        id: 1,
-        name: 'Bernard Sanders',
-        party: 'Independent',
-        state: 'VT',
-        chamber: 'Senate',
-        imageUrl: 'https://www.congress.gov/img/member/s000033_200.jpg',
-        topIssues: ['Healthcare'],
-        phone: '(202) 224-5141',
-        office: '332 Dirksen Senate Office Building Washington, DC 20510',
-        facebook: '',
-        instagram: '',
-        twitter: '',
-      },
-      {
-        id: 2,
-        name: 'Bill Cassidy',
-        party: 'Republican',
-        state: 'LA',
-        chamber: 'Senate',
-        imageUrl: 'https://www.congress.gov/img/member/c001075_200.jpg',
-        topIssues: [],
-        phone: '',
-        office: '',
-        facebook: '',
-        instagram: '',
-        twitter: '',
-      },
-      {
-        id: 3,
-        name: 'Bill Hagerty',
-        party: 'Republican',
-        state: 'TN',
-        chamber: 'Senate',
-        imageUrl: 'https://www.congress.gov/img/member/h000601_200.jpg',
-        topIssues: [],
-        phone: '',
-        office: '',
-        facebook: '',
-        instagram: '',
-        twitter: '',
-      },
-      {
-        id: 4,
-        name: 'Brian Schatz',
-        party: 'Democrat',
-        state: 'HI',
-        chamber: 'Senate',
-        imageUrl: 'https://www.congress.gov/img/member/s001194_200.jpg',
-        topIssues: [],
-        phone: '',
-        office: '',
-        facebook: '',
-        instagram: '',
-        twitter: '',
-      },
-      {
-        id: 5,
-        name: 'Catherine Cortez Masto',
-        party: 'Democrat',
-        state: 'NV',
-        chamber: 'Senate',
-        imageUrl: 'https://www.congress.gov/img/member/c001113_200.jpg',
-        topIssues: [],
-        phone: '',
-        office: '',
-        facebook: '',
-        instagram: '',
-        twitter: '',
-      },
-    ];
-    setLegislators(mockLegislators);
-  }, []);
-
-  useEffect(() => {
-    loadLegislators();
-  }, [loadLegislators]);
+  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
 
   const filteredItems = useMemo(() => {
     if (selectedTab === 'bill') {
       return bills?.filter(
         bill =>
-          bill.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          bill.description.toLowerCase().includes(searchQuery.toLowerCase()),
+          bill.identifier.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          bill.title.toLowerCase().includes(searchQuery.toLowerCase()),
       );
     } else {
-      return legislators.filter(
+      return legislators?.filter(
         legislator =>
           legislator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           legislator.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -220,11 +124,6 @@ const CatalogScreen: React.FC = () => {
 
   const handleSearch = useCallback((text: string): void => {
     setSearchQuery(text);
-  }, []);
-
-  const handleFilterSort = useCallback((): void => {
-    // TODO: Implement filter and sort functionality
-    console.log('Filter & Sort button pressed');
   }, []);
 
   const handleBillPress = useCallback(
@@ -268,7 +167,36 @@ const CatalogScreen: React.FC = () => {
         <Text style={styles.headerText}>Catalog</Text>
       </View>
       <View style={styles.subHeader}>
-        <SearchBar onSearch={handleSearch} onFilterSort={handleFilterSort} />
+        <View style={styles.searchBarContainer}>
+          <SearchInput onSearch={handleSearch} />
+          {/* Filter and Sort */}
+          <View style={[styles.buttonContainer]}>
+            <Button
+              style={styles.button}
+              color={colors.white}
+              iconSize={IconSize.large}
+              iconName="filter"
+              onPress={() => setIsFilterOpen(true)}
+            />
+            <Button
+              style={styles.button}
+              color={colors.white}
+              iconSize={IconSize.large}
+              iconName="swap-vertical"
+              onPress={() => setIsFilterOpen(true)}
+            />
+          </View>
+          <FilterModal
+            isVisible={isFilterOpen}
+            onFilterChange={() => undefined}
+            onRequestClose={() => setIsFilterOpen(false)}
+          />
+          <SortModal
+            isVisible={isSortOpen}
+            onSortChange={() => undefined}
+            onRequestClose={() => setIsSortOpen(false)}
+          />
+        </View>
       </View>
       <View style={styles.tabContainer}>
         <TabButton
@@ -294,38 +222,21 @@ const CatalogScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
+  button: {
+    backgroundColor: colors.oldGloryBlue,
+    padding: spacing.xs * 0.5,
+  },
+  buttonContainer: {
+    ...componentStyles.rowContainer,
+    marginLeft: spacing.xs * 1.5,
+  },
   header: componentStyles.header,
   headerText: componentStyles.headerText,
   subHeader: componentStyles.subHeader,
   searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 12,
-  },
-  searchContainer: {
-    ...componentStyles.input,
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 12,
-  },
-  searchInput: {
-    flex: 1,
-    color: colors.darkGray,
-    fontSize: 16,
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  filterSortButton: {
-    ...componentStyles.button,
-    backgroundColor: colors.oldGloryRed,
-    paddingHorizontal: 12,
-  },
-  filterSortButtonText: {
-    ...componentStyles.buttonText,
-    fontSize: 14,
+    ...componentStyles.rowContainer,
+    paddingHorizontal: spacing.m,
+    paddingBottom: spacing.s * 1.5,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -335,36 +246,32 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: spacing.s * 1.5,
     alignItems: 'center',
   },
   tabButtonSelected: {
     borderBottomWidth: 2,
     borderBottomColor: colors.oldGloryRed,
   },
-  tabButtonText: {
-    ...typography.body,
-    color: colors.darkGray,
-    fontWeight: '500',
-  },
+  tabButtonText: componentStyles.semiBoldButtonText,
   tabButtonTextSelected: {
     color: colors.oldGloryRed,
     fontWeight: 'bold',
   },
   catalogList: {
-    paddingVertical: 16,
+    paddingVertical: spacing.m,
   },
   billItem: componentStyles.card,
   billTitleLine: {
     flexDirection: 'row',
-    marginBottom: 8,
+    marginBottom: spacing.s,
   },
   legislatorItem: {
     ...componentStyles.card,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingVertical: spacing.s * 1.5,
+    paddingHorizontal: spacing.m,
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
   },
@@ -372,7 +279,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 16,
+    marginRight: spacing.m,
   },
   legislatorInfo: {
     flex: 1,
@@ -382,10 +289,7 @@ const styles = StyleSheet.create({
     color: colors.oldGloryRed,
     fontWeight: 'bold',
   },
-  legislatorDetails: {
-    ...typography.body,
-    color: colors.darkGray,
-  },
+  legislatorDetails: typography.body,
   legislatorChamber: {
     ...typography.small,
     color: colors.darkGray,
@@ -397,7 +301,7 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     ...typography.body,
-    marginBottom: 12,
+    marginBottom: spacing.s * 1.5,
   },
   dividerVertical: componentStyles.dividerVertical,
   tagCarouselContainer: {
@@ -410,52 +314,18 @@ const styles = StyleSheet.create({
   tagCarouselTitle: {
     ...typography.body,
     fontWeight: 'bold',
-    paddingRight: 8,
+    paddingRight: spacing.s,
     color: colors.oldGloryBlue,
   },
   tagCarouselItem: {
     ...componentStyles.carouselItem,
     backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.s,
   },
   tagCarouselItemText: {
     ...typography.small,
     color: colors.oldGloryBlue,
-  },
-  filterTagsContainer: {
-    ...componentStyles.carouselContainer,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: colors.lightGray,
-  },
-  filterTagsTitle: {
-    ...typography.subtitle,
-    color: colors.oldGloryBlue,
-    paddingBottom: 8,
-  },
-  filterTagsItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: withOpacity(colors.white, 0.6),
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-  },
-  filterTagsSelectedItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: colors.white,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-  },
-  filterTagsItemText: {
-    ...typography.body,
-    fontSize: 14,
-    color: colors.oldGloryBlue,
-  },
-  filterTagsSelectedItemText: {
-    ...typography.body,
-    fontSize: 14,
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
   },
 });
 

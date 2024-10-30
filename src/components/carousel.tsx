@@ -77,7 +77,7 @@ const DefaultCarouselItemView: React.FC<CarouselItemViewProps> = React.memo(
   },
 );
 
-export const Carousel: React.FC<CarouselProps> = ({
+const Carousel: React.FC<CarouselProps> = ({
   items,
   selectedItems,
   onItemPress,
