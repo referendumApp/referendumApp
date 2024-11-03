@@ -39,40 +39,40 @@ const LoginScreen: React.FC = () => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      padding: theme.spacing.xl,
+      padding: theme.size.xl,
     },
     logo: {
       fontSize: 100,
-      marginBottom: theme.spacing.xl,
+      marginBottom: theme.size.xl,
     },
     title: {
       ...theme.typography.title,
-      marginBottom: theme.spacing.s,
+      marginBottom: theme.size.s,
     },
     subtitle: {
       ...theme.typography.subtitle,
       textAlign: 'center',
-      marginBottom: theme.spacing.xl,
+      marginBottom: theme.size.xl,
     },
     input: {
       ...theme.componentStyles.input,
       width: '80%',
-      marginBottom: theme.spacing.m,
+      marginBottom: theme.size.m,
     },
     loginButton: {
-      ...theme.buttonStyles.buttonMedium,
+      ...theme.buttonStyles.medium,
       width: '80%',
       backgroundColor: theme.colors.oldGloryRed,
     },
     loginButtonText: {
-      ...theme.componentStyles.boldButtonText,
+      ...theme.componentStyles.boldText,
       color: theme.colors.white,
     },
     signUpButton: {
-      marginTop: theme.spacing.m,
+      marginTop: theme.size.m,
     },
     signUpButtonText: {
-      ...theme.componentStyles.boldButtonText,
+      ...theme.componentStyles.boldText,
       color: theme.colors.white,
     },
   });

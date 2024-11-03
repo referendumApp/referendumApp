@@ -1,24 +1,26 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, spacing, typography, withOpacity } from '@/themes';
+import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
   button: {
     backgroundColor: colors.oldGloryBlue,
-    padding: spacing.xs * 0.5,
+    padding: size.xs * 0.5,
   },
   buttonContainer: {
-    ...componentStyles.rowContainer,
-    marginLeft: spacing.xs * 1.5,
+    ...componentStyles.centerRow,
+    gap: size.xs,
+    marginLeft: size.xs * 1.5,
   },
   header: componentStyles.header,
   headerText: componentStyles.headerText,
   subHeader: componentStyles.subHeader,
   searchBarContainer: {
-    ...componentStyles.rowContainer,
-    paddingHorizontal: spacing.m,
-    paddingBottom: spacing.s * 1.5,
+    ...componentStyles.centerRow,
+    gap: size.xs,
+    paddingHorizontal: size.m,
+    paddingBottom: size.s * 1.5,
   },
   tabContainer: {
     flexDirection: 'row',
@@ -28,32 +30,32 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     flex: 1,
-    paddingVertical: spacing.s * 1.5,
+    paddingVertical: size.s * 1.5,
     alignItems: 'center',
   },
   tabButtonSelected: {
     borderBottomWidth: 2,
     borderBottomColor: colors.oldGloryRed,
   },
-  tabButtonText: componentStyles.semiBoldButtonText,
+  tabButtonText: componentStyles.semiBoldText,
   tabButtonTextSelected: {
     color: colors.oldGloryRed,
     fontWeight: 'bold',
   },
   catalogList: {
-    paddingVertical: spacing.m,
+    paddingVertical: size.m,
   },
   billItem: componentStyles.card,
   billTitleLine: {
     flexDirection: 'row',
-    marginBottom: spacing.s,
+    marginBottom: size.s,
   },
   legislatorItem: {
     ...componentStyles.card,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: spacing.s * 1.5,
-    paddingHorizontal: spacing.m,
+    paddingVertical: size.s * 1.5,
+    paddingHorizontal: size.m,
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
   },
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: spacing.m,
+    marginRight: size.m,
   },
   legislatorInfo: {
     flex: 1,
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
   },
   itemDescription: {
     ...typography.body,
-    marginBottom: spacing.s * 1.5,
+    marginBottom: size.s * 1.5,
   },
   dividerVertical: componentStyles.dividerVertical,
   tagCarouselContainer: {
@@ -96,14 +98,14 @@ const styles = StyleSheet.create({
   tagCarouselTitle: {
     ...typography.body,
     fontWeight: 'bold',
-    paddingRight: spacing.s,
+    paddingRight: size.s,
     color: colors.oldGloryBlue,
   },
   tagCarouselItem: {
     ...componentStyles.carouselItem,
     backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.s,
+    paddingVertical: size.xs,
+    paddingHorizontal: size.s,
   },
   tagCarouselItemText: {
     ...typography.small,

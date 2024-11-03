@@ -1,15 +1,9 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
-import {
-  Animated,
-  Dimensions,
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { Animated, Dimensions, View, Text, Modal, TouchableOpacity } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+import styles from './styles';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -98,86 +92,5 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingTop: 20,
-  },
-  modalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  optionsContainer: {
-    padding: 16,
-  },
-  optionItem: {
-    paddingVertical: 12,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checked: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
-  },
-  optionText: {
-    marginLeft: 12,
-    fontSize: 16,
-  },
-  modalFooter: {
-    flexDirection: 'row',
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-    gap: 12,
-  },
-  footerButton: {
-    flex: 1,
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  clearButton: {
-    backgroundColor: '#f5f5f5',
-  },
-  clearButtonText: {
-    color: '#333',
-    fontWeight: '600',
-  },
-  applyButton: {
-    backgroundColor: '#007AFF',
-  },
-  applyButtonText: {
-    color: 'white',
-    fontWeight: '600',
-  },
-});
 
 export default BottomModal;

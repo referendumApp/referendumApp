@@ -1,16 +1,11 @@
-import React, { useState, useRef } from 'react';
-import {
-  Animated,
-  Platform,
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import { Animated, Text, TextStyle, TouchableOpacity } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { colors } from '@/themes';
+
+import styles from './styles';
 
 export enum ToggleButtonSize {
   small = 'small',
@@ -37,8 +32,8 @@ const ToggleButton = ({
   buttonTextStyles,
   buttonValue,
   iconName,
-  activeColor = '#007AFF',
-  inactiveColor = '#EEEEEE',
+  activeColor = colors.appleBlue,
+  inactiveColor = colors.veryLightGray,
   size = ToggleButtonSize.medium,
   isActive = false,
   onToggle,
@@ -87,13 +82,7 @@ const ToggleButton = ({
             }),
           },
         ]}>
-        {iconName && (
-          <Ionicons
-            name={iconName}
-            size={iconSize}
-            style={{ color: contentColor }}
-          />
-        )}
+        {iconName && <Ionicons name={iconName} size={iconSize} style={{ color: contentColor }} />}
         <Text
           style={[
             buttonTextStyles,
@@ -108,43 +97,5 @@ const ToggleButton = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    borderRadius: 8,
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 4,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  buttonSmall: {
-    padding: 8,
-    fontSize: 12,
-    minWidth: 60,
-  },
-  buttonMedium: {
-    padding: 16,
-    fontSize: 16,
-    minWidth: 100,
-  },
-  buttonLarge: {
-    padding: 12,
-    fontSize: 20,
-    minWidth: 80,
-  },
-});
 
 export default ToggleButton;

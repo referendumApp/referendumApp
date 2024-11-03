@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { spacing } from '@/themes';
+import styles from './styles';
 
 interface Option {
   id: number;
@@ -23,17 +23,12 @@ function CheckBoxList<T>({
   options = [],
   selectedOptions = [],
 }: CheckBoxListProps<T>): React.ReactElement<CheckBoxListProps<T>> {
-  // const [selectedOption, setSelectedOption] = useState<any[]>(initialValue);
   const handleSelectToggle = (value: any) => {
     onSelect(
       selectedOptions.includes(value)
         ? selectedOptions.filter(id => id !== value)
-        : [...selectedOptions, value]
+        : [...selectedOptions, value],
     );
-    // setSelectedOption(prev =>
-    //   prev.includes(value) ? prev.filter(f => f !== value) : [...prev, value],
-    // );
-    // onSelect(value);
   };
 
   return (
@@ -44,11 +39,7 @@ function CheckBoxList<T>({
           style={styles.optionItem}
           onPress={() => handleSelectToggle(option.id)}>
           <View style={styles.checkboxContainer}>
-            <View
-              style={[
-                styles.checkbox,
-                selectedOptions.includes(option.id) && styles.checked,
-              ]}>
+            <View style={[styles.checkbox, selectedOptions.includes(option.id) && styles.checked]}>
               {selectedOptions.includes(option.id) && (
                 <Ionicons name="checkmark" size={16} color="white" />
               )}
@@ -60,32 +51,5 @@ function CheckBoxList<T>({
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: spacing.l,
-    height: spacing.l,
-    borderRadius: spacing.xs * 1.5,
-    borderWidth: spacing.xs * 0.5,
-    borderColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checked: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
-  },
-  optionItem: {
-    paddingVertical: spacing.s * 1.5,
-  },
-  optionText: {
-    marginLeft: spacing.s * 1.5,
-    fontSize: spacing.m,
-  },
-});
 
 export default CheckBoxList;

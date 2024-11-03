@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
-import BottomModal from './BottomModal';
+import BottomModal from '@/components/BottomModal';
+
+import styles from './styles';
 
 interface SortOption {
   label: string;
@@ -16,7 +12,6 @@ interface SortOption {
 }
 
 interface SortModalProps {
-  // sortOptions: SortOption[];
   isVisible: boolean;
   onSortChange: (value: string) => void;
   onRequestClose: () => void;
@@ -24,7 +19,6 @@ interface SortModalProps {
 }
 
 const SortModal: React.FC<SortModalProps> = ({
-  // sortOptions,
   isVisible,
   onSortChange,
   onRequestClose,
@@ -64,14 +58,8 @@ const SortModal: React.FC<SortModalProps> = ({
             style={styles.optionItem}
             onPress={() => setTempSort(option.value)}>
             <View style={styles.radioContainer}>
-              <View
-                style={[
-                  styles.radio,
-                  tempSort === option.value && styles.radioSelected,
-                ]}>
-                {tempSort === option.value && (
-                  <View style={styles.radioInner} />
-                )}
+              <View style={[styles.radio, tempSort === option.value && styles.radioSelected]}>
+                {tempSort === option.value && <View style={styles.radioInner} />}
               </View>
               <Text style={styles.optionText}>{option.label}</Text>
             </View>
@@ -81,40 +69,5 @@ const SortModal: React.FC<SortModalProps> = ({
     </BottomModal>
   );
 };
-
-const styles = StyleSheet.create({
-  optionsContainer: {
-    padding: 16,
-  },
-  optionItem: {
-    paddingVertical: 12,
-  },
-  radioContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  radio: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  radioSelected: {
-    borderColor: '#007AFF',
-  },
-  radioInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#007AFF',
-  },
-  optionText: {
-    marginLeft: 12,
-    fontSize: 16,
-  },
-});
 
 export default SortModal;
