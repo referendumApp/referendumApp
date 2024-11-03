@@ -2,6 +2,7 @@ module.exports = {
   root: true,
   plugins: ['import'],
   rules: {
+    'curly': ['error', 'multi-line'],
     'object-curly-spacing': ['error', 'always'],
     'array-bracket-spacing': ['error', 'never'],
     'computed-property-spacing': ['error', 'never'],

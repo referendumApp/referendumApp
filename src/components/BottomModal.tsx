@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import {
   Animated,
+  Dimensions,
   View,
   Text,
   Modal,
@@ -9,6 +10,8 @@ import {
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface BottomModalProps {
   handleApply: () => void;
@@ -45,11 +48,10 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   return (
     <Modal
       animationType="fade"
-      transparent={true}
       visible={isVisible}
       onRequestClose={onRequestClose}
       statusBarTranslucent={true}
-      presentationStyle="overFullScreen">
+      presentationStyle="fullScreen">
       <View style={styles.modalContainer}>
         <Animated.View
           style={[
@@ -59,7 +61,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
                 {
                   translateY: slideAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [600, 0], // Adjust 600 based on your content height
+                    outputRange: [SCREEN_HEIGHT, 0], // Adjust 600 based on your content height
                   }),
                 },
               ],
@@ -101,11 +103,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    height: SCREEN_HEIGHT,
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
-    maxHeight: '80%',
   },
   modalHeader: {
     flexDirection: 'row',

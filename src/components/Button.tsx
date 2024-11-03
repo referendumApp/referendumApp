@@ -30,7 +30,7 @@ interface ButtonProps {
   buttonText?: string;
   buttonTextSize?: ButtonTextSize;
   buttonTextStyles?: TextStyle;
-  color?: colors;
+  contentColor?: colors;
   iconName?: IconName;
   iconSize?: IconSize;
   onPress: () => void;
@@ -41,21 +41,21 @@ const Button = ({
   buttonText,
   buttonTextSize = ButtonTextSize.medium,
   buttonTextStyles,
-  color = colors.darkGray,
+  contentColor = colors.darkGray,
   iconName,
   iconSize = IconSize.medium,
   onPress,
 }: ButtonProps) => {
   return (
     <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-      {iconName && <Ionicons name={iconName} size={iconSize} color={color} />}
+      {iconName && <Ionicons name={iconName} size={iconSize} color={contentColor} />}
       {buttonText && (
         <Text
           style={[
             buttonTextStyles,
             {
               fontSize: buttonTextSize,
-              color: color,
+              color: contentColor,
             },
           ]}>
           {buttonText}

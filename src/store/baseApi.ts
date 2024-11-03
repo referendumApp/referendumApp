@@ -6,7 +6,7 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 
-import { State, Role } from '@/appTypes';
+import { Party, Role, State } from '@/appTypes';
 import { AppDispatch, RootState } from '@/store';
 
 import baseUrl from './utils';
@@ -80,11 +80,14 @@ const baseApi = createApi({
     },
   }),
   endpoints: builder => ({
-    getStates: builder.query<State[], void>({
-      query: () => ({ url: `${ApiResource.states}/` }),
+    getPartys: builder.query<Party[], void>({
+      query: () => ({ url: `${ApiResource.partys}/` }),
     }),
     getRoles: builder.query<Role[], void>({
       query: () => ({ url: `${ApiResource.roles}/` }),
+    }),
+    getStates: builder.query<State[], void>({
+      query: () => ({ url: `${ApiResource.states}/` }),
     }),
   }),
   reducerPath: 'api',
@@ -92,4 +95,4 @@ const baseApi = createApi({
 
 export default baseApi;
 
-export const { useGetStatesQuery, useGetRolesQuery } = baseApi;
+export const { useGetRolesQuery, useGetPartysQuery, useGetStatesQuery  } = baseApi;
