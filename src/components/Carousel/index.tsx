@@ -1,16 +1,7 @@
 import React, { useCallback } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  ViewStyle,
-  TextStyle,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ViewStyle, TextStyle } from 'react-native';
 
-import { Theme } from '@/themes';
-import { useTheme } from '@/themes/ThemeProvider';
+import styles from './styles';
 
 export interface CarouselItem {
   id: string;
@@ -42,18 +33,7 @@ interface CarouselProps {
 }
 
 const DefaultCarouselItemView: React.FC<CarouselItemViewProps> = React.memo(
-  ({
-    item,
-    isSelected,
-    onPress,
-    itemStyle,
-    itemSelectedStyle,
-    textStyle,
-    textSelectedStyle,
-  }) => {
-    const theme = useTheme();
-    const styles = createStyles(theme);
-
+  ({ item, isSelected, onPress, itemStyle, itemSelectedStyle, textStyle, textSelectedStyle }) => {
     return (
       <TouchableOpacity
         style={[
@@ -90,9 +70,6 @@ const Carousel: React.FC<CarouselProps> = ({
   textSelectedStyle,
   renderItem,
 }) => {
-  const theme = useTheme();
-  const styles = createStyles(theme);
-
   const renderCarouselItem = useCallback(
     ({ item }: { item: CarouselItem }) => {
       const isSelected = selectedItems?.has(item.id);
@@ -105,11 +82,7 @@ const Carousel: React.FC<CarouselProps> = ({
         textStyle,
         textSelectedStyle,
       };
-      return renderItem ? (
-        renderItem(itemProps)
-      ) : (
-        <DefaultCarouselItemView {...itemProps} />
-      );
+      return renderItem ? renderItem(itemProps) : <DefaultCarouselItemView {...itemProps} />;
     },
     [
       selectedItems,
@@ -137,30 +110,5 @@ const Carousel: React.FC<CarouselProps> = ({
     </View>
   );
 };
-
-const createStyles = (theme: Theme) =>
-  StyleSheet.create({
-    container: {
-      ...theme.componentStyles.carouselContainer,
-    },
-    title: {
-      ...theme.typography.subtitle,
-      marginBottom: theme.spacing.s,
-    },
-    item: {
-      ...theme.componentStyles.carouselItem,
-      backgroundColor: theme.colors.white,
-    },
-    itemSelected: {
-      backgroundColor: theme.colors.oldGloryRed,
-    },
-    itemText: {
-      ...theme.typography.body,
-      color: theme.colors.oldGloryBlue,
-    },
-    itemTextSelected: {
-      color: theme.colors.white,
-    },
-  });
 
 export default Carousel;

@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import {
-  Platform,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-  StyleSheet,
-  Animated,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+import styles from './styles';
 
 interface Option {
   id: number;
@@ -113,7 +106,7 @@ function MultiSelect<T>({
                   onPress={() => toggleOption(option.id)}
                   activeOpacity={0.7}>
                   <View style={styles.optionContent}>
-                    <View style={[styles.checkbox, isSelected && styles.checkedBox]}>
+                    <View style={[styles.checkbox, isSelected && styles.checked]}>
                       {isSelected && <Ionicons name="checkmark" size={16} color="#FFFFFF" />}
                     </View>
                     <Text style={[styles.optionText, isSelected && styles.selectedOptionText]}>
@@ -136,119 +129,5 @@ function MultiSelect<T>({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'relative',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 12,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#ddd',
-  },
-  headerOpen: {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
-  },
-  headerText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  placeholder: {
-    color: '#999',
-  },
-  dropdown: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderColor: '#ddd',
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.15,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 3,
-      },
-    }),
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#ddd',
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
-    padding: 8,
-    fontSize: 16,
-  },
-  optionsList: {
-    maxHeight: 300,
-  },
-  option: {
-    padding: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#eee',
-  },
-  selectedOption: {
-    backgroundColor: '#f0f8ff',
-  },
-  optionContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: '#ddd',
-    marginRight: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checkedBox: {
-    backgroundColor: '#007AFF',
-    borderColor: '#007AFF',
-  },
-  optionText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  selectedOptionText: {
-    color: '#007AFF',
-  },
-  noResults: {
-    padding: 16,
-    textAlign: 'center',
-    color: '#666',
-  },
-  footer: {
-    padding: 8,
-    textAlign: 'center',
-    color: '#666',
-    fontSize: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: '#ddd',
-  },
-});
 
 export default MultiSelect;

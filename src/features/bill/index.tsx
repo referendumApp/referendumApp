@@ -213,15 +213,15 @@ const createStyles = (theme: Theme) =>
     },
     header: {
       ...theme.componentStyles.header,
-      paddingTop: theme.spacing.xs,
+      paddingTop: theme.size.xs,
     },
     subHeader: {
       ...theme.componentStyles.subHeader,
-      padding: theme.spacing.m,
+      padding: theme.size.m,
     },
     tagCarouselContainer: {
       ...theme.componentStyles.carouselContainer,
-      paddingHorizontal: theme.spacing.m,
+      paddingHorizontal: theme.size.m,
       flexDirection: 'row',
       alignItems: 'center',
       marginLeft: 0,
@@ -230,12 +230,12 @@ const createStyles = (theme: Theme) =>
     tagCarouselTitle: {
       ...theme.typography.body,
       color: theme.colors.white,
-      paddingRight: theme.spacing.s,
+      paddingRight: theme.size.s,
     },
     tagCarouselItem: {
       ...theme.componentStyles.carouselItem,
       backgroundColor: theme.withOpacity(theme.colors.white, 0.95),
-      padding: theme.spacing.xs,
+      padding: theme.size.xs,
     },
     tagCarouselItemText: {
       ...theme.typography.body,
@@ -260,8 +260,8 @@ const createStyles = (theme: Theme) =>
       borderColor: theme.colors.white,
       borderWidth: 1,
       borderRadius: 20,
-      paddingVertical: theme.spacing.xs,
-      paddingHorizontal: theme.spacing.m,
+      paddingVertical: theme.size.xs,
+      paddingHorizontal: theme.size.m,
     },
     followButtonText: {
       ...theme.typography.body,
@@ -271,39 +271,39 @@ const createStyles = (theme: Theme) =>
       backgroundColor: theme.colors.white,
       borderWidth: 1,
       borderRadius: 20,
-      paddingVertical: theme.spacing.xs,
-      paddingHorizontal: theme.spacing.m,
+      paddingVertical: theme.size.xs,
+      paddingHorizontal: theme.size.m,
     },
     selectedFollowButtonText: {
       ...theme.typography.body,
       color: theme.colors.oldGloryRed,
       fontWeight: 'bold',
     },
-    title: { ...theme.typography.title, paddingBottom: theme.spacing.s },
+    title: { ...theme.typography.title, paddingBottom: theme.size.s },
     subtitle: theme.typography.subtitle,
     headerBody: {
       ...theme.typography.body,
       color: theme.colors.white,
-      padding: theme.spacing.xs,
+      padding: theme.size.xs,
     },
     section: theme.componentStyles.section,
     sectionTitle: {
       ...theme.typography.subtitle,
       color: theme.colors.oldGloryRed,
-      marginBottom: theme.spacing.s,
+      marginBottom: theme.size.s,
     },
     sectionBody: theme.typography.body,
     votingButtons: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginTop: theme.spacing.s,
+      marginTop: theme.size.s,
     },
     voteButton: {
       flex: 1,
-      padding: theme.spacing.m,
+      padding: theme.size.m,
       borderRadius: 8,
       alignItems: 'center',
-      marginHorizontal: theme.spacing.xs,
+      marginHorizontal: theme.size.xs,
       backgroundColor: theme.colors.lightGray,
     },
     selectedVoteButton: {
@@ -316,12 +316,12 @@ const createStyles = (theme: Theme) =>
     table: {
       backgroundColor: theme.colors.white,
       borderRadius: 8,
-      marginTop: theme.spacing.s,
+      marginTop: theme.size.s,
     },
     tableHeader: {
       flexDirection: 'row',
       backgroundColor: theme.colors.oldGloryBlue,
-      padding: theme.spacing.s,
+      padding: theme.size.s,
       borderTopLeftRadius: 8,
       borderTopRightRadius: 8,
     },
@@ -332,7 +332,7 @@ const createStyles = (theme: Theme) =>
     },
     tableRow: {
       flexDirection: 'row',
-      padding: theme.spacing.s,
+      padding: theme.size.s,
       borderBottomWidth: 1,
       borderBottomColor: theme.colors.lightGray,
     },
@@ -343,10 +343,10 @@ const createStyles = (theme: Theme) =>
     seeMoreText: {
       ...theme.typography.caption,
       color: theme.colors.oldGloryBlue,
-      marginTop: theme.spacing.s,
+      marginTop: theme.size.s,
     },
     commentContainer: {
-      marginBottom: theme.spacing.s,
+      marginBottom: theme.size.s,
     },
     commentAuthor: {
       ...theme.typography.subtitle,
@@ -356,7 +356,7 @@ const createStyles = (theme: Theme) =>
     voteCounts: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginBottom: theme.spacing.s,
+      marginBottom: theme.size.s,
     },
     voteCountBody: {
       ...theme.typography.body,

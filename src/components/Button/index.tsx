@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextStyle,
-  TouchableOpacity,
-  ViewStyle,
-} from 'react-native';
+import { Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -47,7 +41,7 @@ const Button = ({
   onPress,
 }: ButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <TouchableOpacity style={[buttonStyles.small, style]} onPress={onPress}>
       {iconName && <Ionicons name={iconName} size={iconSize} color={contentColor} />}
       {buttonText && (
         <Text
@@ -64,9 +58,5 @@ const Button = ({
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: buttonStyles.buttonSmall,
-});
 
 export default Button;

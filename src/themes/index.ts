@@ -2,14 +2,21 @@ import { Platform, StyleSheet, TextStyle } from 'react-native';
 
 // Color palette
 export enum colors {
+  transparent = 'rgba(0, 0, 0, 0.5)',
   oldGloryBlue = 'rgb(0, 40, 104)', // #002868
   oldGloryRed = 'rgb(191, 10, 48)', // #BF0A30
   black = 'rgb(0, 0, 0)', // black
   white = 'rgb(255, 255, 255)', // white
-  lightGray = 'rgb(240, 240, 240)', // #F0F0F0
+  offWhite = 'rgb(245, 245, 245)', // #F5F5F5
+  veryLightGray = 'rgb(238, 238, 238)', // #eee
+  lightGray = 'rgb(221, 221, 221)', // #ddd
   mediumGray = 'rgb(208, 208, 208)', // #D0D0D0
+  lightMediumGray = 'rgb(153, 153, 153)', // #999
+  secondaryMediumGray = 'rgb(102, 102, 102)', // #666
   darkGray = 'rgb(34, 34, 34)', // #222
   yesVoteGreen = 'rgb(102, 184, 90)', // #66B85A
+  veryLightBlue = 'rgb(240, 248, 255)', // #F0F8FF
+  appleBlue = 'rgb(0, 122, 255)', // #007AFF
 }
 
 export const withOpacity = (color: string, opacity: number) => {
@@ -47,8 +54,8 @@ export const typography: Record<string, TextStyle> = {
   },
 };
 
-// Spacing
-export const spacing = {
+// Sizing
+export const size = {
   xs: 4,
   s: 8,
   m: 16,
@@ -65,26 +72,25 @@ export const componentStyles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.oldGloryBlue,
-    padding: spacing.m,
+    padding: size.m,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
   },
   headerText: typography.largeTitle,
   subHeader: {
     backgroundColor: colors.oldGloryBlue,
-    paddingBottom: spacing.s,
+    paddingBottom: size.s,
   },
   input: {
     width: '100%',
     backgroundColor: colors.white,
     borderRadius: 8,
-    padding: spacing.s,
+    padding: size.s,
     ...typography.body,
   },
-  rowContainer: {
+  centerRow: {
     flexDirection: 'row',
     alignItems: 'center' as const,
-    gap: spacing.xs,
   },
   button: {
     flexDirection: 'row',
@@ -92,20 +98,27 @@ export const componentStyles = StyleSheet.create({
     justifyContent: 'center' as const,
     backgroundColor: colors.lightGray,
   },
-  boldButtonText: {
+  boldText: {
     ...typography.body,
     fontWeight: 'bold',
   },
-  semiBoldButtonText: {
+  semiBoldText: {
     ...typography.body,
     fontWeight: '500',
+  },
+  modalTitle: {
+    fontSize: size.m * 1.5,
+    fontWeight: 'bold',
+  },
+  placeholderText : {
+    color: colors.lightMediumGray,
   },
   card: {
     backgroundColor: colors.white,
     borderRadius: 12,
-    marginHorizontal: spacing.m,
-    marginVertical: spacing.s,
-    padding: spacing.m,
+    marginHorizontal: size.m,
+    marginVertical: size.s,
+    padding: size.m,
     ...Platform.select({
       android: {
         elevation: 3,
@@ -122,7 +135,7 @@ export const componentStyles = StyleSheet.create({
     height: '100%',
     width: 1,
     backgroundColor: colors.mediumGray,
-    marginHorizontal: spacing.s,
+    marginHorizontal: size.s,
   },
   linkText: {
     ...typography.small,
@@ -133,44 +146,53 @@ export const componentStyles = StyleSheet.create({
   tag: {
     backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
     borderRadius: 8,
-    paddingHorizontal: spacing.s,
-    paddingVertical: spacing.xs,
-    marginRight: spacing.s,
-    marginBottom: spacing.xs,
+    paddingHorizontal: size.s,
+    paddingVertical: size.xs,
+    marginRight: size.s,
+    marginBottom: size.xs,
   },
   tagText: {
     ...typography.caption,
     color: colors.oldGloryBlue,
   },
   carouselContainer: {
-    paddingBottom: spacing.s,
-    paddingLeft: spacing.s,
-    marginLeft: spacing.s,
+    paddingBottom: size.s,
+    paddingLeft: size.s,
+    marginLeft: size.s,
   },
   carouselItem: {
     backgroundColor: colors.white,
     borderRadius: 12,
-    padding: spacing.s,
-    marginRight: spacing.s,
+    padding: size.s,
+    marginRight: size.s,
   },
   section: {
-    padding: spacing.m,
+    padding: size.m,
+  },
+  checkbox: {
+    width: size.l,
+    height: size.l,
+    borderRadius: 6,
+    borderWidth: size.xs * 0.5,
+    borderColor: colors.mediumGray,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
 // Button Styles
 export const buttonStyles = StyleSheet.create({
-  buttonSmall: {
+  small: {
     ...componentStyles.button,
-    padding: spacing.s,
+    padding: size.s,
   },
-  buttonMedium: {
+  medium: {
     ...componentStyles.button,
-    padding: spacing.m,
+    padding: size.m,
   },
-  buttonLarge: {
+  large: {
     ...componentStyles.button,
-    padding: spacing.l,
+    padding: size.l,
   },
 });
 
@@ -178,7 +200,7 @@ export const buttonStyles = StyleSheet.create({
 export const theme = {
   colors,
   typography,
-  spacing,
+  size,
   componentStyles,
   buttonStyles,
   withOpacity,
@@ -188,4 +210,4 @@ export const theme = {
 export type Theme = typeof theme;
 export type ColorName = keyof typeof colors;
 export type TypographyName = keyof typeof typography;
-export type SpacingName = keyof typeof spacing;
+export type Size = keyof typeof size;

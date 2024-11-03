@@ -93,7 +93,7 @@ const createStyles = (theme: Theme) =>
       borderTopWidth: 0,
       elevation: 0,
       height: 60,
-      paddingBottom: theme.spacing.xs,
+      paddingBottom: theme.size.xs,
     },
     tabBarLabel: {
       fontSize: theme.typography.caption.fontSize,
