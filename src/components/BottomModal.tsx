@@ -19,6 +19,7 @@ interface BottomModalProps {
   isVisible: boolean;
   onRequestClose: () => void;
   title: string;
+  screenHeight?: number;
 }
 
 const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
@@ -28,6 +29,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   isVisible,
   onRequestClose,
   title,
+  screenHeight = SCREEN_HEIGHT,
 }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
 
@@ -56,12 +58,13 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
         <Animated.View
           style={[
             styles.modalContent,
+            { height: screenHeight },
             {
               transform: [
                 {
                   translateY: slideAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [SCREEN_HEIGHT, 0], // Adjust 600 based on your content height
+                    outputRange: [screenHeight, 0], // Adjust based on screen height
                   }),
                 },
               ],
@@ -103,7 +106,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
-    height: SCREEN_HEIGHT,
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

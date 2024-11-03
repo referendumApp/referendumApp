@@ -44,7 +44,7 @@ export default function useCatalogItems<T extends TabType>({
 
             return true;
           });
-    console.log(filter);
+
     return filteredItems.filter(item => config.searchFn(item, searchQuery));
   }, [config, items, filter, searchQuery]);
 
