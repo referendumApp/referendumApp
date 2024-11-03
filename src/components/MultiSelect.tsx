@@ -21,45 +21,46 @@ interface Option {
 type MultiSelectOption<T = {}> = T & Option;
 
 interface MultiSelectProps<T> {
-  options: MultiSelectOption<T>[];
-  selectedIds: number[];
-  onSelect: (ids: number[]) => void;
+  onSelect: (ids: any[]) => void;
+  options?: MultiSelectOption<T>[];
   placeholder?: string;
   searchPlaceholder?: string;
+  selectedOptions?: any[];
 }
 
-export default function MultiSelect<T>({
-  options,
-  selectedIds,
+function MultiSelect<T>({
   onSelect,
+  options = [],
   placeholder = 'Select items',
   searchPlaceholder = 'Search...',
+  selectedOptions = [],
 }: MultiSelectProps<T>): React.ReactElement<MultiSelectProps<T>> {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  // const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
   // Filter options based on search query
   const filteredOptions = options.filter(option =>
     option.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const toggleOption = (id: number) => {
-    if (selectedIds.includes(id)) {
-      onSelect(selectedIds.filter(selectedId => selectedId !== id));
-    } else {
-      onSelect([...selectedIds, id]);
-    }
+  const toggleOption = (id: any) => {
+    const updatedItems = selectedOptions.includes(id)
+      ? selectedOptions.filter(selectedId => selectedId !== id)
+      : [...selectedOptions, id];
+    // setSelectedOptions(updatedItems);
+    onSelect(updatedItems);
   };
 
   const getSelectedText = () => {
-    if (selectedIds.length === 0) {
+    if (selectedOptions.length === 0) {
       return placeholder;
     }
-    if (selectedIds.length === 1) {
-      const selected = options.find(opt => opt.id === selectedIds[0]);
+    if (selectedOptions.length === 1) {
+      const selected = options.find(opt => opt.id === selectedOptions[0]);
       return selected ? selected.name : placeholder;
     }
-    return `${selectedIds.length} items selected`;
+    return `${selectedOptions.length} items selected`;
   };
 
   return (
@@ -69,11 +70,7 @@ export default function MultiSelect<T>({
         style={[styles.header, isOpen && styles.headerOpen]}
         onPress={() => setIsOpen(!isOpen)}
         activeOpacity={0.7}>
-        <Text
-          style={[
-            styles.headerText,
-            selectedIds.length === 0 && styles.placeholder,
-          ]}>
+        <Text style={[styles.headerText, selectedOptions.length === 0 && styles.placeholder]}>
           {getSelectedText()}
         </Text>
         <Animated.View
@@ -93,12 +90,7 @@ export default function MultiSelect<T>({
         <View style={styles.dropdown}>
           {/* Search Input */}
           <View style={styles.searchContainer}>
-            <Ionicons
-              name="search"
-              size={20}
-              color="#666"
-              style={styles.searchIcon}
-            />
+            <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
               placeholder={searchPlaceholder}
@@ -111,11 +103,9 @@ export default function MultiSelect<T>({
           </View>
 
           {/* Options List */}
-          <ScrollView
-            style={styles.optionsList}
-            keyboardShouldPersistTaps="handled">
+          <ScrollView style={styles.optionsList} keyboardShouldPersistTaps="handled">
             {filteredOptions.map(option => {
-              const isSelected = selectedIds.includes(option.id);
+              const isSelected = selectedOptions.includes(option.id);
               return (
                 <TouchableOpacity
                   key={option.id}
@@ -123,36 +113,24 @@ export default function MultiSelect<T>({
                   onPress={() => toggleOption(option.id)}
                   activeOpacity={0.7}>
                   <View style={styles.optionContent}>
-                    <View
-                      style={[
-                        styles.checkbox,
-                        isSelected && styles.checkedBox,
-                      ]}>
-                      {isSelected && (
-                        <Ionicons name="checkmark" size={16} color="#FFFFFF" />
-                      )}
+                    <View style={[styles.checkbox, isSelected && styles.checkedBox]}>
+                      {isSelected && <Ionicons name="checkmark" size={16} color="#FFFFFF" />}
                     </View>
-                    <Text
-                      style={[
-                        styles.optionText,
-                        isSelected && styles.selectedOptionText,
-                      ]}>
+                    <Text style={[styles.optionText, isSelected && styles.selectedOptionText]}>
                       {option.name}
                     </Text>
                   </View>
                 </TouchableOpacity>
               );
             })}
-            {filteredOptions.length === 0 && (
-              <Text style={styles.noResults}>No results found</Text>
-            )}
+            {filteredOptions.length === 0 && <Text style={styles.noResults}>No results found</Text>}
           </ScrollView>
 
-          {(
+          {
             <Text style={styles.footer}>
-              {selectedIds.length} of {options.length} selected
+              {selectedOptions.length} of {options.length} selected
             </Text>
-          )}
+          }
         </View>
       )}
     </View>
@@ -272,3 +250,5 @@ const styles = StyleSheet.create({
     borderTopColor: '#ddd',
   },
 });
+
+export default MultiSelect;

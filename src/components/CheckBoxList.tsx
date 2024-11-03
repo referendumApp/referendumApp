@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
-export interface Option {
+import { spacing } from '@/themes';
+
+interface Option {
   id: number;
   name: string;
 }
@@ -11,20 +13,27 @@ export interface Option {
 type CheckBoxOption<T = {}> = T & Option;
 
 interface CheckBoxListProps<T> {
-  options: CheckBoxOption<T>[];
-  selectedFilters?: number[];
+  onSelect: (option: any) => void;
+  options?: CheckBoxOption<T>[];
+  selectedOptions?: any[];
 }
 
-export default function CheckBoxList<T>({
-  options,
-  selectedFilters = [],
+function CheckBoxList<T>({
+  onSelect,
+  options = [],
+  selectedOptions = [],
 }: CheckBoxListProps<T>): React.ReactElement<CheckBoxListProps<T>> {
-  const [tempFilters, setTempFilters] = useState<number[]>(selectedFilters);
-
-  const handleFilterToggle = (value: number) => {
-    setTempFilters(prev =>
-      prev.includes(value) ? prev.filter(f => f !== value) : [...prev, value],
+  // const [selectedOption, setSelectedOption] = useState<any[]>(initialValue);
+  const handleSelectToggle = (value: any) => {
+    onSelect(
+      selectedOptions.includes(value)
+        ? selectedOptions.filter(id => id !== value)
+        : [...selectedOptions, value]
     );
+    // setSelectedOption(prev =>
+    //   prev.includes(value) ? prev.filter(f => f !== value) : [...prev, value],
+    // );
+    // onSelect(value);
   };
 
   return (
@@ -33,14 +42,14 @@ export default function CheckBoxList<T>({
         <TouchableOpacity
           key={option.id}
           style={styles.optionItem}
-          onPress={() => handleFilterToggle(option.id)}>
+          onPress={() => handleSelectToggle(option.id)}>
           <View style={styles.checkboxContainer}>
             <View
               style={[
                 styles.checkbox,
-                tempFilters.includes(option.id) && styles.checked,
+                selectedOptions.includes(option.id) && styles.checked,
               ]}>
-              {tempFilters.includes(option.id) && (
+              {selectedOptions.includes(option.id) && (
                 <Ionicons name="checkmark" size={16} color="white" />
               )}
             </View>
@@ -53,21 +62,15 @@ export default function CheckBoxList<T>({
 }
 
 const styles = StyleSheet.create({
-  optionsContainer: {
-    padding: 16,
-  },
-  optionItem: {
-    paddingVertical: 12,
-  },
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
+    width: spacing.l,
+    height: spacing.l,
+    borderRadius: spacing.xs * 1.5,
+    borderWidth: spacing.xs * 0.5,
     borderColor: '#ccc',
     justifyContent: 'center',
     alignItems: 'center',
@@ -76,8 +79,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#007AFF',
     borderColor: '#007AFF',
   },
+  optionItem: {
+    paddingVertical: spacing.s * 1.5,
+  },
   optionText: {
-    marginLeft: 12,
-    fontSize: 16,
+    marginLeft: spacing.s * 1.5,
+    fontSize: spacing.m,
   },
 });
+
+export default CheckBoxList;

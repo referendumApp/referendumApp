@@ -1,18 +1,8 @@
-export interface Legislator {
+import { FlattenFieldKeys } from './utils';
+
+export interface Party {
   id: number;
   name: string;
-  party: string;
-  state: string;
-  chamber: string;
-  imageUrl: string;
-  district?: string;
-  topIssues: string[];
-  address: string;
-  phone: string;
-  committees: string[];
-  facebook: string;
-  twitter: string;
-  instagram: string;
 }
 
 export interface Role {
@@ -30,6 +20,26 @@ export interface LegislativeBody {
   roleId: number;
   stateId: number;
 }
+
+export interface Legislator {
+  id: number;
+  legiscanId: number;
+  name: string;
+  partyId: number;
+  party: Party;
+  stateId: number;
+  state: State;
+  imageUrl: string;
+  district?: string;
+  address: string;
+  phone: string;
+  committees: any[];
+  facebook: string;
+  twitter: string;
+  instagram: string;
+}
+
+export type LegislatorField = FlattenFieldKeys<Legislator>;
 
 export interface Bill {
   id: number;
@@ -50,7 +60,7 @@ export interface Bill {
   communityNoVotes?: number;
 }
 
-export type ItemType = 'bill' | 'legislator';
+export type BillField = FlattenFieldKeys<Bill>;
 
 export interface User {
   accessToken: string;

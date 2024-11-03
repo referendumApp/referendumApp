@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
 import {
   Animated,
+  Dimensions,
   View,
   Text,
   Modal,
@@ -10,12 +11,15 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 interface BottomModalProps {
   handleApply: () => void;
   handleReset: () => void;
   isVisible: boolean;
   onRequestClose: () => void;
   title: string;
+  screenHeight?: number;
 }
 
 const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
@@ -25,6 +29,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   isVisible,
   onRequestClose,
   title,
+  screenHeight = SCREEN_HEIGHT,
 }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
 
@@ -45,21 +50,21 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   return (
     <Modal
       animationType="fade"
-      transparent={true}
       visible={isVisible}
       onRequestClose={onRequestClose}
       statusBarTranslucent={true}
-      presentationStyle="overFullScreen">
+      presentationStyle="fullScreen">
       <View style={styles.modalContainer}>
         <Animated.View
           style={[
             styles.modalContent,
+            { height: screenHeight },
             {
               transform: [
                 {
                   translateY: slideAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [600, 0], // Adjust 600 based on your content height
+                    outputRange: [screenHeight, 0], // Adjust based on screen height
                   }),
                 },
               ],
@@ -105,7 +110,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: 20,
-    maxHeight: '80%',
   },
   modalHeader: {
     flexDirection: 'row',

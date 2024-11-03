@@ -23,42 +23,38 @@ type IconName = keyof typeof Ionicons.glyphMap;
 interface ToggleButtonProps {
   buttonText: string;
   buttonTextStyles?: TextStyle;
+  buttonValue?: any;
   iconName?: IconName;
   activeColor?: string;
   inactiveColor?: string;
   size?: ToggleButtonSize;
-  initialValue?: boolean;
-  onToggle?: (isActive: boolean) => void;
+  isActive?: boolean;
+  onToggle: (isActive: boolean, buttonValue: any) => void;
 }
 
 const ToggleButton = ({
   buttonText,
   buttonTextStyles,
+  buttonValue,
   iconName,
   activeColor = '#007AFF',
   inactiveColor = '#EEEEEE',
   size = ToggleButtonSize.medium,
-  initialValue = false,
+  isActive = false,
   onToggle,
 }: ToggleButtonProps) => {
-  const [isActive, setIsActive] = useState(initialValue);
-  const animatedColor = useRef(
-    new Animated.Value(initialValue ? 1 : 0),
-  ).current;
+  const animatedColor = new Animated.Value(isActive ? 1 : 0);
 
   const handlePress = () => {
-    // Toggle state
-    setIsActive(!isActive);
-
     // Animate color change
     Animated.timing(animatedColor, {
-      toValue: !isActive ? 1 : 0,
+      toValue: isActive ? 1 : 0,
       duration: 100,
       useNativeDriver: false, // Required for backgroundColor animation
     }).start();
 
     // Call callback if provided
-    onToggle?.(!isActive);
+    onToggle(isActive, buttonValue);
   };
 
   // Get size-specific styles
@@ -115,6 +111,7 @@ const ToggleButton = ({
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    borderRadius: 8,
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 4,

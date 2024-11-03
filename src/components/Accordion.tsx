@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { ReactNode, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,8 +12,6 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { colors } from '@/themes';
-
 // Enable LayoutAnimation for Android
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -23,7 +21,7 @@ if (Platform.OS === 'android') {
 
 interface AccordionItemProps {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
@@ -68,7 +66,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
 interface AccordionProps {
   data: Array<{
     title: string;
-    content: React.ReactNode;
+    content: ReactNode;
   }>;
 }
 

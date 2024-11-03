@@ -1,10 +1,11 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {ThemeProvider} from './src/themes/ThemeProvider';
+import { Provider } from 'react-redux';
 
-import store from './src/store';
-import {Provider} from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+
 import AppNavigator from './src/navigation';
+import store from './src/store';
+import { ThemeProvider } from './src/themes/ThemeProvider';
 
 const App: React.FC = () => {
   return (

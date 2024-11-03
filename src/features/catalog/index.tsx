@@ -1,126 +1,50 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Image,
-} from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { Legislator, Bill, ItemType } from '@/appTypes';
+import { Legislator, Bill } from '@/appTypes';
 import Button, { IconSize } from '@/components/Button';
-import Carousel from '@/components/Carousel';
-import FilterModal from '@/components/FilterModal';
 import SearchInput from '@/components/SearchInput';
 import SortModal from '@/components/SortModal';
+import TabButton from '@/components/TabButton';
 import { useGetBillsQuery } from '@/features/bill/api';
 import { useGetLegislatorsQuery } from '@/features/legislator/api';
 import { CatalogStackParamList } from '@/navigation/types';
-import {
-  buttonStyles,
-  colors,
-  componentStyles,
-  spacing,
-  typography,
-  withOpacity,
-} from '@/themes';
+import { colors } from '@/themes';
+
+import BillItem from './BillItem';
+import filterConfigs from './filters/filterConfigs';
+import FilterModal from './filters/FilterModal';
+import FilterProvider from './filters/FilterProvider';
+import useCatalogItems from './hooks/useCatalogItems';
+import LegislatorItem from './LegislatorItem';
+import styles from './styles';
+import { FilterOptions, TabType, ValidFilterFields } from './types';
 
 type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
-// Components
-const TabButton: React.FC<{
-  title: string;
-  isSelected: boolean;
-  onPress: () => void;
-}> = ({ title, isSelected, onPress }) => (
-  <TouchableOpacity
-    style={[styles.tabButton, isSelected && styles.tabButtonSelected]}
-    onPress={onPress}>
-    <Text
-      style={[
-        styles.tabButtonText,
-        isSelected && styles.tabButtonTextSelected,
-      ]}>
-      {title}
-    </Text>
-  </TouchableOpacity>
-);
-
-const BillItem: React.FC<{ bill: Bill; onPress: () => void }> = React.memo(
-  ({ bill, onPress }) => (
-    <TouchableOpacity style={styles.billItem} onPress={onPress}>
-      <View style={styles.billTitleLine}>
-        <Text style={styles.itemTitle}>US</Text>
-        <View style={styles.dividerVertical} />
-        <Text style={styles.itemTitle}>{bill.identifier}</Text>
-      </View>
-      <Text
-        style={styles.itemDescription}
-        numberOfLines={3}
-        ellipsizeMode="tail">
-        {bill.title}
-      </Text>
-      <Carousel
-        items={bill?.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
-        onItemPress={() => {}}
-        containerStyle={styles.tagCarouselContainer}
-        itemStyle={styles.tagCarouselItem}
-        textStyle={styles.tagCarouselItemText}
-      />
-    </TouchableOpacity>
-  ),
-);
-
-const LegislatorItem: React.FC<{
-  legislator: Legislator;
-  onPress: () => void;
-}> = React.memo(({ legislator, onPress }) => (
-  <TouchableOpacity style={styles.legislatorItem} onPress={onPress}>
-    <Image
-      source={{ uri: legislator.imageUrl }}
-      style={styles.legislatorImage}
-    />
-    <View style={styles.legislatorInfo}>
-      <Text style={styles.legislatorName}>{legislator.name}</Text>
-      <Text style={styles.legislatorDetails}>
-        {`${legislator.party} - ${legislator.state}`}
-      </Text>
-      <Text style={styles.legislatorChamber}>{legislator.chamber}</Text>
-    </View>
-  </TouchableOpacity>
-));
-
-// Main component
 const CatalogScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const { data: bills } = useGetBillsQuery();
   const { data: legislators } = useGetLegislatorsQuery();
-  const [selectedTab, setSelectedTab] = useState<ItemType>('bill');
+
+  const [selectedTab, setSelectedTab] = useState<TabType>('bill');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [filter, setFilter] = useState<FilterOptions>({});
+  const [filterFields, setFilterFields] = useState<ValidFilterFields>(filterConfigs.bill.fields);
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
 
-  const filteredItems = useMemo(() => {
-    if (selectedTab === 'bill') {
-      return bills?.filter(
-        bill =>
-          bill.identifier.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          bill.title.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-    } else {
-      return legislators?.filter(
-        legislator =>
-          legislator.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          legislator.party.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          legislator.state.toLowerCase().includes(searchQuery.toLowerCase()),
-      );
-    }
-  }, [bills, legislators, selectedTab, searchQuery]);
+  const catalogItems = useCatalogItems({
+    items: selectedTab === 'bill' ? bills : legislators,
+    selectedTab,
+    filter,
+    searchQuery,
+    setFilterFields,
+  });
 
   const handleSearch = useCallback((text: string): void => {
     setSearchQuery(text);
@@ -145,21 +69,13 @@ const CatalogScreen: React.FC = () => {
       if ('title' in item) {
         return <BillItem bill={item} onPress={() => handleBillPress(item)} />;
       } else {
-        return (
-          <LegislatorItem
-            legislator={item}
-            onPress={() => handleLegislatorPress(item)}
-          />
-        );
+        return <LegislatorItem legislator={item} onPress={() => handleLegislatorPress(item)} />;
       }
     },
     [handleBillPress, handleLegislatorPress],
   );
 
-  const keyExtractor = useCallback(
-    (item: Bill | Legislator) => String(item.id),
-    [],
-  );
+  const keyExtractor = useCallback((item: Bill | Legislator) => String(item.id), []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -173,24 +89,27 @@ const CatalogScreen: React.FC = () => {
           <View style={[styles.buttonContainer]}>
             <Button
               style={styles.button}
-              color={colors.white}
+              contentColor={colors.white}
               iconSize={IconSize.large}
               iconName="filter"
               onPress={() => setIsFilterOpen(true)}
             />
             <Button
               style={styles.button}
-              color={colors.white}
+              contentColor={colors.white}
               iconSize={IconSize.large}
               iconName="swap-vertical"
               onPress={() => setIsFilterOpen(true)}
             />
           </View>
-          <FilterModal
-            isVisible={isFilterOpen}
-            onFilterChange={() => undefined}
-            onRequestClose={() => setIsFilterOpen(false)}
-          />
+          <FilterProvider initialFilters={filter}>
+            <FilterModal
+              filterFields={filterFields}
+              isVisible={isFilterOpen}
+              setFilter={options => setFilter(options)}
+              onRequestClose={() => setIsFilterOpen(false)}
+            />
+          </FilterProvider>
           <SortModal
             isVisible={isSortOpen}
             onSortChange={() => undefined}
@@ -211,7 +130,7 @@ const CatalogScreen: React.FC = () => {
         />
       </View>
       <FlatList
-        data={filteredItems}
+        data={catalogItems}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.catalogList}
@@ -219,114 +138,5 @@ const CatalogScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: componentStyles.container,
-  button: {
-    backgroundColor: colors.oldGloryBlue,
-    padding: spacing.xs * 0.5,
-  },
-  buttonContainer: {
-    ...componentStyles.rowContainer,
-    marginLeft: spacing.xs * 1.5,
-  },
-  header: componentStyles.header,
-  headerText: componentStyles.headerText,
-  subHeader: componentStyles.subHeader,
-  searchBarContainer: {
-    ...componentStyles.rowContainer,
-    paddingHorizontal: spacing.m,
-    paddingBottom: spacing.s * 1.5,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    backgroundColor: colors.white,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.mediumGray,
-  },
-  tabButton: {
-    flex: 1,
-    paddingVertical: spacing.s * 1.5,
-    alignItems: 'center',
-  },
-  tabButtonSelected: {
-    borderBottomWidth: 2,
-    borderBottomColor: colors.oldGloryRed,
-  },
-  tabButtonText: componentStyles.semiBoldButtonText,
-  tabButtonTextSelected: {
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
-  },
-  catalogList: {
-    paddingVertical: spacing.m,
-  },
-  billItem: componentStyles.card,
-  billTitleLine: {
-    flexDirection: 'row',
-    marginBottom: spacing.s,
-  },
-  legislatorItem: {
-    ...componentStyles.card,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: spacing.s * 1.5,
-    paddingHorizontal: spacing.m,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGray,
-  },
-  legislatorImage: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: spacing.m,
-  },
-  legislatorInfo: {
-    flex: 1,
-  },
-  legislatorName: {
-    ...typography.subtitle,
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
-  },
-  legislatorDetails: typography.body,
-  legislatorChamber: {
-    ...typography.small,
-    color: colors.darkGray,
-  },
-  itemTitle: {
-    ...typography.subtitle,
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
-  },
-  itemDescription: {
-    ...typography.body,
-    marginBottom: spacing.s * 1.5,
-  },
-  dividerVertical: componentStyles.dividerVertical,
-  tagCarouselContainer: {
-    ...componentStyles.carouselContainer,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 0,
-    paddingLeft: 0,
-  },
-  tagCarouselTitle: {
-    ...typography.body,
-    fontWeight: 'bold',
-    paddingRight: spacing.s,
-    color: colors.oldGloryBlue,
-  },
-  tagCarouselItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.s,
-  },
-  tagCarouselItemText: {
-    ...typography.small,
-    color: colors.oldGloryBlue,
-  },
-});
 
 export default CatalogScreen;
