@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
   },
   buttonMedium: {
     padding: size.m,
-    fontSize: size.m * 1.5,
+    fontSize: size.m,
     minWidth: size.xxl * 2.5,
   },
   buttonLarge: {
-    padding: size.l,
-    fontSize: size.l * 1.5,
+    padding: size.s * 1.5,
+    fontSize: size.m * 1.25,
     minWidth: size.xxl * 3.5,
   },
 });

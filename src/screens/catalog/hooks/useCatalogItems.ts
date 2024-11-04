@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
 
-import filterConfigs from '@/features/catalog/filters/filterConfigs';
+import filterConfigs from '@/screens/catalog/filters/filterConfigs';
 import {
   FilterOptionFieldTypes,
   FilterOptions,
   TabMappingItem,
   TabType,
   ValidFilterFields,
-} from '@/features/catalog/types';
+} from '@/screens/catalog/types';
 
 
 interface UseCatalogItems<T extends TabType> {

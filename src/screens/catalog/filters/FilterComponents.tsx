@@ -6,7 +6,7 @@ import { useGetPartysQuery, useGetRolesQuery, useGetStatesQuery } from '@/store/
 
 import { useFilterContext } from './FilterProvider';
 
-export const PartyFilter = () => {
+export const PartyFilter: React.FC = () => {
   const { data: partys } = useGetPartysQuery();
   const { filterOptions, setFilterOptions } = useFilterContext();
 
@@ -19,7 +19,7 @@ export const PartyFilter = () => {
   );
 };
 
-export const RoleFilter = () => {
+export const RoleFilter: React.FC = () => {
   const { data: roles } = useGetRolesQuery();
   const { filterOptions, setFilterOptions } = useFilterContext();
 
@@ -32,7 +32,7 @@ export const RoleFilter = () => {
   );
 };
 
-export const StateFilter = () => {
+export const StateFilter: React.FC = () => {
   const { states } = useGetStatesQuery(undefined, {
     selectFromResult: ({ data }) => ({
       states: data?.filter(state => state.id < 51),

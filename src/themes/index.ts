@@ -110,7 +110,7 @@ export const componentStyles = StyleSheet.create({
     fontSize: size.m * 1.5,
     fontWeight: 'bold',
   },
-  placeholderText : {
+  placeholderText: {
     color: colors.lightMediumGray,
   },
   card: {
@@ -177,6 +177,29 @@ export const componentStyles = StyleSheet.create({
     borderColor: colors.mediumGray,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  followButton: {
+    borderColor: colors.white,
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: size.xs,
+    paddingHorizontal: size.m,
+  },
+  followButtonText: {
+    ...typography.body,
+    color: colors.white,
+  },
+  selectedFollowButton: {
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderRadius: 20,
+    paddingVertical: size.xs,
+    paddingHorizontal: size.m,
+  },
+  selectedFollowButtonText: {
+    ...typography.body,
+    color: colors.oldGloryRed,
+    fontWeight: 'bold',
   },
 });
 

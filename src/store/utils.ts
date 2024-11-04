@@ -4,7 +4,7 @@ const ENVIRONMENTS = {
 };
 
 export const isDevEnv = () => {
-  return process.env.EAS_BUILD_PROFILE === ENVIRONMENTS.development;
+  return process.env.NODE_ENV === ENVIRONMENTS.development;
 };
 
 export const getMiddlewareOptions = () => {

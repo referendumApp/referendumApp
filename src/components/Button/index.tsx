@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { Text, TextStyle, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -20,10 +20,10 @@ export enum IconSize {
 type IconName = keyof typeof Ionicons.glyphMap;
 
 interface ButtonProps {
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   buttonText?: string;
   buttonTextSize?: ButtonTextSize;
-  buttonTextStyles?: TextStyle;
+  buttonTextStyles?: StyleProp<TextStyle>;
   contentColor?: colors;
   iconName?: IconName;
   iconSize?: IconSize;

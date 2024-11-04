@@ -3,7 +3,13 @@ import { View, Text } from 'react-native';
 
 import styles from './styles';
 
-const VoteDistributionBar = ({ yesVotes, noVotes }: { yesVotes: number; noVotes: number }) => {
+const VoteDistributionBar = ({
+  yesVotes = 0,
+  noVotes = 0,
+}: {
+  yesVotes?: number;
+  noVotes?: number;
+}) => {
   const totalVotes = yesVotes + noVotes;
   const yesPercentage = totalVotes > 0 ? yesVotes / totalVotes : 0;
   const floatingVoteThreshold = 0.15;

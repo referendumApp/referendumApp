@@ -1,9 +1,9 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import authReducer from '@/features/auth/duck';
-import billsReducer from '@/features/bill/duck';
-import feedReducer from '@/features/feed/duck';
-import legislatorsReducer from '@/features/legislator/duck';
+import authReducer from '@/screens/auth/duck';
+import billsReducer from '@/screens/bill/duck';
+import feedReducer from '@/screens/feed/duck';
+import legislatorsReducer from '@/screens/legislator/duck';
 
 import baseApi from './baseApi';
 

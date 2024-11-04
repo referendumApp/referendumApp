@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity, FlatList, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import styles from './styles';
 
@@ -12,10 +12,10 @@ interface CarouselItemViewProps {
   item: CarouselItem;
   isSelected?: boolean;
   onPress: (item: CarouselItem) => void;
-  itemStyle?: ViewStyle;
-  itemSelectedStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  textSelectedStyle?: TextStyle;
+  itemStyle?: StyleProp<ViewStyle>;
+  itemSelectedStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  textSelectedStyle?: StyleProp<TextStyle>;
 }
 
 interface CarouselProps {
@@ -23,12 +23,12 @@ interface CarouselProps {
   selectedItems?: Set<string>;
   onItemPress: (item: CarouselItem) => void;
   title?: string;
-  containerStyle?: ViewStyle;
-  titleStyle?: TextStyle;
-  itemStyle?: ViewStyle;
-  itemSelectedStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  textSelectedStyle?: TextStyle;
+  containerStyle?: StyleProp<ViewStyle>;
+  titleStyle?: StyleProp<TextStyle>;
+  itemStyle?: StyleProp<ViewStyle>;
+  itemSelectedStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
+  textSelectedStyle?: StyleProp<TextStyle>;
   renderItem?: (props: CarouselItemViewProps) => React.ReactElement;
 }
 
@@ -106,6 +106,10 @@ const Carousel: React.FC<CarouselProps> = ({
         keyExtractor={keyExtractor}
         horizontal
         showsHorizontalScrollIndicator={false}
+        maxToRenderPerBatch={10}
+        updateCellsBatchingPeriod={50}
+        initialNumToRender={7}
+        windowSize={5}
       />
     </View>
   );

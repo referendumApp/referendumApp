@@ -1,13 +1,13 @@
 import React, {  useCallback } from 'react';
 import { View } from 'react-native';
 
-import ToggleButton from '@/components/ToggleButton';
+import ToggleButton, { ToggleButtonSize } from '@/components/ToggleButton';
 
 import { ToggleOptions } from './constants';
 import { useFilterContext } from './FilterProvider';
 import styles from './styles';
 
-const ToggleFilter = () => {
+const ToggleFilter: React.FC = () => {
   const { activeToggle, setActiveToggle, setFilterOptions } = useFilterContext();
 
   const onToggle = useCallback(

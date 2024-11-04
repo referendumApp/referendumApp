@@ -14,8 +14,6 @@
         "simulator": true
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://localhost",
-        "EXPO_PUBLIC_API_PORT": "80",
         "NODE_ENV": "development"
       }
     },

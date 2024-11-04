@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
@@ -6,12 +6,12 @@ import { useSelector } from 'react-redux';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LoginScreen from '@/features/auth';
-import BillScreen from '@/features/bill';
-import CatalogScreen from '@/features/catalog';
-import FeedScreen from '@/features/feed';
-import LegislatorScreen from '@/features/legislator';
-import SettingsScreen from '@/features/settings';
+import LoginScreen from '@/screens/auth';
+import BillScreen from '@/screens/bill';
+import CatalogScreen from '@/screens/catalog';
+import FeedScreen from '@/screens/feed';
+import LegislatorScreen from '@/screens/legislator';
+import SettingsScreen from '@/screens/settings';
 import { RootState } from '@/store';
 import { Theme } from '@/themes';
 import { useTheme } from '@/themes/ThemeProvider';
@@ -21,15 +21,15 @@ import { RootStackParamList, CatalogStackParamList } from './types';
 const Tab = createBottomTabNavigator<RootStackParamList>();
 const CatalogStack = createStackNavigator<CatalogStackParamList>();
 
-const TabBarIcon = ({ name, color }: { name: string; color: string }) => (
-  <Icon name={name} size={24} color={color} />
-);
+const TabBarIcon = React.memo(({ name, color }: { name: string; color: string }) => {
+  return <Icon name={name} size={24} color={color} />;
+});
 
-const TabBarLabel = ({ label, color }: { label: string; color: string }) => {
+const TabBarLabel = React.memo(({ label, color }: { label: string; color: string }) => {
   const theme = useTheme();
   const styles = createStyles(theme);
   return <Text style={[styles.tabBarLabel, { color }]}>{label}</Text>;
-};
+});
 
 const CatalogStackScreen = () => (
   <CatalogStack.Navigator screenOptions={{ headerShown: false }}>
@@ -44,6 +44,28 @@ const AppNavigator: React.FC = () => {
   const theme = useTheme();
   const styles = createStyles(theme);
 
+  const tabBarIcon = useCallback(({ color, name }: { color: string; name: string }) => {
+    let iconName: string;
+    switch (name) {
+      case 'Feed':
+        iconName = 'home';
+        break;
+      case 'CatalogStack':
+        iconName = 'list';
+        break;
+      case 'Settings':
+        iconName = 'settings';
+        break;
+      default:
+        iconName = 'circle';
+    }
+    return <TabBarIcon name={iconName} color={color} />;
+  }, []);
+
+  const tabBarLabel = useCallback(({ color, name }: { color: string; name: string }) => {
+    return <TabBarLabel label={name === 'CatalogStack' ? 'Catalog' : name} color={color} />;
+  }, []);
+
   if (!isLoggedIn) {
     return <LoginScreen />;
   }
@@ -55,29 +77,8 @@ const AppNavigator: React.FC = () => {
         tabBarStyle: styles.tabBar,
         tabBarActiveTintColor: theme.colors.oldGloryRed,
         tabBarInactiveTintColor: theme.colors.white,
-        tabBarIcon: ({ color }) => {
-          let iconName: string;
-          switch (route.name) {
-            case 'Feed':
-              iconName = 'home';
-              break;
-            case 'CatalogStack':
-              iconName = 'list';
-              break;
-            case 'Settings':
-              iconName = 'settings';
-              break;
-            default:
-              iconName = 'circle';
-          }
-          return <TabBarIcon name={iconName} color={color} />;
-        },
-        tabBarLabel: ({ color }) => (
-          <TabBarLabel
-            label={route.name === 'CatalogStack' ? 'Catalog' : route.name}
-            color={color}
-          />
-        ),
+        tabBarIcon: ({ color }) => tabBarIcon({ color, name: route.name }),
+        tabBarLabel: ({ color }) => tabBarLabel({ color, name: route.name }),
       })}>
       <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="CatalogStack" component={CatalogStackScreen} />
