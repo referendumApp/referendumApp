@@ -41,6 +41,7 @@ export interface OnQueryStarted<T> {
 interface CreateGetQuery<T> {
   builder: EndpointBuilder<BaseQueryFn, string, string>;
   resource: ApiResource;
+  params?: Record<string, any>;
   pathParams?: string | ApiResource;
   reducer?: ActionCreatorWithPayload<T>;
 }
@@ -48,17 +49,16 @@ interface CreateGetQuery<T> {
 export const createGetQuery = <TResponse>({
   builder,
   resource,
+  params,
   pathParams,
   reducer,
 }: CreateGetQuery<TResponse>) => {
   const url = pathParams ? `${resource}/${pathParams}` : `${resource}/`;
+
   return builder.query<TResponse, void>({
-    query: () => ({ url }),
+    query: () => ({ url, ...(params && { params }) }),
     ...(reducer && {
-      async onQueryStarted(
-        _: void,
-        { dispatch, queryFulfilled }: OnQueryStarted<TResponse>,
-      ) {
+      async onQueryStarted(_: void, { dispatch, queryFulfilled }: OnQueryStarted<TResponse>) {
         const { data } = await queryFulfilled;
         dispatch(reducer(data));
       },
@@ -95,4 +95,4 @@ const baseApi = createApi({
 
 export default baseApi;
 
-export const { useGetRolesQuery, useGetPartysQuery, useGetStatesQuery  } = baseApi;
+export const { useGetRolesQuery, useGetPartysQuery, useGetStatesQuery } = baseApi;

@@ -5,7 +5,7 @@ import {
   TabMappingItem,
   TabType,
   ValidFilterFields,
-} from '@/features/catalog/types';
+} from '@/screens/catalog/types';
 
 import { FEDERAL_ID } from './constants';
 

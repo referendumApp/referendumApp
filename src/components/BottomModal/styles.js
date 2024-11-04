@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: colors.white,
-    borderTopLeftRadius: size.m * 1.5,
-    borderTopRightRadius: size.m * 1.5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     paddingTop: size.m * 1.5,
   },
   modalHeader: {

@@ -9,10 +9,10 @@ import { Legislator, Bill } from '@/appTypes';
 import Button, { IconSize } from '@/components/Button';
 import SearchInput from '@/components/SearchInput';
 import TabButton from '@/components/TabButton';
-import { useGetBillsQuery } from '@/features/bill/api';
-import SortModal from '@/features/catalog/sort/SortModal';
-import { useGetLegislatorsQuery } from '@/features/legislator/api';
 import { CatalogStackParamList } from '@/navigation/types';
+import { useGetBillsQuery, useGetFollowedBillsQuery } from '@/screens/bill/api';
+import SortModal from '@/screens/catalog/sort/SortModal';
+import { useGetLegislatorsQuery, useGetFollowedLegislatorsQuery } from '@/screens/legislator/api';
 import { colors } from '@/themes';
 
 import BillItem from './BillItem';
@@ -28,7 +28,11 @@ type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
 const CatalogScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
+
+  const { data: followedBills } = useGetFollowedBillsQuery();
   const { data: bills } = useGetBillsQuery();
+
+  const { data: followedLegislators } = useGetFollowedLegislatorsQuery();
   const { data: legislators } = useGetLegislatorsQuery();
 
   const [selectedTab, setSelectedTab] = useState<TabType>('bill');
@@ -52,16 +56,18 @@ const CatalogScreen: React.FC = () => {
 
   const handleBillPress = useCallback(
     (bill: Bill) => {
-      navigation.navigate('BillScreen', { bill });
+      const initialFollow = followedBills?.some(follow => follow.id === bill.id);
+      navigation.navigate('BillScreen', { bill, initialFollow });
     },
-    [navigation],
+    [followedBills, navigation],
   );
 
   const handleLegislatorPress = useCallback(
     (legislator: Legislator) => {
-      navigation.navigate('LegislatorScreen', { legislator });
+      const initialFollow = followedLegislators?.some(follow => follow.id === legislator.id);
+      navigation.navigate('LegislatorScreen', { legislator, initialFollow });
     },
-    [navigation],
+    [followedLegislators, navigation],
   );
 
   const renderItem = useCallback(

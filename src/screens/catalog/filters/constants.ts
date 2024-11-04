@@ -1,4 +1,4 @@
-import { FilterComponentFields } from '@/features/catalog/types';
+import { FilterComponentFields } from '@/screens/catalog/types';
 
 export const FEDERAL_ID = 52;
 

@@ -1,12 +1,12 @@
 import React, { ReactNode, useMemo } from 'react';
 
-import { FilterTitles, ToggleOptions } from '@/features/catalog/filters/constants';
-import { PartyFilter, RoleFilter, StateFilter } from '@/features/catalog/filters/FilterComponents';
+import { FilterTitles, ToggleOptions } from '@/screens/catalog/filters/constants';
+import { PartyFilter, RoleFilter, StateFilter } from '@/screens/catalog/filters/FilterComponents';
 import {
   FilterComponentFields,
   FilterComponentFieldTypes,
   ValidFilterFields,
-} from '@/features/catalog/types';
+} from '@/screens/catalog/types';
 
 interface FilterComponentConfigs {
   title: string;

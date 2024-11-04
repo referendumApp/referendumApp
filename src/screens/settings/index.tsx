@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { logout } from '@/features/auth/duck';
+import { logout } from '@/screens/auth/duck';
 import { colors, componentStyles, typography } from '@/themes';
 
 interface NavItemProps {

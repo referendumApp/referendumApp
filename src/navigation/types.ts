@@ -8,6 +8,6 @@ export type RootStackParamList = {
 
 export type CatalogStackParamList = {
   Catalog: undefined;
-  LegislatorScreen: { legislator: Legislator };
-  BillScreen: { bill: Bill };
+  LegislatorScreen: { legislator: Legislator, initialFollow?: boolean };
+  BillScreen: { bill: Bill, initialFollow?: boolean };
 };
