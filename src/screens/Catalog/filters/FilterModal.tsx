@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 
 import Accordion from '@/components/Accordion';
 import BottomModal from '@/components/BottomModal';
-import { FilterOptions, ValidFilterFields } from '@/screens/Catalo/types';
+import { FilterOptions, ValidFilterFields } from '@/screens/Catalog/types';
 
 import { useFilterContext } from './FilterProvider';
 import useFilterComponents from './hooks/useFilterComponents';

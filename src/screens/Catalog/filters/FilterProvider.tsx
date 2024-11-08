@@ -1,6 +1,6 @@
 import React, { ReactNode, createContext, useContext, useState } from 'react';
 
-import { FilterOptions } from '@/screens/Catalo/types';
+import { FilterOptions } from '@/screens/Catalog/types';
 
 import { ToggleOptions } from './constants';
 

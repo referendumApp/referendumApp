@@ -1,14 +1,14 @@
 import { useMemo, useState } from 'react';
 
-import { filterConfigs } from '@/screens/Catalo/filters/constants';
-import { sortFunctions } from '@/screens/Catalo/sort/constants';
+import { filterConfigs } from '@/screens/Catalog/filters/constants';
+import { sortFunctions } from '@/screens/Catalog/sort/constants';
 import {
   FilterOptionFieldTypes,
   FilterOptions,
   TabMappingItem,
   TabMappingSortFields,
   TabType,
-} from '@/screens/Catalo/types';
+} from '@/screens/Catalog/types';
 
 interface UseCatalogItems<T extends TabType> {
   items: TabMappingItem<T>[] | undefined;

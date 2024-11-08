@@ -1,5 +1,5 @@
 import { Bill, Legislator } from '@/appTypes';
-import { SortFields, TabMappingItem, TabMappingSortFields, TabType } from '@/screens/Catalo/types';
+import { SortFields, TabMappingItem, TabMappingSortFields, TabType } from '@/screens/Catalog/types';
 
 import { SortOptions } from './types';
 

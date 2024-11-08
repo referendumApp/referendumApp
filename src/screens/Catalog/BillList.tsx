@@ -7,7 +7,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Bill } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
 import { useGetBillsQuery, useGetFollowedBillsQuery } from '@/screens/BillDetail/api';
-import SortModal from '@/screens/Catalo/sort/SortModal';
+import SortModal from '@/screens/Catalog/sort/SortModal';
 
 import BillItem from './BillItem';
 import { filterConfigs } from './filters/constants';

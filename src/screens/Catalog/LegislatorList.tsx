@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Legislator } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
-import SortModal from '@/screens/Catalo/sort/SortModal';
+import SortModal from '@/screens/Catalog/sort/SortModal';
 import { useGetLegislatorsQuery, useGetFollowedLegislatorsQuery } from '@/screens/legislator/api';
 
 import { filterConfigs } from './filters/constants';

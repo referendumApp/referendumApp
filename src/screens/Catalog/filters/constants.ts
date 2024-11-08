@@ -5,7 +5,7 @@ import {
   TabMappingItem,
   TabType,
   ValidFilterFields,
-} from '@/screens/Catalo/types';
+} from '@/screens/Catalog/types';
 
 export const FEDERAL_ID = 52;
 
