@@ -8,10 +8,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import BillScreen from '@/screens/BillDetail';
 import CatalogScreen from '@/screens/Catalog';
-import FeedScreen from '@/screens/feed';
-import LegislatorScreen from '@/screens/legislator';
+import FeedScreen from '@/screens/Feed';
+import LegislatorScreen from '@/screens/LegislatorDetail';
 import LoginScreen from '@/screens/Login';
-import SettingsScreen from '@/screens/settings';
+import SettingsScreen from '@/screens/Settings';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
