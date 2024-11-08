@@ -13,7 +13,7 @@ export const PartyFilter: React.FC = () => {
   return (
     <CheckBoxList
       options={partys}
-      onSelect={options => setFilterOptions(prev => ({ ...prev, roleId: options }))}
+      onSelect={options => setFilterOptions(prev => ({ ...prev, partyId: options }))}
       selectedOptions={filterOptions?.partyId}
     />
   );

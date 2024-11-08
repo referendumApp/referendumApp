@@ -5,11 +5,23 @@ import {
   TabMappingItem,
   TabType,
   ValidFilterFields,
-} from '@/screens/catalog/types';
+} from '@/screens/Catalog/types';
 
-import { FEDERAL_ID } from './constants';
+export const FEDERAL_ID = 52;
 
-type FilterConfig<T extends TabType> = {
+export enum ToggleOptions {
+  all = 'All',
+  federal = 'Federal',
+  state = 'State',
+}
+
+export const FilterTitles = {
+  [FilterComponentFields.roleId]: 'Legislative Body',
+  [FilterComponentFields.stateId]: 'States',
+  [FilterComponentFields.partyId]: 'Political Party',
+} as const;
+
+export type FilterConfig<T extends TabType> = {
   fields: ValidFilterFields;
   filterFn: <F extends FilterOptionFieldTypes>(
     item: TabMappingItem<T>,
@@ -23,18 +35,11 @@ type FilterConfigs = {
   [T in TabType]: FilterConfig<T>;
 };
 
-const isNumberArrayFilter = (
-  field: FilterOptionFieldTypes,
-  filterValue: FilterOptionValueMap[FilterOptionFieldTypes],
-): filterValue is number[] => {
-  return field === FilterComponentFields.roleId || field === FilterComponentFields.stateId;
-};
-
-const filterConfigs: FilterConfigs = {
+export const filterConfigs: FilterConfigs = {
   bill: {
     fields: [FilterComponentFields.roleId, FilterComponentFields.stateId],
     filterFn: (item, field, filterValue) => {
-      if (isNumberArrayFilter(field, filterValue)) {
+      if (Array.isArray(filterValue)) {
         switch (field) {
           case FilterComponentFields.roleId:
             return filterValue.includes(item.legislativeBody.roleId);
@@ -57,10 +62,16 @@ const filterConfigs: FilterConfigs = {
     },
   },
   legislator: {
-    fields: [FilterComponentFields.partyId, FilterComponentFields.stateId],
+    fields: [
+      FilterComponentFields.roleId,
+      FilterComponentFields.partyId,
+      FilterComponentFields.stateId,
+    ],
     filterFn: (item, field, filterValue) => {
-      if (isNumberArrayFilter(field, filterValue)) {
+      if (Array.isArray(filterValue)) {
         switch (field) {
+          case FilterComponentFields.roleId:
+            return filterValue.includes(item.roleId);
           case FilterComponentFields.stateId:
             return filterValue.includes(item.stateId);
           case FilterComponentFields.partyId:
@@ -75,10 +86,9 @@ const filterConfigs: FilterConfigs = {
       return (
         item.name.toLowerCase().includes(query) ||
         item.party.name.toLowerCase().includes(query) ||
-        item.state.name.toLowerCase().includes(query)
+        item.state.name.toLowerCase().includes(query) ||
+        item.role.name.toLowerCase().includes(query)
       );
     },
   },
 };
-
-export default filterConfigs;

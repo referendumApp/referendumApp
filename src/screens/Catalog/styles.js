@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
+export const ITEM_HEIGHT = 96;
+
 const styles = StyleSheet.create({
   container: componentStyles.container,
   button: {
@@ -15,6 +17,7 @@ const styles = StyleSheet.create({
   },
   header: componentStyles.header,
   headerText: componentStyles.headerText,
+  overlay: componentStyles.overlay,
   subHeader: componentStyles.subHeader,
   searchBarContainer: {
     ...componentStyles.centerRow,
@@ -45,13 +48,17 @@ const styles = StyleSheet.create({
   catalogList: {
     paddingVertical: size.m,
   },
-  billItem: componentStyles.card,
+  billItem: {
+    ...componentStyles.card,
+    height: ITEM_HEIGHT,
+},
   billTitleLine: {
     flexDirection: 'row',
     marginBottom: size.s,
   },
   legislatorItem: {
     ...componentStyles.card,
+    height: ITEM_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: size.s * 1.5,

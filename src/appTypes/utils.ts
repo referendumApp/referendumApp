@@ -15,3 +15,7 @@ export type UnionToIntersection<U> = (U extends object ? (k: U) => void : never)
 export type FlattenFields<T> = UnionToIntersection<UnionTypes<T>>;
 
 export type FlattenFieldKeys<T> = keyof FlattenFields<T>;
+
+export type FieldValidator<S, F extends string> = {
+  [K in F]: K extends S ? K : never;
+}[F];

@@ -69,7 +69,10 @@ const styles = StyleSheet.create({
   selectedOption: {
     backgroundColor: colors.veryLightBlue,
   },
-  optionContent: componentStyles.centerRow,
+  optionContent: {
+    ...componentStyles.centerRow,
+    gap: size.s,
+  },
   checkbox: componentStyles.checkbox,
   checked: {
     backgroundColor: colors.appleBlue,

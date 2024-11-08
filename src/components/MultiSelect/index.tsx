@@ -30,7 +30,6 @@ function MultiSelect<T>({
 }: MultiSelectProps<T>): React.ReactElement<MultiSelectProps<T>> {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  // const [selectedOptions, setSelectedOptions] = useState<any[]>([]);
 
   // Filter options based on search query
   const filteredOptions = options.filter(option =>
@@ -41,7 +40,6 @@ function MultiSelect<T>({
     const updatedItems = selectedOptions.includes(id)
       ? selectedOptions.filter(selectedId => selectedId !== id)
       : [...selectedOptions, id];
-    // setSelectedOptions(updatedItems);
     onSelect(updatedItems);
   };
 

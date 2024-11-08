@@ -17,6 +17,9 @@ const styles = StyleSheet.create({
     padding: size.xl,
   },
   logo: {
+    backgroundColor: colors.white,
+    borderRadius: 9999,
+    padding: size.s * 1.5,
     marginBottom: size.xl,
   },
   title: {

@@ -106,10 +106,6 @@ const Carousel: React.FC<CarouselProps> = ({
         keyExtractor={keyExtractor}
         horizontal
         showsHorizontalScrollIndicator={false}
-        maxToRenderPerBatch={10}
-        updateCellsBatchingPeriod={50}
-        initialNumToRender={7}
-        windowSize={5}
       />
     </View>
   );

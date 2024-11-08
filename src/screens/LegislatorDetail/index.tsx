@@ -11,7 +11,7 @@ import styles from './styles';
 
 type LegislatorScreenProps = StackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
 
-const LegislatorScreen: React.FC<LegislatorScreenProps> = ({
+const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(({
   route: {
     params: { legislator, initialFollow = false },
   },
@@ -57,9 +57,9 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({
       <View style={styles.header}>
         <Image source={{ uri: legislator.imageUrl }} style={styles.image} />
         <Text style={styles.name}>{legislator.name}</Text>
-        <Text style={styles.subtitle}>{`${legislator.party} - ${legislator.state}`}</Text>
+        <Text style={styles.subtitle}>{`${legislator.party.name} - ${legislator.state.name}`}</Text>
         {legislator.district && (
-          <Text style={styles.subtitle}>{`${legislator.district} District`}</Text>
+          <Text style={styles.subtitle}>{`${legislator.role.name} - ${legislator.district} District`}</Text>
         )}
       </View>
       <ScrollView>
@@ -147,7 +147,7 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = ({
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 const formatScore = (score: number | null): string => {
   return score !== null ? `${score.toFixed(0)}%` : 'N/A';

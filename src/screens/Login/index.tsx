@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 import Logo from '@/assets/logo.svg';
-import { useGetUserSessionMutation } from '@/screens/auth/api';
+import { useGetUserSessionMutation } from '@/screens/Login/api';
 import { colors } from '@/themes';
 
 import styles from './styles';
@@ -35,7 +35,7 @@ const LoginScreen: React.FC = () => {
         style={styles.keyboardAvoidingView}>
         <View style={styles.content}>
           <View style={styles.logo}>
-            <Logo height={125} width={125} />
+            <Logo height={100} width={100} />
           </View>
           <Text style={styles.title}>Welcome to Referendum</Text>
           <Text style={styles.subtitle}>

@@ -56,7 +56,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 32,
   },
-  name: typography.title,
+  name: {
+    ...typography.title,
+    justifyContent: 'left',
+  },
   subtitle: typography.subtitle,
   section: componentStyles.section,
   sectionTitle: {
