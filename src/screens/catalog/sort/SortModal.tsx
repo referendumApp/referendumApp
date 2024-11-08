@@ -1,65 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import BottomModal from '@/components/BottomModal';
+import { TabMappingSortFields, TabType, ValidSortFields } from '@/screens/Catalog/types';
 
 import styles from './styles';
+import { SortOptions } from './types';
 
-interface SortOption {
-  label: string;
-  value: string;
-  icon?: string;
-}
-
-interface SortModalProps {
+interface SortModalProps<T extends TabType> {
   isVisible: boolean;
-  onSortChange: (value: string) => void;
+  onSortSelected: (sortFields: TabMappingSortFields<T> | undefined) => void;
   onRequestClose: () => void;
-  selectedSort?: string;
+  selectedSort?: TabMappingSortFields<T>;
+  sortOptions: SortOptions;
 }
 
-const SortModal: React.FC<SortModalProps> = ({
+const SortModal = <T extends TabType>({
   isVisible,
-  onSortChange,
+  onSortSelected,
   onRequestClose,
   selectedSort,
-}) => {
-  const [tempSort, setTempSort] = useState<string | undefined>(selectedSort);
-
-  const sortOptions: SortOption[] = [
-    { label: 'Name (A-Z)', value: 'name_asc' },
-    { label: 'Name (Z-A)', value: 'name_desc' },
-    { label: 'Date (Newest)', value: 'date_desc' },
-    { label: 'Date (Oldest)', value: 'date_asc' },
-  ];
-
-  const handleApply = () => {
-    if (tempSort) {
-      onSortChange(tempSort);
-    }
+  sortOptions = [],
+}: SortModalProps<T>) => {
+  const onPress = (sortField: TabMappingSortFields<T>) => {
+    const newSortField = sortField === selectedSort ? undefined : sortField;
+    onSortSelected(newSortField);
     onRequestClose();
-  };
-
-  const handleReset = () => {
-    setTempSort(undefined);
   };
 
   return (
     <BottomModal
-      handleApply={handleApply}
-      handleReset={handleReset}
       isVisible={isVisible}
       onRequestClose={onRequestClose}
-      title="Sort">
+      title="Sort"
+      hasFooter={false}
+      transparent={true}
+      animationType="fade"
+      screenHeight={300}>
       <ScrollView style={styles.optionsContainer}>
         {sortOptions.map(option => (
-          <TouchableOpacity
-            key={option.value}
-            style={styles.optionItem}
-            onPress={() => setTempSort(option.value)}>
+          <TouchableOpacity key={option.field} style={styles.optionItem} onPress={() => onPress(option.field)}>
             <View style={styles.radioContainer}>
-              <View style={[styles.radio, tempSort === option.value && styles.radioSelected]}>
-                {tempSort === option.value && <View style={styles.radioInner} />}
+              <View style={[styles.radio, selectedSort === option.field && styles.radioSelected]}>
+                {selectedSort === option.field && <View style={styles.radioInner} />}
               </View>
               <Text style={styles.optionText}>{option.label}</Text>
             </View>

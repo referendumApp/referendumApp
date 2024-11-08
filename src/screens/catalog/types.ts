@@ -1,4 +1,5 @@
 import { Bill, BillField, Legislator, LegislatorField } from '@/appTypes';
+import { FieldValidator } from '@/appTypes/utils';
 
 export type TabType = 'bill' | 'legislator';
 
@@ -7,7 +8,6 @@ export enum FilterComponentFields {
   stateId = 'stateId',
   partyId = 'partyId',
 }
-
 export type FilterComponentFieldTypes = keyof typeof FilterComponentFields;
 
 export type FilterOptionValueMap = {
@@ -16,30 +16,37 @@ export type FilterOptionValueMap = {
   [FilterComponentFields.stateId]: number[];
   federal: boolean;
 }
-
 export type FilterOptionFieldTypes = keyof FilterOptionValueMap;
-
 export type FilterOptions = Partial<FilterOptionValueMap>;
 
-type FieldValidator<S> = {
-  [K in FilterComponentFieldTypes]: K extends S ? K : never;
-}[FilterComponentFieldTypes];
-
-export type BillFilterFields = FieldValidator<BillField>;
-
-export type LegislatorFilterFields = FieldValidator<LegislatorField>;
-
+type BillFilterFields = FieldValidator<BillField, FilterComponentFieldTypes>;
+type LegislatorFilterFields = FieldValidator<LegislatorField, FilterComponentFieldTypes>;
 export type ValidFilterFields = BillFilterFields[] | LegislatorFilterFields[];
+
+export enum SortFields {
+  identifier = 'identifier',
+  name = 'name',
+  title = 'title',
+  statusDate = 'statusDate',
+}
+export type SortFieldTypes = keyof typeof SortFields;
+
+type BillSortFields = Exclude<FieldValidator<BillField, SortFieldTypes>, 'name'>;
+type LegislatorSortFields = FieldValidator<LegislatorField, SortFieldTypes>;
+export type ValidSortFields = BillSortFields | LegislatorSortFields;
 
 type TabMapping = {
   bill: {
     item: Bill;
-    fields: BillFilterFields;
+    filterFields: BillFilterFields,
+    sortFields: BillSortFields,
   };
   legislator: {
     item: Legislator;
-    fields: LegislatorFilterFields;
+    filterFields: LegislatorFilterFields,
+    sortFields: LegislatorSortFields,
   };
 };
-
 export type TabMappingItem<T extends TabType> = TabMapping[T]['item'];
+export type TabMappingFilterFields<T extends TabType> = TabMapping[T]['filterFields'];
+export type TabMappingSortFields<T extends TabType> = TabMapping[T]['sortFields'];

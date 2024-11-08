@@ -27,6 +27,8 @@ export interface Legislator {
   name: string;
   partyId: number;
   party: Party;
+  roleId: number;
+  role: Role;
   stateId: number;
   state: State;
   imageUrl: string;

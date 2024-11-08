@@ -1,19 +1,22 @@
 import React, { PropsWithChildren, useEffect, useRef } from 'react';
-import { Animated, Dimensions, View, Text, Modal, TouchableOpacity } from 'react-native';
+import { Animated, Dimensions, View, Text, Modal, ModalProps, TouchableOpacity } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+import Button from '@/components/Button';
 
 import styles from './styles';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-interface BottomModalProps {
-  handleApply: () => void;
-  handleReset: () => void;
+interface BottomModalProps extends ModalProps {
+  handleApply?: () => void;
+  handleReset?: () => void;
   isVisible: boolean;
   onRequestClose: () => void;
   title: string;
   screenHeight?: number;
+  hasFooter?: boolean;
 }
 
 const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
@@ -24,6 +27,12 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   onRequestClose,
   title,
   screenHeight = SCREEN_HEIGHT,
+  hasFooter = true,
+  transparent = false,
+  animationType,
+  statusBarTranslucent = false,
+  presentationStyle,
+
 }) => {
   const slideAnim = useRef(new Animated.Value(0)).current;
 
@@ -43,11 +52,12 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
 
   return (
     <Modal
-      animationType="fade"
+      animationType={animationType}
+      transparent={transparent}
       visible={isVisible}
       onRequestClose={onRequestClose}
-      statusBarTranslucent={true}
-      presentationStyle="fullScreen">
+      statusBarTranslucent={statusBarTranslucent}
+      presentationStyle={presentationStyle}>
       <View style={styles.modalContainer}>
         <Animated.View
           style={[
@@ -75,18 +85,26 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
           {children}
 
           {/* Footer */}
-          <View style={styles.modalFooter}>
-            <TouchableOpacity
-              style={[styles.footerButton, styles.clearButton]}
-              onPress={handleReset}>
-              <Text style={styles.clearButtonText}>Clear all</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.footerButton, styles.applyButton]}
-              onPress={handleApply}>
-              <Text style={styles.applyButtonText}>Apply</Text>
-            </TouchableOpacity>
-          </View>
+          {hasFooter && (
+            <View style={styles.modalFooter}>
+              {handleReset && (
+                <Button
+                  style={[styles.footerButton, styles.clearButton]}
+                  onPress={handleReset}
+                  buttonText="Clear all"
+                  buttonTextStyles={styles.clearButtonText}
+                />
+              )}
+              {handleApply && (
+                <Button
+                  style={[styles.footerButton, styles.applyButton]}
+                  onPress={handleApply}
+                  buttonText="Apply"
+                  buttonTextStyles={styles.applyButtonText}
+                />
+              )}
+            </View>
+          )}
         </Animated.View>
       </View>
     </Modal>

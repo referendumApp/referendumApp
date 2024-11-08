@@ -33,11 +33,11 @@ interface ButtonProps {
 const Button = ({
   style,
   buttonText,
-  buttonTextSize = ButtonTextSize.medium,
+  buttonTextSize,
   buttonTextStyles,
-  contentColor = colors.darkGray,
+  contentColor,
   iconName,
-  iconSize = IconSize.medium,
+  iconSize,
   onPress,
 }: ButtonProps) => {
   return (
@@ -47,10 +47,8 @@ const Button = ({
         <Text
           style={[
             buttonTextStyles,
-            {
-              fontSize: buttonTextSize,
-              color: contentColor,
-            },
+            buttonTextSize && { fontSize: buttonTextSize },
+            contentColor && { color: contentColor },
           ]}>
           {buttonText}
         </Text>

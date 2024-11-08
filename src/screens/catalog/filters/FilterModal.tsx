@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 
 import Accordion from '@/components/Accordion';
 import BottomModal from '@/components/BottomModal';
-import { FilterOptions, ValidFilterFields } from '@/screens/catalog/types';
+import { FilterOptions, ValidFilterFields } from '@/screens/Catalog/types';
 
 import { useFilterContext } from './FilterProvider';
 import useFilterComponents from './hooks/useFilterComponents';
@@ -36,10 +36,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
     onRequestClose();
   };
 
-  const handleReset = () => {
-    setFilterOptions({});
-    setFilter({});
-  };
+  const handleReset = () => setFilterOptions({});
 
   return (
     <BottomModal
@@ -47,7 +44,10 @@ const FilterModal: React.FC<FilterModalProps> = ({
       handleReset={handleReset}
       isVisible={isVisible}
       onRequestClose={onRequestClose}
-      title="Filters">
+      title="Filters"
+      animationType="fade"
+      statusBarTranslucent={true}
+      presentationStyle="fullScreen">
       <ScrollView style={styles.optionsContainer}>
         <ToggleFilter />
         <Accordion data={filterComponents} />
