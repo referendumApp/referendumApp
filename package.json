@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow yarn",
-    "prepare": "husky",
+    "postinstall": "husky",
     "pre-commit": "lint-staged",
     "type-check": "tsc --noEmit",
     "test": "jest",
