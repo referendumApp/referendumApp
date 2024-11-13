@@ -1,10 +1,11 @@
 import { format } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, FlatList, RefreshControl } from 'react-native';
+import { View, Text, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Carousel, { CarouselItem } from '@/components/Carousel';
-import { colors, componentStyles, typography, withOpacity } from '@/themes';
+
+import styles from './styles';
 
 // Types
 type AssociatedItemType = 'bill' | 'legislator';
@@ -38,7 +39,6 @@ const FeedItemView: React.FC<{
         items={item.tags.map(tag => ({ id: tag, title: tag }))}
         onItemPress={() => {}}
         containerStyle={styles.feedItemCarouselContainer}
-        titleStyle={styles.feedItemCarouselTitle}
         itemStyle={styles.feedItemCarouselItem}
         textStyle={styles.feedItemCarouselItemText}
       />
@@ -54,9 +54,8 @@ const FeedItemView: React.FC<{
         }
         title="Links:"
         containerStyle={styles.feedItemCarouselContainer}
-        titleStyle={styles.feedItemCarouselTitle}
-        itemStyle={styles.feedItemCarouselItem}
-        textStyle={styles.feedItemCarouselItemText}
+        titleStyle={styles.feedItemCarouselLinkTitle}
+        textStyle={styles.feedItemCarouselLinkText}
       />
     )}
   </View>
@@ -205,7 +204,7 @@ const FeedScreen: React.FC = () => {
           items={allTags}
           selectedItems={selectedTags}
           onItemPress={handleTagPress}
-          title="Select Topics"
+          title="Topics"
           containerStyle={styles.tagCarouselContainer}
           titleStyle={styles.tagCarouselTitle}
           itemStyle={styles.tagCarouselItem}
@@ -229,87 +228,5 @@ const FeedScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: componentStyles.container,
-  header: componentStyles.header,
-  headerText: componentStyles.headerText,
-  subHeader: componentStyles.subHeader,
-  tagCarouselContainer: {
-    ...componentStyles.carouselContainer,
-    paddingHorizontal: 16,
-  },
-  tagCarouselTitle: {
-    ...typography.subtitle,
-    color: colors.white,
-    paddingBottom: 8,
-  },
-  tagCarouselItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: withOpacity(colors.white, 0.6),
-  },
-  tagCarouselSelectedItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: colors.white,
-  },
-  tagCarouselItemText: {
-    ...typography.body,
-    color: colors.oldGloryBlue,
-  },
-  tagCarouselSelectedItemText: {
-    ...typography.body,
-    color: colors.oldGloryRed,
-  },
-  feedList: {
-    paddingVertical: 16,
-  },
-  feedItem: {
-    ...componentStyles.card,
-    marginBottom: 16,
-  },
-  feedItemDate: {
-    ...typography.small,
-    color: colors.darkGray,
-    marginBottom: 4,
-  },
-  feedItemTitle: {
-    ...typography.subtitle,
-    color: colors.oldGloryRed,
-    marginBottom: 8,
-  },
-  feedItemBody: {
-    ...typography.body,
-    marginBottom: 12,
-  },
-  feedItemCarouselContainer: {
-    ...componentStyles.carouselContainer,
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 0,
-    paddingLeft: 0,
-  },
-  feedItemCarouselTitle: {
-    ...typography.body,
-    fontWeight: 'bold',
-    paddingRight: 8,
-    color: colors.oldGloryRed,
-  },
-  feedItemCarouselItem: {
-    ...componentStyles.carouselItem,
-    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-  },
-  feedItemCarouselItemText: {
-    ...typography.small,
-    color: colors.oldGloryBlue,
-  },
-  emptyListText: {
-    ...typography.body,
-    textAlign: 'center',
-    marginTop: 32,
-    color: colors.mediumGray,
-  },
-});
 
 export default FeedScreen;

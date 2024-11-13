@@ -1,4 +1,4 @@
-import { VoteChoiceType } from '@/screens/constants';
+import { VoteChoiceType } from '@/appTypes';
 
 export type BillVote = {
   billId: number;

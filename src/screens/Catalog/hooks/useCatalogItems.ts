@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { filterConfigs } from '@/screens/Catalog/filters/constants';
 import { sortFunctions } from '@/screens/Catalog/sort/constants';

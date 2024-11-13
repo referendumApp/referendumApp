@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { Text } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
 import { useSelector } from 'react-redux';
 
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -21,13 +21,7 @@ import { RootStackParamList, CatalogStackParamList } from './types';
 const Tab = createBottomTabNavigator<RootStackParamList>();
 const CatalogStack = createStackNavigator<CatalogStackParamList>();
 
-const TabBarIcon = React.memo(({ name, color }: { name: string; color: string }) => {
-  return <Icon name={name} size={24} color={color} />;
-});
-
-const TabBarLabel = React.memo(({ label, color }: { label: string; color: string }) => {
-  return <Text style={[styles.tabBarLabel, { color }]}>{label}</Text>;
-});
+type IconName = keyof typeof Ionicons.glyphMap;
 
 const CatalogStackScreen = React.memo(() => (
   <CatalogStack.Navigator
@@ -46,24 +40,33 @@ const CatalogStackScreen = React.memo(() => (
 const AppNavigator: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
-  const getIconName = useCallback((name: string): string => {
-    const iconMap: Record<string, string> = {
-      Feed: 'home',
-      CatalogStack: 'list',
-      Settings: 'settings',
-    };
-    return iconMap[name] ?? 'circle';
-  }, []);
-
   const tabBarIcon = useCallback(
-    ({ color, name }: { color: string; name: string }) => {
-      return <TabBarIcon name={getIconName(name)} color={color} />;
+    ({ focused, color, size, name }: { focused: boolean; color: string; size: number; name: string }) => {
+      let iconName: IconName | undefined;
+
+      switch (name) {
+        case 'Feed':
+          iconName = focused ? 'home' : 'home-outline';
+          break;
+        case 'CatalogStack':
+          iconName = focused ? 'book' : 'book-outline';
+          break;
+        case 'Settings':
+          iconName = focused ? 'settings' : 'settings-outline';
+          break;
+      }
+
+      return <Ionicons name={iconName} size={size} color={color} />;
     },
-    [getIconName],
+    [],
   );
 
   const tabBarLabel = useCallback(({ color, name }: { color: string; name: string }) => {
-    return <TabBarLabel label={name === 'CatalogStack' ? 'Catalog' : name} color={color} />;
+    return (
+      <Text style={[styles.tabBarLabel, { color }]}>
+        {name === 'CatalogStack' ? 'Catalog' : name}
+      </Text>
+    );
   }, []);
 
   if (!isLoggedIn) {
@@ -75,9 +78,10 @@ const AppNavigator: React.FC = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: colors.oldGloryRed,
-        tabBarInactiveTintColor: colors.white,
-        tabBarIcon: ({ color }) => tabBarIcon({ color, name: route.name }),
+        tabBarActiveTintColor: colors.tertiary,
+        tabBarInActiveTintColor: colors.tertiary,
+        tabBarIcon: ({ focused, color, size }) =>
+          tabBarIcon({ focused, color, size, name: route.name }),
         tabBarLabel: ({ color }) => tabBarLabel({ color, name: route.name }),
         lazy: true,
         tabBarHideOnKeyboard: true,

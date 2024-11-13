@@ -38,9 +38,7 @@ const LoginScreen: React.FC = () => {
             <Logo height={100} width={100} />
           </View>
           <Text style={styles.title}>Welcome to Referendum</Text>
-          <Text style={styles.subtitle}>
-            Your platform for democratic engagement
-          </Text>
+          <Text style={styles.subtitle}>Your platform for democratic engagement</Text>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -62,9 +60,7 @@ const LoginScreen: React.FC = () => {
             <Text style={styles.loginButtonText}>Log In</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-            <Text style={styles.signUpButtonText}>
-              Don't have an account? Sign up!
-            </Text>
+            <Text style={styles.signUpButtonText}>Don't have an account? Sign up!</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

@@ -1,7 +1,7 @@
 import React, {  useCallback } from 'react';
 import { View } from 'react-native';
 
-import ToggleButton, { ToggleButtonSize } from '@/components/ToggleButton';
+import ToggleButton from '@/components/ToggleButton';
 
 import { ToggleOptions } from './constants';
 import { useFilterContext } from './FilterProvider';
@@ -45,6 +45,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        iconFamily="Ionicons"
         iconName="flag"
         buttonText={ToggleOptions.federal}
         buttonTextStyles={styles.buttonText}
@@ -53,6 +54,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        iconFamily="Ionicons"
         iconName="star"
         buttonText={ToggleOptions.state}
         buttonTextStyles={styles.buttonText}

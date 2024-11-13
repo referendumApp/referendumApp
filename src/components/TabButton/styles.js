@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
   },
   tabButtonSelected: {
     borderBottomWidth: size.xs * 0.5,
-    borderBottomColor: colors.oldGloryRed,
+    borderBottomColor: colors.secondary,
   },
   tabButtonText: componentStyles.semiBoldText,
   tabButtonTextSelected: {
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
+    ...componentStyles.boldText,
+    color: colors.secondary,
   },
 });
 

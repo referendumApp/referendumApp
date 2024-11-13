@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     justifyContent: 'space-between',
     padding: size.s * 1.5,
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.lightGray,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   headerText: typography.body,
   placeholder: componentStyles.placeholderText,
   dropdown: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderWidth: 1,
     borderTopWidth: 0,
     borderColor: colors.lightGray,
@@ -53,10 +53,10 @@ const styles = StyleSheet.create({
     marginRight: size.s,
   },
   searchInput: {
+    ...typography.body,
     flex: 1,
     height: size.xxl,
     padding: size.s,
-    fontSize: size.m,
   },
   optionsList: {
     maxHeight: 300,
@@ -80,14 +80,17 @@ const styles = StyleSheet.create({
   },
   optionText: typography.body,
   selectedOptionText: {
+    ...typography.body,
     color: colors.appleBlue,
   },
   noResults: {
+    fontFamily: 'OpenSans-Regular',
     padding: size.m,
     textAlign: 'center',
     color: colors.secondaryMediumGray,
   },
   footer: {
+    fontFamily: 'OpenSans-Regular',
     padding: size.s,
     textAlign: 'center',
     color: colors.secondaryMediumGray,

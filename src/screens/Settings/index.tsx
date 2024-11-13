@@ -4,13 +4,13 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
-  StyleSheet,
   SafeAreaView,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { logout } from '@/screens/Login/duck';
-import { colors, componentStyles, typography } from '@/themes';
+
+import styles from './styles';
 
 interface NavItemProps {
   title: string;
@@ -60,53 +60,5 @@ const SettingsScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: componentStyles.container,
-  scrollView: {
-    flex: 1,
-  },
-  header: componentStyles.header,
-  headerText: componentStyles.headerText,
-  section: {
-    backgroundColor: colors.white,
-    marginTop: 20,
-    paddingVertical: 10,
-  },
-  sectionHeader: {
-    ...typography.subtitle,
-    color: colors.oldGloryBlue,
-    marginLeft: 15,
-    marginBottom: 10,
-  },
-  navItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.mediumGray,
-  },
-  navItemText: typography.body,
-  toggleItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.mediumGray,
-  },
-  toggleItemText: typography.body,
-  logoutButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-  },
-  logoutButtonText: {
-    ...typography.subtitle,
-    color: colors.oldGloryRed,
-  },
-});
 
 export default SettingsScreen;

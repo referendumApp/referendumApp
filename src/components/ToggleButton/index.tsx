@@ -1,8 +1,8 @@
 import React from 'react';
-import { Animated, Text, TextStyle, TouchableOpacity } from 'react-native';
+import { StyleProp, TextStyle } from 'react-native';
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-
+import Button from '@/components/Button';
+import { IconLibrary, IconProps } from '@/components/Icon';
 import { colors } from '@/themes';
 
 import styles from './styles';
@@ -11,44 +11,40 @@ export enum ToggleButtonSize {
   small = 'small',
   medium = 'medium',
   large = 'large',
+  xlarge= 'xlarge',
 }
 
-type IconName = keyof typeof Ionicons.glyphMap;
-
-interface ToggleButtonProps {
-  buttonText: string;
+interface ToggleButtonProps extends Omit<IconProps, 'iconFamily'> {
+  style?: StyleProp<TextStyle>;
+  buttonText?: string;
   buttonTextStyles?: TextStyle;
   buttonValue?: any;
-  iconName?: IconName;
-  activeColor?: string;
-  inactiveColor?: string;
+  activeButtonColor?: string;
+  inactiveButtonColor?: string;
+  activeContentColor?: string;
+  inactiveContentColor?: string;
   size?: ToggleButtonSize;
   isActive?: boolean;
+  iconFamily?: IconLibrary;
   onToggle: (isActive: boolean, buttonValue: any) => void;
 }
 
 const ToggleButton = ({
+  style,
   buttonText,
   buttonTextStyles,
   buttonValue,
+  iconFamily,
   iconName,
-  activeColor = colors.appleBlue,
-  inactiveColor = colors.veryLightGray,
+  activeButtonColor = colors.appleBlue,
+  inactiveButtonColor = colors.veryLightGray,
+  activeContentColor = colors.tertiary,
+  inactiveContentColor = colors.black,
   size = ToggleButtonSize.medium,
   isActive = false,
   onToggle,
 }: ToggleButtonProps) => {
-  const animatedColor = new Animated.Value(isActive ? 1 : 0);
-
   const handlePress = () => {
-    // Animate color change
-    Animated.timing(animatedColor, {
-      toValue: isActive ? 1 : 0,
-      duration: 100,
-      useNativeDriver: false, // Required for backgroundColor animation
-    }).start();
-
-    // Call callback if provided
     onToggle(isActive, buttonValue);
   };
 
@@ -56,45 +52,47 @@ const ToggleButton = ({
   const getSize = () => {
     switch (size) {
       case ToggleButtonSize.small:
-        return { buttonSize: styles.buttonSmall, iconSize: 16 };
+        return { buttonSize: styles.buttonSmall, textSize: styles.buttonTextSmall, iconSize: 16 };
       case ToggleButtonSize.large:
-        return { buttonSize: styles.buttonLarge, iconSize: 24 };
+        return { buttonSize: styles.buttonLarge, textSize: styles.buttonTextLarge, iconSize: 24 };
+      case ToggleButtonSize.xlarge:
+        return { buttonSize: styles.buttonXlarge, textSize: styles.buttonTextXlarge, iconSize: 32 };
       default:
-        return { buttonSize: styles.buttonMedium, iconSize: 20 };
+        return { buttonSize: styles.buttonMedium, textSize: styles.buttonTextMedium, iconSize: 20 };
     }
   };
 
-  const { buttonSize, iconSize } = getSize();
+  const { buttonSize, textSize, iconSize } = getSize();
 
-  const contentColor = isActive ? colors.white : colors.black;
+  const buttonStyle =
+    !buttonText && iconFamily
+      ? styles.buttonIcon
+      : {
+          ...styles.buttonContainer,
+          ...buttonSize,
+          backgroundColor: isActive ? activeButtonColor : inactiveButtonColor,
+        };
+
+  const contentColor = isActive ? activeContentColor : inactiveContentColor;
 
   return (
-    <TouchableOpacity activeOpacity={0.8} onPress={handlePress}>
-      <Animated.View
-        style={[
-          styles.buttonContainer,
-          {
-            padding: buttonSize.padding,
-            minWidth: buttonSize.minWidth,
-            backgroundColor: animatedColor.interpolate({
-              inputRange: [0, 1],
-              outputRange: [inactiveColor, activeColor],
-            }),
-          },
-        ]}>
-        {iconName && <Ionicons name={iconName} size={iconSize} style={{ color: contentColor }} />}
-        <Text
-          style={[
-            buttonTextStyles,
-            {
-              fontSize: buttonSize.fontSize,
-              color: contentColor,
-            },
-          ]}>
-          {buttonText}
-        </Text>
-      </Animated.View>
-    </TouchableOpacity>
+    <Button
+      style={[buttonStyle, isActive && styles.buttonActive, style]}
+      buttonText={buttonText}
+      buttonTextSize={textSize.fontSize}
+      buttonTextStyles={[
+        buttonTextStyles,
+        {
+          color: contentColor,
+        },
+      ]}
+      iconFamily={iconFamily}
+      iconName={iconName}
+      iconSize={iconSize}
+      iconStyle={{ color: contentColor }}
+      hitSlop={buttonStyle.padding}
+      onPress={handlePress}
+    />
   );
 };
 

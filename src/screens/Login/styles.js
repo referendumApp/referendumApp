@@ -5,7 +5,7 @@ import { buttonStyles, colors, componentStyles, size, typography } from '@/theme
 const styles = StyleSheet.create({
   container: {
     ...componentStyles.container,
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.primary,
   },
   keyboardAvoidingView: {
     flex: 1,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     padding: size.xl,
   },
   logo: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 9999,
     padding: size.s * 1.5,
     marginBottom: size.xl,
@@ -39,18 +39,18 @@ const styles = StyleSheet.create({
   loginButton: {
     ...buttonStyles.medium,
     width: '80%',
-    backgroundColor: colors.oldGloryRed,
+    backgroundColor: colors.secondary,
   },
   loginButtonText: {
     ...componentStyles.boldText,
-    color: colors.white,
+    color: colors.tertiary,
   },
   signUpButton: {
     marginTop: size.m,
   },
   signUpButtonText: {
     ...componentStyles.boldText,
-    color: colors.white,
+    color: colors.tertiary,
   },
   placeholderTextColor: colors.mediumGray,
 });

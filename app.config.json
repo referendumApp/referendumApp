@@ -1,5 +1,18 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts":[
+            "./src/assets/fonts/OpenSans-Regular.ttf",
+            "./src/assets/fonts/Inter-Regular.ttf",
+            "./src/assets/fonts/Inter-Medium.ttf",
+            "./src/assets/fonts/InterDisplay-Bold.ttf"
+          ]
+        }
+      ]
+    ],
     "runtimeVersion": {
       "policy": "sdkVersion"
     },
@@ -9,11 +22,12 @@
       }
     },
     "icon": "./src/assets/referendum_icon.png",
+    "splash": {
+      "image": "./src/assets/referendum_icon.png",
+      "backgroundColor": "#FFFFFF"
+    },
     "android": {
-      "package": "referendum.app",
-      "splash": {
-        "backgroundColor": "#002868"
-      }
+      "package": "referendum.app"
     },
     "ios": {
       "bundleIdentifier": "referendum.app"

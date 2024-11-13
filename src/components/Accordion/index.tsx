@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useRef } from 'react';
+import React, { PropsWithChildren, ReactNode, useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
+  useAnimatedValue,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -22,12 +23,11 @@ if (Platform.OS === 'android') {
 
 interface AccordionItemProps {
   title: string;
-  children: ReactNode;
 }
 
-const AccordionItem: React.FC<AccordionItemProps> = ({ title, children }) => {
+const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const rotateAnim = useAnimatedValue(0);
 
   const toggleAccordion = () => {
     // Configure layout animation
@@ -68,7 +68,7 @@ interface AccordionProps {
   }>;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ data }) => {
+const Accordion: React.FC<AccordionProps> = React.memo(({ data }) => {
   return (
     <View style={styles.container}>
       {data.map((item, index) => (
@@ -78,6 +78,6 @@ const Accordion: React.FC<AccordionProps> = ({ data }) => {
       ))}
     </View>
   );
-};
+});
 
 export default Accordion;

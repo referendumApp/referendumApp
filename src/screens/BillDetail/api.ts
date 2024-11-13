@@ -38,6 +38,15 @@ const catalogApi = baseApi
         invalidatesTags: (_, error, { billId }) =>
           error ? [] : [{ type: BillTags.vote, id: billId }],
       }),
+      uncastBillVote: builder.mutation<undefined, { billId: number }>({
+        query: params => ({
+          url: `${ApiResource.users}/votes`,
+          method: HttpMethod.delete,
+          params,
+        }),
+        invalidatesTags: (_, error, { billId }) =>
+          error ? [] : [{ type: BillTags.vote, id: billId }],
+      }),
       getFollowedBills: builder.query<Bill[], void>({
         query: () => ({
           url: `${ApiResource.users}/bills`,
@@ -66,6 +75,7 @@ export const {
   useGetBillsQuery,
   useGetBillVotesQuery,
   useCastBillVoteMutation,
+  useUncastBillVoteMutation,
   useGetFollowedBillsQuery,
   useFollowBillMutation,
   useUnfollowBillMutation,

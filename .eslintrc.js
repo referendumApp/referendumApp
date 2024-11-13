@@ -25,16 +25,6 @@ module.exports = {
           caseInsensitive: true,
         },
         pathGroups: [
-          // {
-          //   pattern: 'react',
-          //   group: 'external',
-          //   position: 'before',
-          // },
-          // {
-          //   pattern: '[a-z]*',
-          //   group: 'external',
-          //   position: 'before',
-          // },
           {
             pattern: '@/**',
             group: 'internal',
@@ -57,4 +47,15 @@ module.exports = {
     'import/internal-regex': '^@/',
   },
   extends: '@react-native',
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    '.husky.',
+    'ios/',
+    'android/',
+    '.git/',
+    '.expo/',
+    '.bundle/',
+    '*.test.js',
+  ],
 };
