@@ -1,5 +1,5 @@
-import React, { useCallback } from 'react';
-import { Image, View, Text, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Image, View, Text, Pressable } from 'react-native';
 
 import { Legislator } from '@/appTypes';
 
@@ -10,12 +10,8 @@ const LegislatorItem: React.FC<{
   onPress: (legislator: Legislator) => void;
 }> = React.memo(
   ({ legislator, onPress }) => {
-    const handlePress = useCallback(() => {
-      onPress(legislator);
-    }, [legislator, onPress]);
-
     return (
-      <TouchableOpacity style={styles.legislatorItem} onPress={handlePress}>
+      <Pressable style={styles.legislatorItem} onPress={() => onPress(legislator)}>
         <Image source={{ uri: legislator.imageUrl }} style={styles.legislatorImage} />
         <View style={styles.legislatorInfo}>
           <Text style={styles.legislatorName}>{legislator.name}</Text>
@@ -25,7 +21,7 @@ const LegislatorItem: React.FC<{
             }>{`${legislator.party.name} - ${legislator.state.name}`}</Text>
           <Text style={styles.legislatorChamber}>{legislator.role.name}</Text>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     );
   },
   (prev, next) => prev.legislator === next.legislator && prev.onPress === next.onPress,

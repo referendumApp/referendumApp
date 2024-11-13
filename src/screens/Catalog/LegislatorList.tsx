@@ -15,7 +15,7 @@ import FilterProvider from './filters/FilterProvider';
 import useCatalogItems from './hooks/useCatalogItems';
 import LegislatorItem from './LegislatorItem';
 import { sortOptionsMap } from './sort/constants';
-import styles, { ITEM_HEIGHT } from './styles';
+import styles, { LEGISLATOR_ITEM_HEIGHT } from './styles';
 import { FilterOptions, TabMappingSortFields } from './types';
 
 interface LegislatorListProps {
@@ -72,8 +72,8 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
 
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
-        length: ITEM_HEIGHT,
-        offset: ITEM_HEIGHT * index,
+        length: LEGISLATOR_ITEM_HEIGHT,
+        offset: LEGISLATOR_ITEM_HEIGHT * index,
         index,
       }),
       [],

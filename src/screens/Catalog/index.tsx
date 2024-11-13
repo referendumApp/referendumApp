@@ -32,15 +32,17 @@ const CatalogScreen: React.FC = () => {
           <View style={[styles.buttonContainer]}>
             <Button
               style={styles.button}
-              contentColor={colors.white}
+              contentColor={colors.tertiary}
               iconSize={IconSize.large}
+              iconFamily="Ionicons"
               iconName="filter"
               onPress={() => setIsFilterOpen(true)}
             />
             <Button
               style={styles.button}
-              contentColor={colors.white}
+              contentColor={colors.tertiary}
               iconSize={IconSize.large}
+              iconFamily="Ionicons"
               iconName="swap-vertical"
               onPress={() => setIsSortOpen(true)}
             />

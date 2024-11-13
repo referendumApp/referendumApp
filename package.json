@@ -28,8 +28,9 @@
     "@redux-devtools/core": "^4.0.0",
     "@reduxjs/toolkit": "^2.2.7",
     "date-fns": "^4.1.0",
-    "expo": "^51.0.38",
+    "expo": "51.0.39",
     "expo-dev-client": "~4.0.28",
+    "expo-splash-screen": "~0.27.7",
     "immutable": "^4.3.4",
     "lucide-react": "^0.441.0",
     "react": "18.2.0",
@@ -69,5 +70,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "resolutions": {
+    "expo-modules-autolinking": "1.11.3"
   }
 }

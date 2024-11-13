@@ -1,4 +1,4 @@
-import { Bill, Legislator } from '@/appTypes';
+import { Bill, Legislator, VoteChoiceType } from '@/appTypes';
 
 export type RootStackParamList = {
   Feed: undefined;
@@ -9,5 +9,5 @@ export type RootStackParamList = {
 export type CatalogStackParamList = {
   Catalog: undefined;
   LegislatorScreen: { legislator: Legislator, initialFollow?: boolean };
-  BillScreen: { bill: Bill, initialFollow?: boolean };
+  BillScreen: { bill: Bill, initialFollow?: boolean, initialVote?: VoteChoiceType };
 };

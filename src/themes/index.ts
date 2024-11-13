@@ -2,12 +2,12 @@ import { Platform, StyleSheet, TextStyle } from 'react-native';
 
 // Color palette
 export enum colors {
+  primary = 'rgb(10, 30, 63)', // #0A1E3F
+  secondary = 'rgb(163, 29, 40)', // #A31D28
+  tertiary = 'rgb(240, 240, 240)', // #F0F0F0
   transparent = 'rgba(0, 0, 0, 0.5)',
-  oldGloryBlue = 'rgb(0, 40, 104)', // #002868
-  oldGloryRed = 'rgb(191, 10, 48)', // #BF0A30
   black = 'rgb(0, 0, 0)', // black
   white = 'rgb(255, 255, 255)', // white
-  offWhite = 'rgb(245, 245, 245)', // #F5F5F5
   veryLightGray = 'rgb(238, 238, 238)', // #eee
   lightGray = 'rgb(221, 221, 221)', // #ddd
   mediumGray = 'rgb(208, 208, 208)', // #D0D0D0
@@ -17,41 +17,13 @@ export enum colors {
   yesVoteGreen = 'rgb(102, 184, 90)', // #66B85A
   veryLightBlue = 'rgb(240, 248, 255)', // #F0F8FF
   appleBlue = 'rgb(0, 122, 255)', // #007AFF
+  successGreen = 'rgb(37, 142, 79)', // #258E4F
+  errorRed = 'rgb(155, 3, 0)', // #EB5757
+  linkBlue = 'rgb(53, 149, 250)', // #3595FA
 }
 
 export const withOpacity = (color: string, opacity: number) => {
   return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
-};
-
-// Typography
-export const typography: Record<string, TextStyle> = {
-  largeTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: colors.white,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.white,
-  },
-  subtitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: colors.white,
-  },
-  body: {
-    fontSize: 16,
-    color: colors.darkGray,
-  },
-  small: {
-    fontSize: 14,
-    color: colors.mediumGray,
-  },
-  caption: {
-    fontSize: 12,
-    color: colors.mediumGray,
-  },
 };
 
 // Sizing
@@ -64,6 +36,50 @@ export const size = {
   xxl: 40,
 };
 
+// Typography
+export const typography: Record<string, TextStyle> = {
+  largeTitle: {
+    fontFamily: 'Inter-Bold',
+    fontSize: size.xl,
+    color: colors.tertiary,
+  },
+  title: {
+    fontFamily: 'Inter-Bold',
+    fontSize: size.l,
+    color: colors.tertiary,
+  },
+  subtitle: {
+    fontFamily: 'Inter-Medium',
+    fontSize: size.m + 2,
+    color: colors.tertiary,
+  },
+  body: {
+    fontFamily: 'OpenSans-Regular',
+    fontSize: size.m,
+    color: colors.darkGray,
+  },
+  small: {
+    fontFamily: 'OpenSans-Regular',
+    fontSize: size.m - 2,
+    color: colors.mediumGray,
+  },
+  link: {
+    fontFamily: 'Inter-Regular',
+    fontSize: size.m - 2,
+    color: colors.linkBlue,
+  },
+  date: {
+    fontFamily: 'Inter-Regular',
+    fontSize: size.m - 2,
+    color: colors.darkGray,
+  },
+  caption: {
+    fontFamily: 'OpenSans-Regular',
+    fontSize: size.s * 1.5,
+    color: colors.mediumGray,
+  },
+};
+
 // Shared styles
 export const componentStyles = StyleSheet.create({
   container: {
@@ -71,19 +87,19 @@ export const componentStyles = StyleSheet.create({
     backgroundColor: colors.lightGray,
   },
   header: {
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.primary,
     padding: size.m,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
   },
   headerText: typography.largeTitle,
   subHeader: {
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.primary,
     paddingBottom: size.s,
   },
   input: {
     width: '100%',
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 8,
     padding: size.s,
     ...typography.body,
@@ -100,21 +116,22 @@ export const componentStyles = StyleSheet.create({
   },
   boldText: {
     ...typography.body,
-    fontWeight: 'bold',
+    fontFamily: 'Inter-Bold',
   },
   semiBoldText: {
     ...typography.body,
-    fontWeight: '500',
+    fontFamily: 'Inter-Medium',
   },
   modalTitle: {
+    fontFamily: 'Inter-Bold',
     fontSize: size.m * 1.5,
-    fontWeight: 'bold',
   },
   placeholderText: {
+    fontFamily: 'OpenSans-Regular',
     color: colors.lightMediumGray,
   },
   card: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 12,
     marginHorizontal: size.m,
     marginVertical: size.s,
@@ -138,13 +155,12 @@ export const componentStyles = StyleSheet.create({
     marginHorizontal: size.s,
   },
   linkText: {
-    ...typography.small,
-    color: colors.oldGloryBlue,
+    ...typography.link,
+    color: colors.primary,
     textDecorationLine: 'underline',
-    fontWeight: '600',
   },
   tag: {
-    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
+    backgroundColor: withOpacity(colors.primary, 0.1),
     borderRadius: 8,
     paddingHorizontal: size.s,
     paddingVertical: size.xs,
@@ -153,7 +169,7 @@ export const componentStyles = StyleSheet.create({
   },
   tagText: {
     ...typography.caption,
-    color: colors.oldGloryBlue,
+    color: colors.primary,
   },
   carouselContainer: {
     paddingBottom: size.s,
@@ -161,10 +177,16 @@ export const componentStyles = StyleSheet.create({
     marginLeft: size.s,
   },
   carouselItem: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 12,
     padding: size.s,
     marginRight: size.s,
+  },
+  tagCarouselItem: {
+    backgroundColor: colors.primary,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: colors.tertiary,
   },
   section: {
     padding: size.m,
@@ -179,7 +201,7 @@ export const componentStyles = StyleSheet.create({
     alignItems: 'center',
   },
   followButton: {
-    borderColor: colors.white,
+    borderColor: colors.tertiary,
     borderWidth: 1,
     borderRadius: 20,
     paddingVertical: size.xs,
@@ -187,10 +209,10 @@ export const componentStyles = StyleSheet.create({
   },
   followButtonText: {
     ...typography.body,
-    color: colors.white,
+    color: colors.tertiary,
   },
   selectedFollowButton: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderWidth: 1,
     borderRadius: 20,
     paddingVertical: size.xs,
@@ -198,7 +220,7 @@ export const componentStyles = StyleSheet.create({
   },
   selectedFollowButtonText: {
     ...typography.body,
-    color: colors.oldGloryRed,
+    color: colors.secondary,
     fontWeight: 'bold',
   },
   overlay: {

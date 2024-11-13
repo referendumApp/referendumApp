@@ -4,14 +4,15 @@ import { colors, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.primary,
     borderTopWidth: 0,
     elevation: 0,
-    height: 60,
-    paddingBottom: size.xs,
+    height: 80,
+    paddingTop: size.m,
+    paddingBottom: size.m,
   },
   tabBarLabel: {
-    fontSize: typography.caption.fontSize,
+    ...typography.caption,
     fontWeight: 'bold',
   },
 });

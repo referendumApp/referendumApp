@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, size } from '@/themes';
+import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.transparent,
   },
   modalContent: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     paddingTop: size.m * 1.5,
@@ -30,22 +30,10 @@ const styles = StyleSheet.create({
     paddingVertical: size.s * 1.5,
   },
   checkboxContainer: componentStyles.centerRow,
-  checkbox: {
-    width: size.l,
-    height: size.l,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: colors.mediumGray,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  checkbox: componentStyles.checkbox,
   checked: {
     backgroundColor: colors.appleBlue,
     borderColor: colors.appleBlue,
-  },
-  optionText: {
-    marginLeft: size.s * 1.5,
-    fontSize: size.m,
   },
   modalFooter: {
     flexDirection: 'row',
@@ -61,18 +49,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   clearButton: {
-    backgroundColor: colors.offWhite,
+    backgroundColor: colors.tertiary,
   },
   clearButtonText: {
-    color: colors.darkGray,
-    fontWeight: '600',
+    ...typography.body,
+    textDecorationLine: 'underline',
   },
   applyButton: {
     backgroundColor: colors.appleBlue,
   },
   applyButtonText: {
-    color: colors.white,
-    fontWeight: '600',
+    ...typography.body,
+    color: colors.tertiary,
   },
 });
 

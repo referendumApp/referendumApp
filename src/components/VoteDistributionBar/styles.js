@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   noBar: {
-    backgroundColor: colors.oldGloryRed,
+    backgroundColor: colors.secondary,
     justifyContent: 'center',
     alignItems: 'flex-end',
   },
   percentageText: {
-    color: colors.white,
+    ...typography.caption,
+    color: colors.tertiary,
     fontWeight: 'bold',
-    fontSize: typography.caption.fontSize,
     paddingHorizontal: size.xs,
   },
   floatingTextContainer: {
@@ -36,26 +36,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   floatingText: {
-    color: colors.white,
+    ...typography.caption,
+    color: colors.tertiary,
     fontWeight: 'bold',
-    fontSize: typography.caption.fontSize,
   },
   leftFloatingText: {
+    fontFamily: 'OpenSans-Regular',
     left: size.xs,
   },
   rightFloatingText: {
+    fontFamily: 'OpenSans-Regular',
     right: size.xs,
   },
   emptyBar: {
-    backgroundColor: colors.lightGray,
+    backgroundColor: colors.mediumGray,
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   emptyText: {
-    color: colors.mediumGray,
-    fontWeight: 'bold',
-    fontSize: typography.caption.fontSize,
+    ...typography.caption,
+    fontFamily: 'Inter-Bold',
+    color: colors.darkGray,
   },
 });
 

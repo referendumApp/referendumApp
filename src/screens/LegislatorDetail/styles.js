@@ -1,82 +1,54 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, typography } from '@/themes';
+import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   container: {
     ...componentStyles.container,
-    backgroundColor: colors.white,
-    flex: 1,
+    paddingVertical: size.m,
   },
   header: {
     ...componentStyles.header,
-    paddingTop: 2,
-  },
-  headerNavBar: {
-    ...componentStyles.header,
+    paddingTop: 0,
+    paddingBottom: size.xxl,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingBottom: 0,
+    gap: size.xs,
   },
-  backButton: {},
-  backButtonText: {
-    ...typography.body,
-    color: 'white',
-  },
-  followButton: {
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-  },
-  followButtonText: {
-    ...typography.body,
-    color: 'white',
-  },
+  dividerVertical: componentStyles.dividerVertical,
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 8,
-  },
-  selectedFollowButton: {
-    backgroundColor: 'white',
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-  },
-  selectedFollowButtonText: {
-    ...typography.body,
-    color: colors.oldGloryRed,
-    fontWeight: 'bold',
-  },
-  profileContainer: {
-    alignItems: 'center',
-    marginTop: 32,
+    width: 120,
+    height: 120,
+    borderRadius: 70,
+    borderWidth: 1.5,
+    borderColor: colors.white,
   },
   name: {
     ...typography.title,
     justifyContent: 'left',
+    paddingBottom: size.s,
   },
-  subtitle: typography.subtitle,
-  section: componentStyles.section,
-  sectionTitle: {
-    ...typography.subtitle,
-    color: colors.oldGloryRed,
-    marginBottom: 8,
+  descriptionText: {
+    ...typography.body,
+    fontSize: size.m - 2,
+    color: colors.tertiary,
+    paddingBottom: size.xs * 0.5,
+  },
+  sectionHeader: {
+    paddingLeft: size.s * 1.5,
+  },
+  sectionContent: {
+    padding: size.s * 1.5,
   },
   sectionBody: typography.body,
   table: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: 8,
-    marginTop: 8,
+    marginTop: size.s,
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: colors.oldGloryBlue,
-    padding: 8,
+    backgroundColor: colors.primary,
+    padding: size.s,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
   },
@@ -86,7 +58,7 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: 'row',
-    padding: 8,
+    padding: size.s,
     borderBottomWidth: 1,
   },
   tableCell: {
@@ -95,8 +67,8 @@ const styles = StyleSheet.create({
   },
   seeMoreText: {
     ...typography.caption,
-    color: colors.oldGloryBlue,
-    marginTop: 8,
+    color: colors.primary,
+    marginTop: size.s,
   },
 });
 

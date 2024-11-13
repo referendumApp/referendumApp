@@ -1,8 +1,7 @@
 import React from 'react';
-import { Text, TextStyle, TouchableOpacity, StyleProp, ViewStyle } from 'react-native';
+import { Insets, Pressable, Text, TextStyle, StyleProp, ViewStyle } from 'react-native';
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-
+import Icon, { IconLibrary, IconProps } from '@/components/Icon';
 import { buttonStyles, colors } from '@/themes';
 
 export enum ButtonTextSize {
@@ -17,16 +16,15 @@ export enum IconSize {
   large = 20,
 }
 
-type IconName = keyof typeof Ionicons.glyphMap;
-
-interface ButtonProps {
+interface ButtonProps extends Omit<IconProps, 'iconFamily'> {
   style?: StyleProp<ViewStyle>;
   buttonText?: string;
   buttonTextSize?: ButtonTextSize;
   buttonTextStyles?: StyleProp<TextStyle>;
   contentColor?: colors;
-  iconName?: IconName;
-  iconSize?: IconSize;
+  iconFamily?: IconLibrary;
+  iconStyle?: StyleProp<TextStyle>;
+  hitSlop?: null | Insets | number;
   onPress: () => void;
 }
 
@@ -36,13 +34,22 @@ const Button = ({
   buttonTextSize,
   buttonTextStyles,
   contentColor,
+  iconFamily,
   iconName,
   iconSize,
+  iconStyle,
+  hitSlop,
   onPress,
 }: ButtonProps) => {
   return (
-    <TouchableOpacity style={[buttonStyles.small, style]} onPress={onPress}>
-      {iconName && <Ionicons name={iconName} size={iconSize} color={contentColor} />}
+    <Pressable style={[buttonStyles.small, style]} onPress={onPress} hitSlop={hitSlop}>
+      {iconFamily && <Icon
+        iconFamily={iconFamily}
+        iconName={iconName}
+        iconSize={iconSize}
+        iconColor={contentColor}
+        style={iconStyle}
+      />}
       {buttonText && (
         <Text
           style={[
@@ -53,7 +60,7 @@ const Button = ({
           {buttonText}
         </Text>
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

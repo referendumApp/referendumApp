@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { format } from 'date-fns';
+import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 
 import { Bill } from '@/appTypes';
 import Carousel from '@/components/Carousel';
@@ -8,10 +9,9 @@ import styles from './styles';
 
 const BillItem: React.FC<{ bill: Bill; onPress: (bill: Bill) => void }> = React.memo(
   ({ bill, onPress }) => {
-    const handlePress = useCallback(() => onPress(bill), [bill, onPress]);
-
     return (
-      <TouchableOpacity style={styles.billItem} onPress={handlePress}>
+      <Pressable style={styles.billItem} onPress={() => onPress(bill)}>
+        <Text style={styles.statusDate}>{format(new Date(bill.statusDate), 'MMM d, yyyy')}</Text>
         <View style={styles.billTitleLine}>
           <Text style={styles.itemTitle}>US</Text>
           <View style={styles.dividerVertical} />
@@ -27,7 +27,7 @@ const BillItem: React.FC<{ bill: Bill; onPress: (bill: Bill) => void }> = React.
           itemStyle={styles.tagCarouselItem}
           textStyle={styles.tagCarouselItemText}
         />
-      </TouchableOpacity>
+      </Pressable>
     );
   },
   (prev, next) => prev.bill === next.bill && prev.onPress === next.onPress,

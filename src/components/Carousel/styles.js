@@ -12,17 +12,19 @@ const styles = StyleSheet.create({
     },
     item: {
       ...componentStyles.carouselItem,
-      backgroundColor: colors.white,
+      backgroundColor: colors.tertiary,
     },
     itemSelected: {
-      backgroundColor: colors.oldGloryRed,
+      ...componentStyles.carouselItem,
+      backgroundColor: colors.secondary,
     },
     itemText: {
-      ...typography.body,
-      color: colors.oldGloryBlue,
+      ...componentStyles.body,
+      color: colors.primary,
     },
     itemTextSelected: {
-      color: colors.white,
+      ...componentStyles.body,
+      color: colors.tertiary,
     },
 });
 

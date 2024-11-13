@@ -1,5 +1,14 @@
-import React, { PropsWithChildren, useEffect, useRef } from 'react';
-import { Animated, Dimensions, View, Text, Modal, ModalProps, TouchableOpacity } from 'react-native';
+import React, { PropsWithChildren, useEffect } from 'react';
+import {
+  Animated,
+  Dimensions,
+  View,
+  Text,
+  Modal,
+  ModalProps,
+  TouchableOpacity,
+  useAnimatedValue,
+} from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -34,7 +43,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   presentationStyle,
 
 }) => {
-  const slideAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useAnimatedValue(0);
 
   useEffect(() => {
     if (isVisible) {

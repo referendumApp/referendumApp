@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   accordionItem: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderRadius: size.s,
     marginBottom: size.s,
     overflow: 'hidden',
@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     justifyContent: 'space-between',
     padding: size.m,
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
   },
   headerText: componentStyles.semiBoldText,
   content: {
     padding: size.m,
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.lightGray,
   },

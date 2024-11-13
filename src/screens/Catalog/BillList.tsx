@@ -6,7 +6,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Bill } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
-import { useGetBillsQuery, useGetFollowedBillsQuery } from '@/screens/BillDetail/api';
+import {
+  useGetBillsQuery,
+  useGetFollowedBillsQuery,
+  useGetBillVotesQuery,
+} from '@/screens/BillDetail/api';
 import SortModal from '@/screens/Catalog/sort/SortModal';
 
 import BillItem from './BillItem';
@@ -15,7 +19,7 @@ import FilterModal from './filters/FilterModal';
 import FilterProvider from './filters/FilterProvider';
 import useCatalogItems from './hooks/useCatalogItems';
 import { sortOptionsMap } from './sort/constants';
-import styles, { ITEM_HEIGHT } from './styles';
+import styles, { BILL_ITEM_HEIGHT } from './styles';
 import { FilterOptions, TabMappingSortFields } from './types';
 
 interface BillListProps {
@@ -33,11 +37,11 @@ const BillList: React.FC<BillListProps> = React.memo(
     const navigation = useNavigation<NavigationProp>();
     const flatListRef = useRef<FlatList<Bill> | null>(null);
     const [filter, setFilter] = useState<FilterOptions>({});
-    const [selectedSort, setSelectedSort] = useState<
-      TabMappingSortFields<'bill'> | undefined
-    >();
+    const [selectedSort, setSelectedSort] = useState<TabMappingSortFields<'bill'> | undefined>();
+
     const { data: bills } = useGetBillsQuery();
     const { data: followedBills } = useGetFollowedBillsQuery();
+    const { data: userBillVotes } = useGetBillVotesQuery({ billId: undefined });
 
     const catalogItems = useCatalogItems({
       items: bills,
@@ -57,21 +61,28 @@ const BillList: React.FC<BillListProps> = React.memo(
       setSelectedSort(sortField);
     };
 
-    const handleBillPress = useCallback((bill: Bill) => {
-      const initialFollow = followedBills?.some(follow => follow.id === bill.id);
-      navigation.navigate('BillScreen', { bill, initialFollow });
-    }, [followedBills, navigation]);
+    const handleBillPress = useCallback(
+      (bill: Bill) => {
+        const initialVote = userBillVotes?.find(vote => vote.billId === bill.id)?.voteChoice;
+        const initialFollow = followedBills?.some(follow => follow.id === bill.id);
+        navigation.navigate('BillScreen', { bill, initialFollow, initialVote });
+      },
+      [followedBills, navigation, userBillVotes],
+    );
 
-    const renderItem = useCallback(({ item }: { item: Bill }) => {
-      return <BillItem bill={item} onPress={handleBillPress} />;
-    }, [handleBillPress]);
+    const renderItem = useCallback(
+      ({ item }: { item: Bill }) => {
+        return <BillItem bill={item} onPress={handleBillPress} />;
+      },
+      [handleBillPress],
+    );
 
     const keyExtractor = useCallback((item: Bill) => String(item.id), []);
 
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
-        length: ITEM_HEIGHT,
-        offset: ITEM_HEIGHT * index,
+        length: BILL_ITEM_HEIGHT,
+        offset: BILL_ITEM_HEIGHT * index,
         index,
       }),
       [],

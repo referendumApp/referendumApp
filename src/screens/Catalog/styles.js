@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native';
 
 import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
-export const ITEM_HEIGHT = 96;
+export const BILL_ITEM_HEIGHT = 150;
+export const LEGISLATOR_ITEM_HEIGHT = 96;
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
   button: {
-    backgroundColor: colors.oldGloryBlue,
+    backgroundColor: colors.primary,
     padding: size.xs * 0.5,
   },
   buttonContainer: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     flexDirection: 'row',
-    backgroundColor: colors.white,
+    backgroundColor: colors.tertiary,
     borderBottomWidth: 1,
     borderBottomColor: colors.mediumGray,
   },
@@ -38,11 +39,12 @@ const styles = StyleSheet.create({
   },
   tabButtonSelected: {
     borderBottomWidth: 2,
-    borderBottomColor: colors.oldGloryRed,
+    borderBottomColor: colors.secondary,
   },
   tabButtonText: componentStyles.semiBoldText,
   tabButtonTextSelected: {
-    color: colors.oldGloryRed,
+    ...typography.body,
+    color: colors.secondary,
     fontWeight: 'bold',
   },
   catalogList: {
@@ -50,15 +52,15 @@ const styles = StyleSheet.create({
   },
   billItem: {
     ...componentStyles.card,
-    height: ITEM_HEIGHT,
-},
+    height: BILL_ITEM_HEIGHT,
+  },
   billTitleLine: {
     flexDirection: 'row',
     marginBottom: size.s,
   },
   legislatorItem: {
     ...componentStyles.card,
-    height: ITEM_HEIGHT,
+    height: LEGISLATOR_ITEM_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: size.s * 1.5,
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   },
   legislatorName: {
     ...typography.subtitle,
-    color: colors.oldGloryRed,
+    color: colors.secondary,
     fontWeight: 'bold',
   },
   legislatorDetails: typography.body,
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     ...typography.subtitle,
-    color: colors.oldGloryRed,
+    color: colors.secondary,
     fontWeight: 'bold',
   },
   itemDescription: {
@@ -95,6 +97,10 @@ const styles = StyleSheet.create({
     marginBottom: size.s * 1.5,
   },
   dividerVertical: componentStyles.dividerVertical,
+  statusDate: {
+    ...typography.date,
+    marginBottom: size.s * 1.5,
+  },
   tagCarouselContainer: {
     ...componentStyles.carouselContainer,
     flexDirection: 'row',
@@ -106,17 +112,17 @@ const styles = StyleSheet.create({
     ...typography.body,
     fontWeight: 'bold',
     paddingRight: size.s,
-    color: colors.oldGloryBlue,
+    color: colors.primary,
   },
   tagCarouselItem: {
     ...componentStyles.carouselItem,
-    backgroundColor: withOpacity(colors.oldGloryBlue, 0.1),
+    backgroundColor: withOpacity(colors.primary, 0.1),
     paddingVertical: size.xs,
     paddingHorizontal: size.s,
   },
   tagCarouselItemText: {
     ...typography.small,
-    color: colors.oldGloryBlue,
+    color: colors.primary,
   },
 });
 

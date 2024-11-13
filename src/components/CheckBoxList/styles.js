@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     paddingVertical: size.s * 1.5,
   },
   optionText: {
+    ...typography.body,
     marginLeft: size.s * 1.5,
-    fontSize: size.m,
   },
 });
 
