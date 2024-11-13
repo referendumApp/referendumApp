@@ -1,5 +1,1 @@
-#!/bin/sh
-
 yarn pre-commit
-
-exit 1
