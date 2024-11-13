@@ -10,7 +10,7 @@
     "type-check": "tsc",
     "test": "jest",
     "android": "react-native run-android",
-    "ios:build": "rm -rf ./ios && eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
+    "ios:build": "./ios && eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
     "ios:boot": "xcrun simctl boot default && open -a Simulator",
     "ios:install": "xcrun simctl install booted ./ios/referendum.app",
     "ios:server": "npx expo start --ios --dev-client --clear",
@@ -20,7 +20,7 @@
     "ios:run": "yarn ios:build && yarn ios:start",
     "ios:shutdown": "xcrun simctl shutdown default && killall Simulator && killall com.apple.CoreSimulator.CoreSimulatorService",
     "ios:uninstall": "xcrun simctl uninstall default referendum.app",
-    "ios:clean": "yarn ios:uninstall && yarn ios:shutdown",
+    "ios:clean": "yarn ios:uninstall && yarn ios:shutdown && rm -rf",
     "ios:rebuild": "yarn ios:clean && yarn ios:run"
   },
   "lint-staged": {
