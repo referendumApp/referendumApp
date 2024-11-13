@@ -1,0 +1,50 @@
+name: Continuous Integration PR Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: main
+
+jobs:
+  client_tests:
+    name: Client Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: '**/yarn.lock'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run Linter
+        run: yarn lint
+
+      - name: Run Typecheck
+        run: yarn type-check
+
+      - name: Run Tests
+        run: yarn test
+
+      - name: Run Prebuild
+        run: |
+          if ! npx expo-doctor; then
+            echo "Prebuild checks failed"
+            exit 1
+          fi
+          echo "prebuild_sucess=true" >> $GITHUB_OUTPUT
+
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.1.1'
+
+      - name: IOS Development Build
+        run: eas build --platform ios --profile development --non-interactive
