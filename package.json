@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow yarn",
+    "prepare": "husky",
+    "pre-commit": "lint-staged",
+    "type-check": "tsc --noEmit",
+    "test": "jest",
     "android": "react-native run-android",
     "ios:build": "rm -rf ./ios && eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
     "ios:boot": "xcrun simctl boot default && open -a Simulator",
@@ -16,10 +20,7 @@
     "ios:shutdown": "xcrun simctl shutdown default && killall Simulator && killall com.apple.CoreSimulator.CoreSimulatorService",
     "ios:uninstall": "xcrun simctl uninstall default referendum.app",
     "ios:clean": "yarn ios:uninstall && yarn ios:shutdown",
-    "ios:rebuild": "yarn ios:clean && yarn ios:run",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
+    "ios:rebuild": "yarn ios:clean && yarn ios:run"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.3",
@@ -63,6 +64,7 @@
     "eslint": "^8.19.0",
     "eslint-import-resolver-babel-module": "^5.3.2",
     "eslint-plugin-import": "^2.31.0",
+    "husky": "^9.1.6",
     "jest": "^29.6.3",
     "prettier": "2.8.8",
     "react-native-svg-transformer": "^1.5.0",
