@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-// import * as SplashScreen from 'expo-spash-screen';
+import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 
@@ -8,7 +8,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation';
 import store from './src/store';
 
-// SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync();
 
 const App: React.FC = () => {
   const [loaded, error] = useFonts({
@@ -18,11 +18,11 @@ const App: React.FC = () => {
     'Inter-Bold': require('./src/assets/fonts/InterDisplay-Bold.ttf'),
   });
 
-  // useEffect(() => {
-  //   if (loaded || error) {
-  //     SplashScreen.hideAsync();
-  //   }
-  // }, [loaded, error]);
+  useEffect(() => {
+    if (loaded || error) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded, error]);
 
   if (!loaded && !error) {
     return null;
