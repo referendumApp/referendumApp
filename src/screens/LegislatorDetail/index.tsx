@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ImageStyle, ScrollView, Pressable, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, Pressable, SafeAreaView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Card from '@/components/Card';
+import LegislatorImage from '@/components/LegislatorImage';
 import NavBar from '@/components/NavBar';
 import { CatalogStackParamList } from '@/navigation/types';
 
@@ -47,7 +48,12 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
       <SafeAreaView style={styles.container}>
         <NavBar handleBack={handleBack} handleFollow={handleFollow} isFollowing={isFollowing} />
         <View style={styles.header}>
-          <Image source={{ uri: legislator.imageUrl }} style={styles.image as ImageStyle} />
+          <LegislatorImage
+            party={legislator.party.name}
+            partySvgStyle={styles.partyImage}
+            uri={legislator.imageUrl}
+            style={styles.image}
+          />
           <View style={styles.dividerVertical} />
           <View>
             <Text style={styles.name}>{legislator.name}</Text>

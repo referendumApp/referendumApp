@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "preinstall": "npx only-allow yarn",
     "android": "react-native run-android",
     "ios:build": "rm -rf ./ios && eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
     "ios:boot": "xcrun simctl boot default && open -a Simulator",

@@ -24,7 +24,7 @@
     "icon": "./src/assets/referendum_icon.png",
     "splash": {
       "image": "./src/assets/referendum_icon.png",
-      "backgroundColor": "#002868"
+      "backgroundColor": "#FFFFFF"
     },
     "android": {
       "package": "referendum.app"

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, size, typography } from '@/themes';
+import { componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   searchInputContainer: {

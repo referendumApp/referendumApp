@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { ImageStyle, StyleSheet } from 'react-native';
 
 import { colors, componentStyles, size, typography } from '@/themes';
 
@@ -15,16 +15,20 @@ const styles = StyleSheet.create({
     gap: size.xs,
   },
   dividerVertical: componentStyles.dividerVertical,
+  partyImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 70,
+  },
   image: {
     width: 120,
     height: 120,
     borderRadius: 70,
     borderWidth: 1.5,
     borderColor: colors.white,
-  },
+  } as ImageStyle,
   name: {
     ...typography.title,
-    justifyContent: 'left',
     paddingBottom: size.s,
   },
   descriptionText: {

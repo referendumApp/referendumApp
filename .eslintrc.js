@@ -47,4 +47,15 @@ module.exports = {
     'import/internal-regex': '^@/',
   },
   extends: '@react-native',
+  ignorePatterns: [
+    'node_modules/',
+    'dist/',
+    '.husky.',
+    'ios/',
+    'android/',
+    '.git/',
+    '.expo/',
+    '.bundle/',
+    '*.test.js',
+  ],
 };

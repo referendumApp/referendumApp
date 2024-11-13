@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, size, typography } from '@/themes';
+import { colors, componentStyles, size } from '@/themes';
 
 const styles = StyleSheet.create({
   card: {

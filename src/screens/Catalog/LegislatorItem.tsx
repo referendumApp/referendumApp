@@ -1,7 +1,8 @@
 import React from 'react';
-import { Image, View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 
 import { Legislator } from '@/appTypes';
+import LegislatorImage from '@/components/LegislatorImage';
 
 import styles from './styles';
 
@@ -12,7 +13,12 @@ const LegislatorItem: React.FC<{
   ({ legislator, onPress }) => {
     return (
       <Pressable style={styles.legislatorItem} onPress={() => onPress(legislator)}>
-        <Image source={{ uri: legislator.imageUrl }} style={styles.legislatorImage} />
+        <LegislatorImage
+          party={legislator.party.name}
+          partySvgStyle={styles.legislatorImage}
+          uri={legislator.imageUrl}
+          style={styles.legislatorImage}
+        />
         <View style={styles.legislatorInfo}>
           <Text style={styles.legislatorName}>{legislator.name}</Text>
           <Text

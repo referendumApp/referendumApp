@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import BottomModal from '@/components/BottomModal';
-import { TabMappingSortFields, TabType, ValidSortFields } from '@/screens/Catalog/types';
+import { TabMappingSortFields, TabType } from '@/screens/Catalog/types';
 
 import styles from './styles';
 import { SortOptions } from './types';
