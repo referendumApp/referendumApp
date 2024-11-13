@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
       backgroundColor: colors.secondary,
     },
     itemText: {
-      ...componentStyles.body,
+      ...typography.body,
       color: colors.primary,
     },
     itemTextSelected: {
-      ...componentStyles.body,
+      ...typography.body,
       color: colors.tertiary,
     },
 });
