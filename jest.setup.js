@@ -19,6 +19,21 @@ jest.mock('@react-navigation/native', () => ({
   NavigationContainer: ({ children }) => children,
 }));
 
+jest.mock('@react-navigation/bottom-tabs', () => ({
+  createBottomTabNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
+  }),
+}));
+
+// Mock stack navigator
+jest.mock('@react-navigation/stack', () => ({
+  createStackNavigator: () => ({
+    Navigator: ({ children }) => children,
+    Screen: ({ children }) => children,
+  }),
+}));
+
 // Mock Redux
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
