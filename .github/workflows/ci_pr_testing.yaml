@@ -1,0 +1,117 @@
+name: Continuous Integration PR Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches: main
+
+jobs:
+  client_tests:
+    name: Client Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Linter
+        run: yarn lint
+
+      - name: Run Typecheck
+        run: yarn type-check
+
+      - name: Run Tests
+        run: yarn test
+
+      - name: Run Prebuild
+        run: npx expo-doctor
+
+  build_ios:
+    name: Build IOS Client
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.1.1'
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Client
+        run: eas build --platform ios --profile development --local --non-interactive
+
+  build_android:
+    name: Build Android Client
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - uses: android-actions/setup-android@v2
+
+      # Cache Gradle dependencies
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.1.1'
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Client
+        run: eas build --platform android --profile development --local --non-interactive

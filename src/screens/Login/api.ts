@@ -1,8 +1,5 @@
-import baseApi, {
-  ApiResource,
-  HttpMethod,
-  OnQueryStarted,
-} from '@/store/baseApi';
+import { User } from '@/appTypes';
+import baseApi, { ApiResource, HttpMethod, OnQueryStarted } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
@@ -10,8 +7,8 @@ import { LoginCredentials, LoginSession } from './types';
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getUserSession: builder.mutation({
-      query: (creds: LoginCredentials) => {
+    getUserSession: builder.mutation<User, LoginCredentials>({
+      query: creds => {
         const formData = new URLSearchParams({
           grant_type: 'password',
           username: creds.username,

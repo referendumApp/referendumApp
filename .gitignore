@@ -77,7 +77,7 @@ yarn-error.log
 .expo
 dist/
 web-build/
-/android
-/ios
+android/
+ios/
 *.tar.gz
 referendum.app/
