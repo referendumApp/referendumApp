@@ -12,15 +12,10 @@ import { getMiddlewareOptions } from '../src/store/utils';
 jest.mock('../src/store/baseApi', () => ({
   ...jest.requireActual('../src/store/baseApi'),
   useQuery: () => ({ data: null, isLoading: false }),
+  useMutation: () => [() => {}, { isLoading: false }],
 }));
 
-const createTestStore = (overrides = {}) => {
-  // Override specific endpoints with test-specific data
-  jest.mock('../src/store/baseApi', () => ({
-    ...jest.requireActual('../src/store/baseApi'),
-    ...overrides, // This allows overriding specific endpoints
-  }));
-
+const createTestStore = () => {
   return configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware =>
