@@ -3,12 +3,13 @@ name: Continuous Integration PR Tests
 on:
   pull_request:
     types: [opened, synchronize]
-    branches:
-      - main
+    branches: main
 
 jobs:
-  setup:
+  client_tests:
+    name: Client Tests
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -22,31 +23,22 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Run Linter
+        run: yarn lint
+
+      - name: Run Typecheck
+        run: yarn type-check
+
+      - name: Run Tests
+        run: yarn test
+
       - name: Run Prebuild
-        run: npx expo prebuild --clean
+        run: npx expo-doctor
 
-      - name: Cache node_modules
-        uses: actions/cache/save@v4
-        id: cache
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+  build_ios:
+    name: Build IOS Client
+    runs-on: macos-latest
 
-      # - name: Cache Dependencies
-      #   uses: actions/cache/save@v3
-      #   with:
-      #     path: |
-      #       node_modules
-      #       ios/Pods
-      #       android/.gradle
-      #       android/app/build
-      #       android/build
-      #     key: ${{ steps.set-cache-key.outputs.cache-key }}
-
-  client_tests:
-    needs: setup
-    name: Client Tests
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -57,93 +49,73 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Restore Cached node_modules
-        uses: actions/cache/restore@v4
-        id: cache
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+          bundler-cache: true
 
-      - name: Run Linter
-        run: yarn lint
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx expo prebuild --clean --platform ios
+          cd ios && pod install
 
-      - name: Run Typecheck
-        run: yarn type-check
+      - name: Cache Pods
+        uses: actions/cache@v3
+        with:
+          path: |
+            ios/Pods
+            ~/Library/Caches/CocoaPods
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
 
-      - name: Run Tests
-        run: yarn test
+      - name: Build Client
+        run: yarn eas build --platform ios --local --non-interactive
 
-  # build_ios:
-  #   needs: setup
-  #   name: Build IOS Client
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v3
-  #
-  #     - name: Setup Node Environment
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '18'
-  #         cache: 'yarn'
-  #
-  #     - name: Setup Ruby and Install Cocoapods
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         bundler-cache: true
-  #
-  #     - name: Restore Build Artifacts
-  #       uses: actions/cache/restore@v3
-  #       with:
-  #         path: |
-  #           node_modules
-  #           ios/Pods
-  #         key: ${{ needs.setup.outputs.cache-key }}
-  #
-  #     - name: Install Pods
-  #       run: cd ios && pod install
-  #
-  #     - name: Build iOS
-  #       run: yarn eas build --platform ios --local --non-interactive
-  #
-  # build_android:
-  #   needs: setup
-  #   name: Build Android Client
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repository
-  #       uses: actions/checkout@v3
-  #
-  #     - name: Setup Node Environment
-  #       uses: actions/setup-node@v4
-  #       with:
-  #         node-version: '18'
-  #         cache: 'yarn'
-  #
-  #     - name: Restore Build Artifacts
-  #       uses: actions/cache/restore@v3
-  #       with:
-  #         path: |
-  #           node_modules
-  #           android/.gradle
-  #           android/app/build
-  #           android/build
-  #         key: ${{ needs.setup.outputs.cache-key }}
-  #
-  #     - name: Setup Java
-  #       uses: actions/setup-java@v3
-  #       with:
-  #         distribution: 'temurin'
-  #         java-version: '17'
-  #         cache: 'gradle'
-  #
-  #     - uses: android-actions/setup-android@v2
-  #
-  #     - name: Build Client
-  #       run: eas build --platform android--local --non-interactive
-  #       env:
-  #         GRADLE_OPTS: >-
-  #           -Dorg.gradle.daemon=false
-  #           -Dorg.gradle.parallel=true
-  #           -Dorg.gradle.workers.max=2
-  #           -Dorg.gradle.caching=true
+  build_android:
+    name: Build Android Client
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            android/.gradle
+            android/app/build
+            android/build
+          key: |
+            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'android/gradle/**') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx expo prebuild --clean --platform android
+
+      - name: Build Client
+        run: yarn eas build --platform android --local --non-interactive
+        env:
+          GRADLE_OPTS: >-
+            -Dorg.gradle.daemon=false
+            -Dorg.gradle.parallel=true
+            -Dorg.gradle.workers.max=2
+            -Dorg.gradle.caching=true
