@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow yarn",
-    "postinstall": "husky",
+    "prepare": "husky",
     "pre-commit": "lint-staged",
     "pre-push": "tsc --noEmit",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
