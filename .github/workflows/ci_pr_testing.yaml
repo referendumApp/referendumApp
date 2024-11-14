@@ -61,7 +61,7 @@ jobs:
           eas-version: '13.1.1'
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build IOS
+      - name: Build Client
         run: eas build --platform ios --profile development --local --non-interactive
 
   build_android:
@@ -104,5 +104,5 @@ jobs:
           eas-version: '13.1.1'
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Build IOS
+      - name: Build Client
         run: eas build --platform android --profile development --local --non-interactive
