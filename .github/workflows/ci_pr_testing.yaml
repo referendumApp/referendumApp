@@ -3,7 +3,8 @@ name: Continuous Integration PR Tests
 on:
   pull_request:
     types: [opened, synchronize]
-    branches: main
+    branches:
+      - main
 
 jobs:
   client_tests:
