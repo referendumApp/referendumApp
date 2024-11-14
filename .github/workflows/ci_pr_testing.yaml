@@ -42,25 +42,24 @@ jobs:
 
   build:
     needs: client_tests
-    name: IOS Build
+    name: Build Client
     runs-on: ubuntu-latest
 
     steps:
-      - eas/checkout
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - eas/install_node_modules
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
 
-      - eas/resolve_build_config
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.1.1'
+          token: ${{ secrets.EXPO_TOKEN }}
 
-      - eas/prebuild
-
-      - run:
-          name: Install pods
-          working_directory: ./ios
-          command: pod install
-
-      - eas/generate_gymfile_from_template
-
-      - eas/run_fastlane
-
-      - eas/find_and_upload_build_artifacts
+      - name: IOS Build
+        run: eas build --platform ios --profile development-build

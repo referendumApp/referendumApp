@@ -17,12 +17,17 @@
         "NODE_ENV": "development"
       }
     },
-    "testing": {
+    "development-build": {
+      "channel": "development",
+      "distribution": "internal",
       "android": {
-        "credentialsSource": "remote"
+        "config": "android-build-without-credentials.yml",
+        "image": "default"
       },
       "ios": {
-        "credentialsSource": "remote"
+        "simulator": true,
+        "config": "ios-simulator-build.yml",
+        "image": "default"
       }
     },
     "production": {
