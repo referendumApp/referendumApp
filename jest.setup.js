@@ -39,5 +39,6 @@ jest.mock('@react-navigation/stack', () => ({
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: () => jest.fn(),
+  useStore: () => jest.fn(),
   Provider: ({ children }) => children,
 }));

@@ -1,8 +1,10 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+
+import { render, screen } from '@testing-library/react-native';
 
 import App from '../App';
-
-import { render, screen } from './test_utils';
+import store from '../src/store';
 
 jest.mock('expo-font', () => ({
   useFonts: () => [true],
@@ -15,7 +17,11 @@ jest.mock('expo-splash-screen', () => ({
 
 describe('App', () => {
   it('renders correctly', () => {
-    render(<App />);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    );
 
     expect(screen.getByText('Welcome to Referendum')).toBeOnTheScreen();
   });
