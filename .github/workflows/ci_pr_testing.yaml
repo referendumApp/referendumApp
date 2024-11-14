@@ -33,7 +33,7 @@ jobs:
       - name: Run Prebuild
         run: npx expo prebuild --clean
 
-      - name: Cache dependencies
+      - name: Cache Dependencies
         uses: actions/cache/save@v3
         with:
           path: |
@@ -61,11 +61,9 @@ jobs:
       - name: Restore Build Artifacts
         uses: actions/cache/restore@v3
         with:
-          path: |
-            node_modules
-          key: ${{ steps.cache-key.outputs.primary }}
-          restore-keys: |
-            ${{ steps.cache-key.outputs.restore }}
+          path: node_modules
+          key: ${{ needs.setup.outputs.primary-key }}
+          restore-keys: ${{ needs.setup.outputs.restore-key }}
 
       - name: Run Linter
         run: yarn lint
@@ -90,31 +88,31 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Setup Ruby and install Cocoapods
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: true
-
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest
-
-      - name: Restore build artifacts
+      - name: Restore Build Artifacts
         uses: actions/cache/restore@v3
         with:
           path: |
             node_modules
             ios/Pods
-          key: ${{ steps.cache-key.outputs.primary }}
-          restore-keys: |
-            ${{ steps.cache-key.outputs.restore }}
+          key: ${{ needs.setup.outputs.primary-key }}
+          restore-keys: ${{ needs.setup.outputs.restore-key }}
+
+      - name: Setup Ruby and Install Cocoapods
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest
 
       - name: Install Pods
         run: |
           cd ios
           pod install
-          
+
       - name: Build iOS
         run: yarn eas build --platform ios --local --non-interactive
 
@@ -132,15 +130,7 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
-
-      - uses: android-actions/setup-android@v2
-
-      - name: Restore build artifacts
+      - name: Restore Build Artifacts
         uses: actions/cache/restore@v3
         with:
           path: |
@@ -148,9 +138,17 @@ jobs:
             android/.gradle
             android/app/build
             android/build
-          key: ${{ steps.cache-key.outputs.primary }}
-          restore-keys: |
-            ${{ steps.cache-key.outputs.restore }}
+          key: ${{ needs.setup.outputs.primary-key }}
+          restore-keys: ${{ needs.setup.outputs.restore-key }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - uses: android-actions/setup-android@v2
 
       - name: Build Client
         run: eas build --platform android--local --non-interactive
