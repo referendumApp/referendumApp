@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { render, screen } from '@testing-library/react-native';
-
 import App from '../App';
+
+import { render, screen } from './test_utils';
 
 jest.mock('expo-font', () => ({
   useFonts: () => [true],
