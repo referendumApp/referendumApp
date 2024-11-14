@@ -17,6 +17,14 @@
         "NODE_ENV": "development"
       }
     },
+    "testing": {
+      "android": {
+        "credentialsSource": "remote"
+      },
+      "ios": {
+        "credentialsSource": "remote"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "distribution": "store",
