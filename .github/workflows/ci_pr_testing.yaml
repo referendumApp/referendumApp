@@ -47,8 +47,5 @@ jobs:
           eas-version: '13.1.1'
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: IOS Build
-        run: eas build --platform ios --non-interactive
-
       - name: Android Build
         run: eas build --platform ios --non-interactive
