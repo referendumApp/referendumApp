@@ -10,7 +10,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      cache-key: ${{ steps.cache-key.outputs.value }}
+      cache-key: ${{ steps.set-cache-key.outputs.cache-key }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,9 +23,7 @@ jobs:
 
       - name: Generate Cache Keys
         id: cache-key
-        run: |
-          echo "primary=${{ runner.os }}-build-${{ github.ref }}-${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
-          echo "restore=${{ runner.os }}-build-${{ github.ref }}" >> $GITHUB_OUTPUT
+        run: echo "cache-key=${{ runner.os }}-build-${{ github.sha }}" >> $GITHUB_OUTPUT
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
@@ -42,7 +40,7 @@ jobs:
             android/.gradle
             android/app/build
             android/build
-          key: ${{ steps.cache-key.outputs.primary }}
+        key: ${{ steps.set-cache-key.outputs.cache-key }}
 
   client_tests:
     needs: setup
@@ -62,8 +60,7 @@ jobs:
         uses: actions/cache/restore@v3
         with:
           path: node_modules
-          key: ${{ needs.setup.outputs.primary-key }}
-          restore-keys: ${{ needs.setup.outputs.restore-key }}
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Run Linter
         run: yarn lint
@@ -88,30 +85,23 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
+      - name: Setup Ruby and Install Cocoapods
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version:
+            file: 'Gemfile'
+          bundler-cache: true
+
       - name: Restore Build Artifacts
         uses: actions/cache/restore@v3
         with:
           path: |
             node_modules
             ios/Pods
-          key: ${{ needs.setup.outputs.primary-key }}
-          restore-keys: ${{ needs.setup.outputs.restore-key }}
-
-      - name: Setup Ruby and Install Cocoapods
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.0'
-          bundler-cache: true
-
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Install Pods
-        run: |
-          cd ios
-          pod install
+        run: cd ios && pod install
 
       - name: Build iOS
         run: yarn eas build --platform ios --local --non-interactive
@@ -138,8 +128,7 @@ jobs:
             android/.gradle
             android/app/build
             android/build
-          key: ${{ needs.setup.outputs.primary-key }}
-          restore-keys: ${{ needs.setup.outputs.restore-key }}
+          key: ${{ needs.setup.outputs.cache-key }}
 
       - name: Setup Java
         uses: actions/setup-java@v3
