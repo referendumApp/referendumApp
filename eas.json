@@ -17,19 +17,6 @@
         "NODE_ENV": "development"
       }
     },
-    "development-build": {
-      "channel": "development",
-      "distribution": "internal",
-      "android": {
-        "config": "android-build-without-credentials.yml",
-        "image": "default"
-      },
-      "ios": {
-        "simulator": true,
-        "config": "ios-simulator-build.yml",
-        "image": "default"
-      }
-    },
     "production": {
       "autoIncrement": true,
       "distribution": "store",
