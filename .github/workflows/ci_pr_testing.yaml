@@ -40,22 +40,23 @@ jobs:
           fi
           echo "prebuild_sucess=true" >> $GITHUB_OUTPUT
 
-  build:
+  build_ios:
     needs: client_tests
-    name: Build Client
-    runs-on: ubuntu-latest
+    name: Build IOS Client
+    runs-on: macos-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.0'
+
       - uses: expo/expo-github-action@v8
         with:
-          eas-version: latest
+          eas-version: '13.1.1'
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build IOS
         run: eas build --platform ios --profile development --local
-
-      - name: Build Android
-        run: eas build --platform android --profile development --local
