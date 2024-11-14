@@ -22,7 +22,7 @@ jobs:
           cache: 'yarn'
 
       - name: Generate Cache Keys
-        id: cache-key
+        id: set-cache-key
         run: echo "cache-key=${{ runner.os }}-build-${{ github.sha }}" >> $GITHUB_OUTPUT
 
       - name: Install Dependencies
