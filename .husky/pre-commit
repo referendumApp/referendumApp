@@ -1,8 +1,1 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Your commands below
-[ -n "$CI" ] && exit 0
-[ -n "$EAS_BUILD" ] && exit 0
-
 yarn pre-commit
