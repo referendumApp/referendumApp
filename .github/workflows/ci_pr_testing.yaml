@@ -40,7 +40,7 @@ jobs:
             android/.gradle
             android/app/build
             android/build
-        key: ${{ steps.set-cache-key.outputs.cache-key }}
+          key: ${{ steps.set-cache-key.outputs.cache-key }}
 
   client_tests:
     needs: setup
@@ -88,8 +88,7 @@ jobs:
       - name: Setup Ruby and Install Cocoapods
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version:
-            file: 'Gemfile'
+          ruby-version: 'Gemfile'
           bundler-cache: true
 
       - name: Restore Build Artifacts
