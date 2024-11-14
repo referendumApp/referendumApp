@@ -8,8 +8,14 @@ jest.mock('@expo/vector-icons', () => ({
   // Add other icon families you use
 }));
 
-jest.mock('expo-font');
-jest.mock('expo-splash-screen');
+jest.mock('expo-font', () => ({
+  useFonts: () => [true, null],
+}));
+
+jest.mock('expo-splash-screen', () => ({
+  preventAutoHideAsync: jest.fn(),
+  hideAsync: jest.fn(),
+}));
 
 // Silence the warning: Animated: `useNativeDriver` is not supported
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
@@ -42,3 +48,11 @@ jest.mock('react-redux', () => ({
   useStore: () => jest.fn(),
   Provider: ({ children }) => children,
 }));
+
+// Mock redux-devtools-expo-dev-plugin
+jest.mock('redux-devtools-expo-dev-plugin', () => {
+  return {
+    __esModule: true,
+    default: () => next => next,
+  };
+});

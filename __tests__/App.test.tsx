@@ -6,17 +6,19 @@ import { render, screen } from '@testing-library/react-native';
 import App from '../App';
 import store from '../src/store';
 
-jest.mock('expo-font', () => ({
-  useFonts: () => [true],
-}));
-
-jest.mock('expo-splash-screen', () => ({
-  preventAutoHideAsync: jest.fn(),
-  hideAsync: jest.fn(),
+jest.mock('@/screens/Login/api', () => ({
+  useGetUserSessionMutation: () => [
+    jest.fn().mockResolvedValue({ accessToken: 'test', tokenType: 'bearer', username: 'tester' }),
+    { isLoading: false },
+  ],
 }));
 
 describe('App', () => {
-  it('renders correctly', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('App and Login Page Renders', () => {
     render(
       <Provider store={store}>
         <App />
@@ -24,5 +26,8 @@ describe('App', () => {
     );
 
     expect(screen.getByText('Welcome to Referendum')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Email')).toBeOnTheScreen();
+    expect(screen.getByPlaceholderText('Password')).toBeOnTheScreen();
+    expect(screen.getByText('Log In')).toBeOnTheScreen();
   });
 });
