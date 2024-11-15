@@ -50,10 +50,10 @@ jobs:
           cache: 'yarn'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile && npx expo prebuild --platform ios
+        run: yarn install --frozen-lockfile
 
       - name: Build Client
-        run: yarn eas build --platform ios --profile staging --local --non-interactive
+        run: yarn eas build --platform ios --profile preview --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
@@ -72,7 +72,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile && npx expo prebuild --platform android
+        run: yarn install --frozen-lockfile
 
       - uses: actions/setup-java@v3
         with:
@@ -80,6 +80,6 @@ jobs:
           java-version: '17'
 
       - name: Build Client
-        run: yarn eas build --platform android --profile staging --local --non-interactive
+        run: yarn eas build --platform android --profile preview --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}

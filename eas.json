@@ -17,21 +17,17 @@
         "simulator": true
       }
     },
-    "staging": {
+    "preview": {
       "developmentClient": false,
       "distribution": "internal",
-      "prebuildCommand": "echo 'Skipping prebuild...'",
       "env": {
-        "ENVIRONMENT": "staging"
+        "ENVIRONMENT": "development"
       },
       "android": {
-        "buildType": "app-bundle",
-        "gradleCommand": ":app:assembleRelease"
+        "buildType": "apk"
       },
       "ios": {
-        "simulator": false,
-        "buildConfiguration": "Release",
-        "distribution": "internal"
+        "simulator": false
       }
     },
     "production": {
