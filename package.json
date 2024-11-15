@@ -19,10 +19,11 @@
     "ios:reinstall": "yarn ios:install && yarn ios:server",
     "ios:start": "yarn ios:boot && yarn ios:install && yarn ios:server",
     "ios:run": "yarn ios:build && yarn ios:start",
-    "ios:shutdown": "xcrun simctl shutdown default && killall Simulator && killall com.apple.CoreSimulator.CoreSimulatorService",
+    "ios:kill": "killall Simulator && killall com.apple.CoreSimulator.CoreSimulatorService",
+    "ios:shutdown": "xcrun simctl shutdown default && yarn ios:kill",
     "ios:uninstall": "xcrun simctl uninstall default referendum.app",
     "ios:clean": "yarn ios:uninstall && yarn ios:shutdown && rm -rf ./ios",
-    "ios:rebuild": "yarn ios:clean && yarn ios:run"
+    "ios:rebuild": "yarn ios:kill && rm -rf ./ios && yarn ios:run"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
