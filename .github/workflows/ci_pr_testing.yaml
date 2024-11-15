@@ -49,14 +49,8 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.6.10'
-          bundler-cache: true
-
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+        run: yarn install --frozen-lockfile
 
       - name: Build Client
         run: yarn eas build --platform ios --profile development --local --non-interactive
@@ -78,20 +72,14 @@ jobs:
           cache: 'yarn'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile --ignore-scripts
+        run: yarn install --frozen-lockfile
 
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
 
       - name: Build Client
         run: yarn eas build --platform android --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          GRADLE_OPTS: >-
-            -Dorg.gradle.daemon=false
-            -Dorg.gradle.parallel=true
-            -Dorg.gradle.workers.max=2
-            -Dorg.gradle.caching=true
