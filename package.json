@@ -42,6 +42,7 @@
     "@redux-devtools/core": "^4.0.0",
     "@reduxjs/toolkit": "^2.2.7",
     "date-fns": "^4.1.0",
+    "eas-cli": "13.1.1",
     "expo": "51.0.39",
     "expo-dev-client": "~4.0.28",
     "expo-splash-screen": "~0.27.7",

@@ -5,10 +5,6 @@ on:
     types: [opened, synchronize]
     branches: main
 
-env:
-  EXPO_VERSION: '0.18.31'
-  EAS_VERSION: '13.1.1'
-
 jobs:
   client_tests:
     name: Client Tests
@@ -53,17 +49,13 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Install EAS Dependencies
-        run: |
-          yarn global add eas-cli@13.1.1
-          yarn add expo@51.0.39
-          yarn add expo-dev-client@4.0.28
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
 
       - name: Build Client
         run: eas build --platform ios --profile development --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
 
   build_android:
     name: Build Android Client
@@ -73,10 +65,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install EAS Dependencies
-        run: |
-          yarn global add eas-cli@13.1.1
-          yarn add expo@51.0.39
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
 
       - uses: actions/setup-java@v3
         with:
