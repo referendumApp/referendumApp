@@ -49,11 +49,6 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
       - name: Install Dependencies
         run: |
           yarn install --frozen-lockfile
