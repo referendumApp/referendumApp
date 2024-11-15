@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": ">= 12.5.3",
+    "version": "13.1.1",
     "appVersionSource": "remote"
   },
   "build": {
@@ -15,6 +15,22 @@
       },
       "ios": {
         "simulator": true
+      }
+    },
+    "beta": {
+      "developmentClient": false,
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_API_URL": "http://ec2-18-222-200-13.us-east-2.compute.amazonaws.com",
+        "EXPO_PUBLIC_API_PORT": "80",
+        "NODE_ENV": "test"
+      },
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     },
     "production": {

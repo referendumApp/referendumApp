@@ -1,5 +1,6 @@
 const ENVIRONMENTS = {
   development: 'development',
+  test: 'test',
   production: 'production',
 };
 

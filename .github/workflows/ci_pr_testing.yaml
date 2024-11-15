@@ -52,26 +52,10 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
-      - uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest
-
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - uses: expo/expo-github-action@v8
-        with:
-          eas-version: '13.1.1'
-          token: ${{ secrets.EXPO_TOKEN }}
-
       - name: Build Client
-        run: eas build --platform ios --profile development --local --non-interactive
+        run: yarn eas build --platform ios --profile beta --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   build_android:
     name: Build Android Client
@@ -94,24 +78,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-          cache: 'gradle'
-
-      - uses: android-actions/setup-android@v2
-
-      # Cache Gradle dependencies
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - uses: expo/expo-github-action@v8
-        with:
-          eas-version: '13.1.1'
-          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform android --profile development --local --non-interactive
+        run: yarn eas build --platform android --profile beta --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          GRADLE_OPTS: >-
+            -Dorg.gradle.daemon=false
+            -Dorg.gradle.parallel=true
+            -Dorg.gradle.workers.max=2
+            -Dorg.gradle.caching=true
