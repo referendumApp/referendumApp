@@ -49,21 +49,14 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Cache Pods
-        uses: actions/cache@v3
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          path: |
-            ios/Pods
-            ~/Library/Caches/CocoaPods
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+          ruby-version: '2.6.10'
+          bundler-cache: true
 
       - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
-          npx expo prebuild --clean --platform ios
-          cd ios && pod install
+        run: yarn install --frozen-lockfile
 
       - name: Build Client
         run: yarn eas build --platform ios --local --non-interactive
@@ -84,29 +77,24 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            android/.gradle
-            android/app/build
-            android/build
-          key: |
-            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'android/gradle/**') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
-          npx expo prebuild --clean --platform android
+        run: yarn install --frozen-lockfile
 
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'gradle'
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: |
+            ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - name: Build Client
         run: yarn eas build --platform android --local --non-interactive
