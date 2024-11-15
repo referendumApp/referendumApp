@@ -1,10 +1,11 @@
 {
   "expo": {
+    "owner": "referendum",
     "plugins": [
       [
         "expo-font",
         {
-          "fonts":[
+          "fonts": [
             "./src/assets/fonts/OpenSans-Regular.ttf",
             "./src/assets/fonts/Inter-Regular.ttf",
             "./src/assets/fonts/Inter-Medium.ttf",

@@ -17,17 +17,20 @@
         "simulator": true
       }
     },
-    "preview": {
+    "beta": {
       "developmentClient": false,
       "distribution": "internal",
       "env": {
-        "NODE_ENV": "development"
+        "EXPO_PUBLIC_API_URL": "http://ec2-18-222-200-13.us-east-2.compute.amazonaws.com",
+        "EXPO_PUBLIC_API_PORT": "80",
+        "NODE_ENV": "production"
       },
       "android": {
-        "buildType": "apk"
+        "buildType": "app-bundle"
       },
       "ios": {
-        "simulator": false
+        "simulator": false,
+        "buildConfiguration": "Release"
       }
     },
     "production": {
