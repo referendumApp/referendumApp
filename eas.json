@@ -25,7 +25,7 @@
         "ENVIRONMENT": "staging"
       },
       "android": {
-        "buildType": "aab",
+        "buildType": "app-bundle",
         "gradleCommand": ":app:assembleRelease"
       },
       "ios": {
