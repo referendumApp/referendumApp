@@ -43,19 +43,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node Environment
-        uses: actions/setup-node@v4
+      - uses: expo/expo-github-action@v8
         with:
-          node-version: '18'
-          cache: 'yarn'
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+          eas-version: '13.1.1'
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
         run: yarn eas build --platform ios --profile development --local --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   build_android:
     name: Build Android Client
@@ -65,14 +59,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Setup Node Environment
-        uses: actions/setup-node@v4
+      - uses: expo/expo-github-action@v8
         with:
-          node-version: '18'
-          cache: 'yarn'
-
-      - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+          eas-version: '13.1.1'
+          token: ${{ secrets.EXPO_TOKEN }}
 
       - uses: actions/setup-java@v3
         with:
@@ -81,5 +71,3 @@ jobs:
 
       - name: Build Client
         run: yarn eas build --platform android --profile preview --local --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
