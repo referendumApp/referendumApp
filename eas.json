@@ -21,7 +21,7 @@
       "developmentClient": false,
       "distribution": "internal",
       "env": {
-        "ENVIRONMENT": "development"
+        "NODE_ENV": "development"
       },
       "android": {
         "buildType": "apk"

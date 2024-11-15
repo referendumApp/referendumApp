@@ -53,7 +53,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Client
-        run: yarn eas build --platform ios --profile preview --local --non-interactive
+        run: yarn eas build --platform ios --profile development --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
