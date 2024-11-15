@@ -50,7 +50,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npx expo prebuild --platform ios
 
       - name: Build Client
         run: yarn eas build --platform ios --profile development --local --non-interactive
@@ -71,8 +71,11 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
+      # - name: Install Dependencies
+      #   run: yarn install --frozen-lockfile
+
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: npx expo prebuild --platform android
 
       - uses: actions/setup-java@v3
         with:
