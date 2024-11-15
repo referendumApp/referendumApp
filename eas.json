@@ -17,6 +17,23 @@
         "simulator": true
       }
     },
+    "staging": {
+      "developmentClient": false,
+      "distribution": "internal",
+      "prebuildCommand": "echo 'Skipping prebuild...'",
+      "env": {
+        "ENVIRONMENT": "staging"
+      },
+      "android": {
+        "buildType": "aab",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "ios": {
+        "simulator": false,
+        "buildConfiguration": "Release",
+        "distribution": "internal"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "distribution": "store",

@@ -53,7 +53,7 @@ jobs:
         run: yarn install --frozen-lockfile && npx expo prebuild --platform ios
 
       - name: Build Client
-        run: yarn eas build --platform ios --profile development --local --non-interactive
+        run: yarn eas build --platform ios --profile staging --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
@@ -80,6 +80,6 @@ jobs:
           java-version: '17'
 
       - name: Build Client
-        run: yarn eas build --platform android --local --non-interactive
+        run: yarn eas build --platform android --profile staging --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
