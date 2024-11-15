@@ -49,12 +49,6 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
-          npx expo prebuild --clean --platform ios
-          cd ios && pod install
-
       - name: Cache Pods
         uses: actions/cache@v3
         with:
@@ -65,8 +59,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx expo prebuild --clean --platform ios
+          cd ios && pod install
+
       - name: Build Client
         run: yarn eas build --platform ios --local --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
   build_android:
     name: Build Android Client
@@ -82,17 +84,6 @@ jobs:
           node-version: '18'
           cache: 'yarn'
 
-      - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
-          npx expo prebuild --clean --platform android
-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
-
       - uses: actions/cache@v3
         with:
           path: |
@@ -106,9 +97,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          npx expo prebuild --clean --platform android
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
       - name: Build Client
         run: yarn eas build --platform android --local --non-interactive
         env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GRADLE_OPTS: >-
             -Dorg.gradle.daemon=false
             -Dorg.gradle.parallel=true
