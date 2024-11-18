@@ -29,7 +29,7 @@
     "android:boot": "emulator -avd default && adb start-server",
     "android:install": "adb install ./android/build.apk",
     "android:server": "npx expo start --android --dev-client --clear",
-    "android:launch": "adb shell am start -n com.referendum.app/.MainActivity && yarn android:server",
+    "android:launch": "adb shell am start -n app/.MainActivity && yarn android:server",
     "android:reinstall": "adb install -r ./android/build.apk",
     "android:start": "yarn android:boot && yarn android:install && yarn android:server",
     "android:run": "yarn android:build && yarn android:start",
