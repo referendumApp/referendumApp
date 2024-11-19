@@ -74,6 +74,11 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'openjdk'
+          java-version: '21'
+
       - name: Build Client
         run: yarn eas build --platform android --profile beta --local --non-interactive
         env:
