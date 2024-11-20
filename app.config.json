@@ -28,10 +28,14 @@
       "backgroundColor": "#FFFFFF"
     },
     "android": {
-      "package": "referendum.app"
+      "package": "com.referendum.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/referendum_icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
     },
     "ios": {
-      "bundleIdentifier": "referendum.app"
+      "bundleIdentifier": "com.referendum.app"
     }
   }
 }

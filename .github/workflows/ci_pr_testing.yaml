@@ -53,7 +53,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build Client
-        run: yarn eas build --platform ios --profile beta --local --non-interactive
+        run: yarn eas build --platform ios --profile development --local --non-interactive
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
@@ -77,7 +77,7 @@ jobs:
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Build Client
         run: yarn eas build --platform android --profile beta --local --non-interactive
