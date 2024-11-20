@@ -36,7 +36,7 @@
         "buildType": "app-bundle"
       },
       "ios": {
-        "distribution": "internal",
+        "distribution": "store",
         "simulator": false,
         "buildConfiguration": "Release"
       }
