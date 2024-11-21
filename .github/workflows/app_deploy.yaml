@@ -1,0 +1,80 @@
+name: App Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Beta or Production"
+        required: true
+        default: "beta"
+        type: "choice"
+        options:
+          - beta
+          - production
+
+      type:
+        description: "IOS and/or Android"
+        required: true
+        default: "all"
+        type: "choice"
+        options:
+          - all
+          - ios
+          - android
+jobs:
+  deploy_ios:
+    name: Deploy IOS App
+    runs-on: macos-latest
+    if: ${{ github.event.inputs.type == 'all' || github.event.inputs.type == 'ios' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.3.0'
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Client
+        run: eas build --platform ios --profile beta --non-interactive --auto-submit
+
+  deploy_android:
+    name: Deploy Android App
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.type == 'all' || github.event.inputs.type == 'android' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.3.0'
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Build Client
+        run: eas build --platform android --profile beta --non-interactive --auto-submit
