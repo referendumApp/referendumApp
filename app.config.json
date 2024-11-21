@@ -1,6 +1,7 @@
 {
   "expo": {
     "owner": "referendum",
+    "package": false,
     "plugins": [
       [
         "expo-font",
@@ -20,6 +21,12 @@
     "extra": {
       "eas": {
         "projectId": "6bc5786b-adc9-476a-a4aa-4516db7d3936"
+      },
+      "android": {
+        "EXPO_PUBLIC_API_URL": "http://10.0.2.2"
+      },
+      "ios": {
+        "EXPO_PUBLIC_API_URL": "localhost"
       }
     },
     "icon": "./src/assets/referendum_icon.png",

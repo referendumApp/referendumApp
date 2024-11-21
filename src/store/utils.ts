@@ -1,3 +1,6 @@
+import Constants from 'expo-constants';
+import { Platform } from 'react-native';
+
 const ENVIRONMENTS = {
   development: 'development',
   test: 'test',
@@ -19,8 +22,12 @@ export const getMiddlewareOptions = () => {
   return {};
 };
 
+const getDevUrl = () => {
+  return Constants.expoConfig?.extra?.[Platform.OS].EXPO_PUBLIC_API_URL ?? 'http://localhost';
+};
+
 const getApiUrl = () => {
-  const url = process.env.EXPO_PUBLIC_API_URL || 'http://localhost';
+  const url = isDevEnv() ? getDevUrl() : process.env.EXPO_PUBLIC_API_URL;
   const port = process.env.EXPO_PUBLIC_API_PORT || '80';
   const baseUrl = `${url}:${port}`;
 
