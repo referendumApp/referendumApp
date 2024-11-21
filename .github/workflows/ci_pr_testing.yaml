@@ -43,13 +43,19 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
       - uses: expo/expo-github-action@v8
         with:
           eas-version: '13.3.0'
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: build --platform ios --profile beta --local --non-interactive
+        run: eas build --platform ios --profile beta --local --non-interactive
 
   build_android:
     name: Build Android Client
@@ -58,6 +64,12 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Setup Node Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
 
       - uses: expo/expo-github-action@v8
         with:
