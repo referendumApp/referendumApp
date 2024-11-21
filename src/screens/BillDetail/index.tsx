@@ -96,20 +96,22 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
     <SafeAreaView style={styles.container}>
       <NavBar handleBack={handleBack} handleFollow={handleFollow} isFollowing={isFollowing} />
       <View style={styles.header}>
-        <Text style={styles.title}>{`${bill.state.name}  -  ${bill.identifier}`}</Text>
-        <Text style={styles.subtitle}>{bill.title}</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>{`${bill.state.name}  -  ${bill.identifier}`}</Text>
+          <Text style={styles.subtitle}>{bill.title}</Text>
+        </View>
+        <Carousel
+          items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
+          onItemPress={() => {}}
+          title="Related: "
+          containerStyle={styles.tagCarouselContainer}
+          titleStyle={styles.tagCarouselText}
+          itemStyle={styles.tagCarouselItem}
+          itemSelectedStyle={styles.tagCarouselSelectedItem}
+          textStyle={styles.tagCarouselItemText}
+          textSelectedStyle={styles.tagCarouselSelectedItemText}
+        />
       </View>
-      <Carousel
-        items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
-        onItemPress={() => {}}
-        title="Related: "
-        containerStyle={styles.tagCarouselContainer}
-        titleStyle={styles.tagCarouselText}
-        itemStyle={styles.tagCarouselItem}
-        itemSelectedStyle={styles.tagCarouselSelectedItem}
-        textStyle={styles.tagCarouselItemText}
-        textSelectedStyle={styles.tagCarouselSelectedItemText}
-      />
 
       <ScrollView>
         <Card

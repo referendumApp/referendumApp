@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   header: {
     ...componentStyles.header,
     paddingTop: 0,
-    paddingBottom: size.xxl,
+    paddingBottom: size.l,
     flexDirection: 'row',
     gap: size.xs,
   },
