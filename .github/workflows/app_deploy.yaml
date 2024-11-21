@@ -21,11 +21,12 @@ on:
           - all
           - ios
           - android
+
 jobs:
   deploy_ios:
     name: Deploy IOS App
     runs-on: macos-latest
-    if: ${{ github.event.inputs.type == 'all' || github.event.inputs.type == 'ios' }}
+    if: ${{  github.event.inputs.type == 'all' ||  github.event.inputs.type == 'ios' }}
 
     steps:
       - name: Checkout Repository
@@ -46,7 +47,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform ios --profile beta --non-interactive --auto-submit
+        run: eas build --platform ios --profile ${{ github.event.inputs.type }} --non-interactive --auto-submit
 
   deploy_android:
     name: Deploy Android App
@@ -77,4 +78,4 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform android --profile beta --non-interactive --auto-submit
+        run: eas build --platform android --profile ${{ github.event.inputs.type }} --non-interactive --auto-submit

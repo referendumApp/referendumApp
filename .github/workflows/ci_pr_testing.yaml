@@ -58,7 +58,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform ios --profile beta --local --non-interactive
+        run: eas build --platform ios --profile preview --local --non-interactive
 
   build_android:
     name: Build Android Client
@@ -88,7 +88,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform android --profile beta --local --non-interactive
+        run: eas build --platform android --profile preview --local --non-interactive
         env:
           GRADLE_OPTS: >-
             -Dorg.gradle.daemon=false
