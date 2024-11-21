@@ -6,15 +6,17 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "env": {
-        "NODE_ENV": "development"
-      },
       "android": {
         "buildType": "apk"
       },
       "ios": {
         "distribution": "internal",
-        "simulator": true
+        "simulator": true,
+        "env": {
+          "NODE_ENV": "development",
+          "EXPO_PUBLIC_API_URL": "http://localhost",
+          "EXPO_PUBLIC_API_PORT": "80"
+        }
       }
     },
     "beta": {

@@ -15,7 +15,7 @@
     "ios:build": "eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
     "ios:boot": "xcrun simctl boot default && open -a Simulator",
     "ios:install": "xcrun simctl install booted ./ios/referendum.app",
-    "ios:launch": "xcrun simctl launch default com.referendum.referendumapp & NODE_ENV=ios npx expo start --ios --dev-client --clear",
+    "ios:launch": "xcrun simctl launch default com.referendum.referendumapp & npx expo start --ios --dev-client --clear",
     "ios:reinstall": "yarn ios:install && yarn ios:launch",
     "ios:start": "yarn ios:boot && yarn ios:install && yarn ios:launch",
     "ios:kill": "killall Simulator && killall com.apple.CoreSimulator.CoreSimulatorService",
@@ -26,15 +26,17 @@
     "android:devices": "emulator -list-avds",
     "android:default": "sdkmanager --install \"system-images;android-33;google_apis_playstore;x86_64\" && avdmanager create avd --name \"default\" --package \"system-images;android-33;google_apis_playstore;x86_64\" --device \"pixel_7\"",
     "android:build": "npx expo prebuild --platform android && cd ./android && ./gradlew assembleDebug",
-    "android:boot": "emulator -avd default -no-snapshot-load -no-snapshot-save",
+    "android:boot": "adb start-server && emulator -avd default -no-snapshot-load -no-snapshot-save",
     "android:install": "adb install ./android/app/build/outputs/apk/debug/app-debug.apk",
-    "android:launch": "adb start-server && NODE_ENV=android npx expo start --android --dev-client --clear",
+    "android:launch": "NODE_ENV=development npx expo start --android --dev-client --clear",
     "android:reinstall": "adb install -r ./android/app/build/outputs/apk/debug/app-debug.apk",
     "android:start": "yarn android:install && yarn android:launch",
-    "android:shutdown": "adb emu kill && adb kill-server",
+    "android:shutdown": "adb kill-server && adb emu kill",
     "android:uninstall": "adb uninstall com.referendum.referendumapp",
     "android:clean": "yarn android:uninstall && yarn android:shutdown && rm -rf ./android",
-    "android:rebuild": "yarn android:clean && yarn android:build"
+    "android:rebuild": "yarn android:clean && yarn android:build",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
   },
   billItem: {
     ...componentStyles.card,
+    paddingHorizontal: size.m,
+    paddingVertical: size.s,
     height: BILL_ITEM_HEIGHT,
   },
   billTitleLine: {
