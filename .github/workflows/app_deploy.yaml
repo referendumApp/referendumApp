@@ -47,7 +47,7 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform ios --profile ${{ github.event.inputs.type }} --non-interactive --auto-submit
+        run: eas build --platform ios --profile ${{ github.event.inputs.environment }} --non-interactive --auto-submit
 
   deploy_android:
     name: Deploy Android App
@@ -78,4 +78,4 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Build Client
-        run: eas build --platform android --profile ${{ github.event.inputs.type }} --non-interactive --auto-submit
+        run: eas build --platform android --profile ${{ github.event.inputs.environment }} --non-interactive --auto-submit
