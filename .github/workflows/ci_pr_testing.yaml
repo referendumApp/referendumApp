@@ -78,7 +78,6 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - uses: actions/setup-java@v3
-      - uses: expo/expo-github-action@v8
         with:
           distribution: 'temurin'
           java-version: '21'
