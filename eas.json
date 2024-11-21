@@ -46,6 +46,21 @@
     }
   },
   "submit": {
-    "production": {}
+    "beta": {
+      "ios": {
+        "appleId": "makani.cartwright@gmail.com",
+        "ascAppId": "6738511205",
+        "appleTeamId": "Q3Z8A24874"
+      },
+      "android": {
+        "track": "internal"
+      }
+    },
+    "production": {
+      "ios": {},
+      "android": {
+        "track": "production"
+      }
+    }
   }
 }
