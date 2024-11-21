@@ -52,10 +52,13 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.3.0'
+          token: ${{ secrets.EXPO_TOKEN }}
+
       - name: Build Client
-        run: yarn eas build --platform ios --profile development --local --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: eas build --platform ios --profile beta --local --non-interactive
 
   build_android:
     name: Build Android Client
@@ -79,10 +82,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: '13.3.0'
+          token: ${{ secrets.EXPO_TOKEN }}
+
       - name: Build Client
-        run: yarn eas build --platform android --profile beta --local --non-interactive
+        run: eas build --platform android --profile beta --local --non-interactive
         env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           GRADLE_OPTS: >-
             -Dorg.gradle.daemon=false
             -Dorg.gradle.parallel=true

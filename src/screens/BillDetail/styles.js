@@ -8,9 +8,13 @@ const styles = StyleSheet.create({
     paddingVertical: size.m,
   },
   header: {
-    ...componentStyles.header,
-    paddingTop: 0,
-    height: '25%',
+    backgroundColor: colors.primary,
+    height: '30%',
+  },
+  titleContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: size.xs,
   },
   subHeader: {
     ...componentStyles.subHeader,
@@ -32,7 +36,7 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     marginLeft: 0,
     paddingLeft: size.m,
-    backgroundColor: colors.primary,
+    paddingTop: size.m,
   },
   tagCarouselTitle: {
     ...typography.body,

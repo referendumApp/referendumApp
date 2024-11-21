@@ -10,6 +10,8 @@ import store from './src/store';
 
 SplashScreen.preventAutoHideAsync();
 
+SplashScreen.setOptions({ fade: true, duration: 1000 });
+
 const App: React.FC = () => {
   const [loaded, error] = useFonts({
     'OpenSans-Regular': require('./src/assets/fonts/OpenSans-Regular.ttf'),

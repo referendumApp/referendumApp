@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
@@ -52,6 +52,12 @@ const styles = StyleSheet.create({
   },
   billItem: {
     ...componentStyles.card,
+    ...Platform.select({
+      android: {
+        paddingHorizontal: size.m,
+        paddingVertical: size.s,
+      },
+    }),
     height: BILL_ITEM_HEIGHT,
   },
   billTitleLine: {
