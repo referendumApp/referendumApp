@@ -1,7 +1,6 @@
 {
   "expo": {
     "owner": "referendum",
-    "package": false,
     "plugins": [
       [
         "expo-font",
