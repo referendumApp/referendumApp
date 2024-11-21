@@ -17,7 +17,7 @@
         "simulator": true
       }
     },
-    "beta": {
+    "preview": {
       "developmentClient": false,
       "env": {
         "EXPO_PUBLIC_API_URL": "http://ec2-18-222-200-13.us-east-2.compute.amazonaws.com",
@@ -28,10 +28,13 @@
         "buildType": "app-bundle"
       },
       "ios": {
-        "distribution": "store",
+        "distribution": "internal",
         "simulator": false,
         "buildConfiguration": "Release"
       }
+    },
+    "beta": {
+      "extends": "production"
     },
     "production": {
       "autoIncrement": true,
@@ -55,7 +58,11 @@
       }
     },
     "production": {
-      "ios": {},
+      "ios": {
+        "appleId": "makani.cartwright@gmail.com",
+        "ascAppId": "6738511205",
+        "appleTeamId": "Q3Z8A24874"
+      },
       "android": {
         "track": "production"
       }
