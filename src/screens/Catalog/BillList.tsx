@@ -63,7 +63,7 @@ const BillList: React.FC<BillListProps> = React.memo(
 
     const handleBillPress = useCallback(
       (bill: Bill) => {
-        const initialVote = userBillVotes?.find(vote => vote.billId === bill.id)?.voteChoice;
+        const initialVote = userBillVotes?.find(vote => vote.billId === bill.id)?.voteChoiceId;
         const initialFollow = followedBills?.some(follow => follow.id === bill.id);
         navigation.navigate('BillScreen', { bill, initialFollow, initialVote });
       },

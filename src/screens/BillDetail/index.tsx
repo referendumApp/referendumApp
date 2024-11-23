@@ -59,7 +59,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
         await uncastBillVote({ billId: bill.id });
         setUserVote(undefined);
       } else {
-        await castBillVote({ billId: bill.id, voteChoice: buttonValue });
+        await castBillVote({ billId: bill.id, voteChoiceId: buttonValue });
         setUserVote(buttonValue);
       }
     },
