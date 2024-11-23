@@ -9,12 +9,14 @@ const styles = StyleSheet.create({
   },
   header: {
     backgroundColor: colors.primary,
-    height: '30%',
+    display: 'flex',
+    flexDirection: 'column',
   },
   titleContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: size.xs,
+    paddingHorizontal: size.m,
   },
   subHeader: {
     ...componentStyles.subHeader,
@@ -36,7 +38,7 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     marginLeft: 0,
     paddingLeft: size.m,
-    paddingTop: size.m,
+    paddingTop: size.m * 1.5,
   },
   tagCarouselTitle: {
     ...typography.body,
