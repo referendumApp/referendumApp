@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     justifyContent: 'center',
   },
+  scrollContainer: {
+    paddingTop: size.m,
+  },
+  tabContainer: componentStyles.tabContainer,
   tagCarouselContainer: {
     ...componentStyles.carouselContainer,
     ...componentStyles.centerRow,

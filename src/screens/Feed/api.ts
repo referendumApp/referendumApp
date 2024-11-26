@@ -1,18 +1,18 @@
 import { Bill, Legislator } from '@/appTypes';
-import baseApi, { ApiResource, createGetQuery } from '@/store/baseApi';
+import baseApi, { ApiResource, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { setUserBills, setUserLegislators } from './duck';
 
 const catalogApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getUserBills: createGetQuery<Bill[]>({
+    getUserBills: createGetQueryAndReducer<Bill[]>({
       builder,
       resource: ApiResource.bills,
       pathParams: ApiResource.legislators,
       reducer: setUserBills,
     }),
-    getUserLegislators: createGetQuery<Legislator[]>({
+    getUserLegislators: createGetQueryAndReducer<Legislator[]>({
       builder,
       resource: ApiResource.users,
       pathParams: ApiResource.legislators,

@@ -86,6 +86,12 @@ export const componentStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.lightGray,
   },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: colors.tertiary,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.mediumGray,
+  },
   header: {
     backgroundColor: colors.primary,
     padding: size.m,

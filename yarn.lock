@@ -7912,10 +7912,10 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
-redux-devtools-expo-dev-plugin@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/redux-devtools-expo-dev-plugin/-/redux-devtools-expo-dev-plugin-0.2.1.tgz#7bffc1c8e4c0113c63d8a1fdd4adb3ad3747e807"
-  integrity sha512-wzSZ/DDa1QoQ/Uh1BdtJJdFDj0URXXknkHNcO+Q2A3Pbt7LTku1gAuzIMdy36ET7Pp7ge+UDj2OAEpe6kyQqPA==
+redux-devtools-expo-dev-plugin@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redux-devtools-expo-dev-plugin/-/redux-devtools-expo-dev-plugin-1.0.0.tgz#ea34e6ff5f8e661e6a460e17e35b42bbac4a8bfe"
+  integrity sha512-E97ZAlswpkSE5ZwcWTKCFT9PEwDs2JBS8UvmW99PWtN3i6BRLmDo+iUwjIlMIfCEHkYiWtWE9JoYflNN3v57Ow==
   dependencies:
     "@redux-devtools/instrument" "^2.2.0"
     "@redux-devtools/utils" "^3.0.0"

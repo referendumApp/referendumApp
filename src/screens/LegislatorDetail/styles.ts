@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     ...componentStyles.container,
     paddingVertical: size.m,
   },
+  tabContainer: componentStyles.tabContainer,
+  scrollContainer: {
+    paddingTop: size.m,
+  },
   header: {
     ...componentStyles.header,
     paddingTop: 0,
