@@ -7,9 +7,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderTopWidth: 0,
     elevation: 0,
-    height: 80,
+    height: 95,
     paddingTop: size.m,
-    paddingBottom: size.m,
   },
   tabBarLabel: {
     ...typography.caption,

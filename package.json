@@ -75,7 +75,7 @@
     "react-redux": "^9.1.2",
     "react-test-renderer": "18.2.0",
     "redux": "^5.0.1",
-    "redux-devtools-expo-dev-plugin": "^0.2.1"
+    "redux-devtools-expo-dev-plugin": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

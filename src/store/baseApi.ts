@@ -22,6 +22,7 @@ export enum HttpMethod {
 export enum ApiResource {
   auth = 'auth',
   bills = 'bills',
+  billVersions = 'bill_versions',
   follow = 'follow',
   legislators = 'legislators',
   legislativeBodys = 'legislative_bodys',
@@ -46,7 +47,7 @@ interface CreateGetQuery<T> {
   reducer?: ActionCreatorWithPayload<T>;
 }
 
-export const createGetQuery = <TResponse>({
+export const createGetQueryAndReducer = <TResponse>({
   builder,
   resource,
   params,
@@ -66,6 +67,12 @@ export const createGetQuery = <TResponse>({
   });
 };
 
+enum BaseTags {
+  partys = 'partys',
+  roles = 'roles',
+  states = 'states',
+}
+
 const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
@@ -79,15 +86,19 @@ const baseApi = createApi({
       return headers;
     },
   }),
+  tagTypes: [BaseTags.partys, BaseTags.roles, BaseTags.states],
   endpoints: builder => ({
     getPartys: builder.query<Party[], void>({
       query: () => ({ url: `${ApiResource.partys}/` }),
+      providesTags: result => (result ? [BaseTags.partys] : []),
     }),
     getRoles: builder.query<Role[], void>({
       query: () => ({ url: `${ApiResource.roles}/` }),
+      providesTags: result => (result ? [BaseTags.roles] : []),
     }),
     getStates: builder.query<State[], void>({
       query: () => ({ url: `${ApiResource.states}/` }),
+      providesTags: result => (result ? [BaseTags.states] : []),
     }),
   }),
   reducerPath: 'api',

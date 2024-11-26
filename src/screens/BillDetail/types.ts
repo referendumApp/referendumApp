@@ -8,3 +8,5 @@ export type BillVote = {
 export type UserBillVote = BillVote & {
   userId: number;
 };
+
+export type TabType = 'overview' | 'voting' | 'fullText';

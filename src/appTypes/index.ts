@@ -21,6 +21,13 @@ export interface LegislativeBody {
   stateId: number;
 }
 
+export interface Sponsor {
+  billId: number;
+  legislatorId: number;
+  rank: number;
+  type: string;
+}
+
 export interface Legislator {
   id: number;
   legiscanId: number;
@@ -64,6 +71,40 @@ export interface Bill {
 
 export type BillField = FlattenFieldKeys<Bill>;
 
+export interface BillDetail {
+  id: number;
+  legiscanId: number;
+  identifier: string;
+  title: string;
+  description: string;
+  briefing: string;
+  stateId: number;
+  stateName: string;
+  legislativeBodyId: number;
+  legislativeBodyRoleId: number;
+  legislativeBodyRole: string;
+  sessionId: number;
+  statusId: number;
+  status: string;
+  statusDate: string;
+  sponsors: Sponsor[];
+}
+
+export type BillDetailField = FlattenFieldKeys<BillDetail>;
+
+export interface BillVersion {
+  id: number;
+  billId: number;
+  url: string;
+  hash: string;
+}
+
+export interface BillText {
+  billVersionId: number;
+  hash: string;
+  text: string;
+}
+
 export interface User {
   accessToken: string;
   tokenType: string;
@@ -75,4 +116,4 @@ export const VoteChoice = {
   NO: 2,
 } as const;
 
-export type VoteChoiceType = typeof VoteChoice[keyof typeof VoteChoice];
+export type VoteChoiceType = (typeof VoteChoice)[keyof typeof VoteChoice];
