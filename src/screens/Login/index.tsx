@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import {
+  Keyboard,
   View,
+  Pressable,
   Text,
   TextInput,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 
-import Logo from '@/assets/logo.svg';
-import { useGetUserSessionMutation } from '@/screens/Login/api';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+import { BackButton } from '@/components/NavBar';
+import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
+import { useGetUserSessionMutation } from './api';
 import styles from './styles';
 
-const LoginScreen: React.FC = () => {
+type NavigationProp = StackNavigationProp<AuthStackParamList, 'SignUp'>;
+
+const LoginScreen: React.FC = React.memo(() => {
+  const navigation = useNavigation<NavigationProp>();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [getUserSession] = useGetUserSessionMutation();
@@ -24,48 +31,50 @@ const LoginScreen: React.FC = () => {
     await getUserSession({ password, username: email });
   };
 
-  const handleSignUp = (): void => {
-    console.log('Navigate to sign up');
-  };
-
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}>
+      <BackButton
+        style={styles.backButton}
+        iconColor={colors.darkGray}
+        handleBack={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Welcome' }],
+          })
+        }
+      />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
-          <View style={styles.logo}>
-            <Logo height={100} width={100} />
-          </View>
           <Text style={styles.title}>Welcome to Referendum</Text>
-          <Text style={styles.subtitle}>Your platform for democratic engagement</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholderTextColor={colors.mediumGray}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholderTextColor={colors.mediumGray}
-          />
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Log In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-            <Text style={styles.signUpButtonText}>Don't have an account? Sign up!</Text>
-          </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={(text: string) => setEmail(text)}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholderTextColor={colors.mediumGray}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              onChangeText={(text: string) => setPassword(text)}
+              secureTextEntry
+              placeholderTextColor={colors.mediumGray}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Pressable style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Continue</Text>
+            </Pressable>
+          </View>
         </View>
-      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      <View style={styles.dividerHorizontal} />
     </SafeAreaView>
   );
-};
+});
 
 export default LoginScreen;

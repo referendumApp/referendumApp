@@ -2193,6 +2193,21 @@
   dependencies:
     color "^4.2.3"
 
+"@react-navigation/elements@^2.1.6":
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.1.6.tgz#b7166f4783fe90fe1f171ac210d6523a00caf919"
+  integrity sha512-XyjEm2EhR9XPaMbGYTPRXmIdfvz23jt7U3BsJK2CzOQq29G1fZLgsR1atyhG0fJ8YeYAZADt7vZ7bZ5k/whVvw==
+  dependencies:
+    color "^4.2.3"
+
+"@react-navigation/native-stack@^7.1.8":
+  version "7.1.8"
+  resolved "https://registry.yarnpkg.com/@react-navigation/native-stack/-/native-stack-7.1.8.tgz#9a9a3190c5d80d55c31cbf19fd591f7b558fef1e"
+  integrity sha512-cny6ykmOoYJd9pfAuQdDfxgQ5I9Wwq2jnLxxauBbTHVj19xjKI9Jkqxgzx2XKJ6uO6Zpq+hw0Bl3Hk91c07xOA==
+  dependencies:
+    "@react-navigation/elements" "^2.1.6"
+    warn-once "^0.1.1"
+
 "@react-navigation/native@^7.0.3":
   version "7.0.4"
   resolved "https://registry.yarnpkg.com/@react-navigation/native/-/native-7.0.4.tgz#42cfd7acb6cf8263e1f309a9c2a494e3f434cf95"
@@ -9190,7 +9205,7 @@ walker@^1.0.7, walker@^1.0.8:
   dependencies:
     makeerror "1.0.12"
 
-warn-once@0.1.1, warn-once@^0.1.0:
+warn-once@0.1.1, warn-once@^0.1.0, warn-once@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/warn-once/-/warn-once-0.1.1.tgz#952088f4fb56896e73fd4e6a3767272a3fccce43"
   integrity sha512-VkQZJbO8zVImzYFteBXvBOZEl1qL175WH8VmZcxF2fZAoudNhNDvHi+doCaAEdU2l2vtcIwa2zn0QK5+I1HQ3Q==

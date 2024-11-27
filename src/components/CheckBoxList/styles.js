@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
   checkboxContainer: componentStyles.centerRow,
   checkbox: componentStyles.checkbox,
   checked: {
-    backgroundColor: colors.appleBlue,
-    borderColor: colors.appleBlue,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   optionItem: {
     paddingVertical: size.s * 1.5,

@@ -1,13 +1,13 @@
-import { User } from '@/appTypes';
+import { Token } from '@/appTypes';
 import baseApi, { ApiResource, HttpMethod, OnQueryStarted } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
 import { LoginCredentials, LoginSession } from './types';
 
-const authApi = baseApi.injectEndpoints({
+const loginApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getUserSession: builder.mutation<User, LoginCredentials>({
+    getUserSession: builder.mutation<Token, LoginCredentials>({
       query: creds => {
         const formData = new URLSearchParams({
           grant_type: 'password',
@@ -28,14 +28,10 @@ const authApi = baseApi.injectEndpoints({
           url: `${ApiResource.auth}/login`,
         };
       },
-      async onQueryStarted(
-        args: LoginCredentials,
-        { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>,
-      ) {
-        const { username } = args;
+      async onQueryStarted(_, { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(login({ ...data, username }));
+          dispatch(login({ ...data }));
         } catch (error) {
           console.error(error);
         }
@@ -45,4 +41,4 @@ const authApi = baseApi.injectEndpoints({
   overrideExisting: isDevEnv(),
 });
 
-export const { useGetUserSessionMutation } = authApi;
+export const { useGetUserSessionMutation } = loginApi;

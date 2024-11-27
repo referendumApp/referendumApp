@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import AppNavigator from './src/navigation';
+import RootNavigator from './src/navigation';
 import store from './src/store';
 
 SplashScreen.preventAutoHideAsync();
@@ -33,7 +33,7 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <AppNavigator />
+        <RootNavigator />
       </NavigationContainer>
     </Provider>
   );

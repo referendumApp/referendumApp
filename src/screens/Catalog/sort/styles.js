@@ -15,13 +15,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   radioSelected: {
-    borderColor: colors.appleBlue,
+    borderColor: colors.primary,
   },
   radioInner: {
     width: size.s * 1.5,
     height: size.s * 1.5,
     borderRadius: 6,
-    backgroundColor: colors.appleBlue,
+    backgroundColor: colors.primary,
   },
   optionText: {
     marginLeft: size.s * 1.5,
