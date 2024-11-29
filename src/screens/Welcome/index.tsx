@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Pressable, Text, SafeAreaView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import Logo from '@/assets/logo.svg';
 import { AuthStackParamList } from '@/navigation/types';
 
 import styles from './styles';
 
-type NavigationProp = StackNavigationProp<AuthStackParamList, 'Welcome'>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Welcome'>;
 
 const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();

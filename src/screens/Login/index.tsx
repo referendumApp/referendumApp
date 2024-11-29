@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps, StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackScreenProps, NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
@@ -20,8 +20,8 @@ import { LoginError, useGetUserSessionMutation } from './api';
 import styles from './styles';
 import { LoginCredentials, LoginFields } from './types';
 
-type NavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
-type LoginScreenProps = StackScreenProps<AuthStackParamList, 'Login'>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
+type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
 
 const LoginScreen: React.FC<LoginScreenProps> = ({
   route: {

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-// import { createStackNavigator } from '@react-navigation/stack';
 
 import BillScreen from '@/screens/BillDetail';
 import CatalogScreen from '@/screens/Catalog';

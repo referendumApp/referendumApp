@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Animated } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
+
+import RotatingChevron from '@/components/RotatingChevron';
 
 import styles from './styles';
 
@@ -57,24 +59,13 @@ function MultiSelect<T>({
   return (
     <View style={styles.container}>
       {/* Dropdown Header */}
-      <TouchableOpacity
-        style={[styles.header, isOpen && styles.headerOpen]}
-        onPress={() => setIsOpen(!isOpen)}
-        activeOpacity={0.7}>
-        <Text style={[styles.headerText, selectedOptions.length === 0 && styles.placeholder]}>
-          {getSelectedText()}
-        </Text>
-        <Animated.View
-          style={{
-            transform: [
-              {
-                rotate: isOpen ? '180deg' : '0deg',
-              },
-            ],
-          }}>
-          <Ionicons name="chevron-down" size={24} color="#666" />
-        </Animated.View>
-      </TouchableOpacity>
+      <RotatingChevron
+        headerStyle={[styles.header, isOpen && styles.headerOpen]}
+        textStyle={[styles.headerText, selectedOptions.length === 0 && styles.placeholder]}
+        isOpen={isOpen}
+        text={getSelectedText()}
+        onPress={(open: boolean) => setIsOpen(open)}
+      />
 
       {/* Dropdown Content */}
       {isOpen && (

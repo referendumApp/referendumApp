@@ -1,12 +1,20 @@
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect } from 'react';
+import { UIManager, Platform } from 'react-native';
 import { Provider } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
 
 import RootNavigator from './src/navigation';
 import store from './src/store';
+
+// Enable LayoutAnimation for Android
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 SplashScreen.preventAutoHideAsync();
 

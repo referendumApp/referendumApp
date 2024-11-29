@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
@@ -25,7 +25,7 @@ import { SignUpCredentials, SignUpFields } from './types';
 
 type SignUpForm = SignUpCredentials & { confirmPassword: string };
 
-type NavigationProp = StackNavigationProp<AuthStackParamList, 'SignUp'>;
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignUp'>;
 
 const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();

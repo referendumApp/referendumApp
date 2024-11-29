@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import Carousel from '@/components/Carousel';
 import NavBar from '@/components/NavBar';
@@ -16,7 +16,7 @@ import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
 
-type BillDetailScreenProps = StackScreenProps<CatalogStackParamList, 'BillScreen'>;
+type BillDetailScreenProps = NativeStackScreenProps<CatalogStackParamList, 'BillScreen'>;
 
 const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
   route: {

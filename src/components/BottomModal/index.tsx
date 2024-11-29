@@ -52,7 +52,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
 
     animation.start();
 
-    return () => animation.stop();
+    return () => slideAnim.stopAnimation();
   }, [isVisible, slideAnim]);
 
   return (
