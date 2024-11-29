@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useState } from 'react';
+import React, { PropsWithChildren, ReactNode, useCallback, useState } from 'react';
 import {
   View,
   Text,
@@ -29,7 +29,7 @@ const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({ title,
   const [isOpen, setIsOpen] = useState(false);
   const rotateAnim = useAnimatedValue(0);
 
-  const toggleAccordion = () => {
+  const toggleAccordion = useCallback(() => {
     // Configure layout animation
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
@@ -41,7 +41,7 @@ const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({ title,
     }).start();
 
     setIsOpen(!isOpen);
-  };
+  }, [isOpen, rotateAnim, setIsOpen]);
 
   const rotateInterpolate = rotateAnim.interpolate({
     inputRange: [0, 1],

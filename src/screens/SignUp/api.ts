@@ -1,8 +1,18 @@
 import { User } from '@/appTypes';
-import baseApi, { ApiResource, HttpMethod } from '@/store/baseApi';
+import baseApi, {
+  ApiResource,
+  ErrorResponse,
+  HttpMethod,
+  TransformedError,
+  handleErrorDetails,
+} from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
-import { SignUpCredentials } from './types';
+import { SignUpCredentials, SignUpFields } from './types';
+
+export type SignUpError = TransformedError<SignUpCredentials>;
+
+const validFields: SignUpFields[] = ['email', 'password', 'name'];
 
 const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -12,6 +22,8 @@ const authApi = baseApi.injectEndpoints({
         method: HttpMethod.post,
         body,
       }),
+      transformErrorResponse: (response: ErrorResponse<SignUpCredentials>): SignUpError =>
+        handleErrorDetails<SignUpCredentials>(response, validFields),
     }),
   }),
   overrideExisting: isDevEnv(),

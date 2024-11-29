@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     gap: size.l,
     alignItems: 'center',
     width: '100%',
-    marginBottom: '15%',
+    marginBottom: '20%',
   },
   disabledButton: {
     backgroundColor: colors.lightMediumGray,
@@ -58,6 +58,13 @@ const styles = StyleSheet.create({
   loginButtonText: {
     ...componentStyles.semiBoldText,
     color: colors.tertiary,
+  },
+  errorMsg: {
+    ...typography.body,
+    color: colors.errorRed,
+  },
+  noDisplay: {
+    opacity: 0,
   },
 });
 

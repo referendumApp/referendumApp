@@ -8,6 +8,7 @@ import LegislatorImage from '@/components/LegislatorImage';
 import NavBar from '@/components/NavBar';
 import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
+import { colors } from '@/themes';
 
 import { useFollowLegislatorMutation, useUnfollowLegislatorMutation } from './api';
 import Funding from './Funding';
@@ -50,7 +51,8 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
         <View style={styles.header}>
           <LegislatorImage
             party={legislator.party.name}
-            partySvgStyle={styles.partyImage}
+            svgBackgroundColor={colors.white}
+            svgSize={120}
             uri={legislator.imageUrl}
             style={styles.image}
           />

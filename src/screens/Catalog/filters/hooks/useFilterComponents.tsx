@@ -16,28 +16,25 @@ interface FilterComponentConfigs {
 
 type FilterComponents = { [K in FilterComponentFieldTypes]: FilterComponentConfigs };
 
-const useFilterComponents = (activeToggle: ToggleOptions, filterFields: ValidFilterFields) => {
-  const components: FilterComponents = useMemo(
-    () => ({
-      [FilterComponentFields.partyId]: {
-        title: FilterTitles[FilterComponentFields.partyId],
-        content: <PartyFilter />,
-        category: ToggleOptions.all,
-      },
-      [FilterComponentFields.roleId]: {
-        title: FilterTitles[FilterComponentFields.roleId],
-        content: <RoleFilter />,
-        category: ToggleOptions.federal,
-      },
-      [FilterComponentFields.stateId]: {
-        title: FilterTitles[FilterComponentFields.stateId],
-        content: <StateFilter />,
-        category: ToggleOptions.state,
-      },
-    }),
-    [],
-  );
+const components: FilterComponents = {
+  [FilterComponentFields.partyId]: {
+    title: FilterTitles[FilterComponentFields.partyId],
+    content: <PartyFilter />,
+    category: ToggleOptions.all,
+  },
+  [FilterComponentFields.roleId]: {
+    title: FilterTitles[FilterComponentFields.roleId],
+    content: <RoleFilter />,
+    category: ToggleOptions.federal,
+  },
+  [FilterComponentFields.stateId]: {
+    title: FilterTitles[FilterComponentFields.stateId],
+    content: <StateFilter />,
+    category: ToggleOptions.state,
+  },
+};
 
+const useFilterComponents = (activeToggle: ToggleOptions, filterFields: ValidFilterFields) => {
   const filterComponents = useMemo(() => {
     const componentConfigs = filterFields.map(field => components[field]);
 
@@ -46,7 +43,7 @@ const useFilterComponents = (activeToggle: ToggleOptions, filterFields: ValidFil
       : componentConfigs.filter(
           config => config.category === activeToggle || config.category === ToggleOptions.all,
         );
-  }, [activeToggle, components, filterFields]);
+  }, [activeToggle, filterFields]);
 
   return filterComponents;
 };

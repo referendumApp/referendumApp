@@ -19,11 +19,6 @@ const styles = StyleSheet.create({
     gap: size.xs,
   },
   dividerVertical: componentStyles.dividerVertical,
-  partyImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 70,
-  },
   image: {
     width: 120,
     height: 120,

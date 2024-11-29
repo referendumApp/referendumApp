@@ -1,9 +1,18 @@
 import { Token } from '@/appTypes';
-import baseApi, { ApiResource, HttpMethod, OnQueryStarted } from '@/store/baseApi';
+import baseApi, {
+  ApiResource,
+  ErrorResponse,
+  HttpMethod,
+  OnQueryStarted,
+  TransformedError,
+  handleErrorDetails,
+} from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
 import { LoginCredentials, LoginSession } from './types';
+
+export type LoginError = TransformedError<LoginCredentials>;
 
 const loginApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -29,13 +38,11 @@ const loginApi = baseApi.injectEndpoints({
         };
       },
       async onQueryStarted(_, { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>) {
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(login({ ...data }));
-        } catch (error) {
-          console.error(error);
-        }
+        const { data } = await queryFulfilled;
+        dispatch(login({ ...data }));
       },
+      transformErrorResponse: (response: ErrorResponse<LoginCredentials>, _, body): LoginError =>
+        handleErrorDetails<LoginCredentials>(response, body),
     }),
   }),
   overrideExisting: isDevEnv(),

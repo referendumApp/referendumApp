@@ -11,7 +11,7 @@ import styles from './styles';
 
 type NavigationProp = StackNavigationProp<AuthStackParamList, 'Welcome'>;
 
-const WelcomeScreen: React.FC = React.memo(() => {
+const WelcomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   return (
@@ -23,7 +23,9 @@ const WelcomeScreen: React.FC = React.memo(() => {
           <Logo height={200} width={200} />
         </View>
         <View style={styles.buttonContainer}>
-          <Pressable style={styles.loginButton} onPress={() => navigation.navigate('Login')}>
+          <Pressable
+            style={styles.loginButton}
+            onPress={() => navigation.navigate('Login', { previousScreen: 'Welcome' })}>
             <Text style={styles.loginButtonText}>Login</Text>
           </Pressable>
           <Pressable style={styles.signUpButton} onPress={() => navigation.navigate('SignUp')}>
@@ -33,6 +35,6 @@ const WelcomeScreen: React.FC = React.memo(() => {
       </View>
     </SafeAreaView>
   );
-});
+};
 
 export default WelcomeScreen;

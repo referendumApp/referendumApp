@@ -3,3 +3,5 @@ export interface SignUpCredentials {
   name: string;
   password: string;
 }
+
+export type SignUpFields = keyof SignUpCredentials;

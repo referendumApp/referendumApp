@@ -14,24 +14,20 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
-import ToolTip from '@/components/ToolTip';
 import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { useSignUpUserMutation } from './api';
+import { SignUpError, useSignUpUserMutation } from './api';
 import styles from './styles';
+import { SignUpCredentials, SignUpFields } from './types';
 
-type SignUpForm = {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+type SignUpForm = SignUpCredentials & { confirmPassword: string };
 
 type NavigationProp = StackNavigationProp<AuthStackParamList, 'SignUp'>;
 
-const SignUpScreen: React.FC = React.memo(() => {
+const SignUpScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const [signUpForm, setSignUpForm] = useState<SignUpForm>({
@@ -40,38 +36,47 @@ const SignUpScreen: React.FC = React.memo(() => {
     password: '',
     confirmPassword: '',
   });
-  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [errorState, setErrorState] = useState<SignUpError | null>();
 
   const [signUpUser] = useSignUpUserMutation();
 
   const handleFocus = () => {
-    if (passwordError) {
-      setPasswordError(false);
+    if (errorState) {
+      setErrorState(null);
     }
+  };
+
+  const handleFormValue = (name: SignUpFields, value: string) => {
+    setSignUpForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSignUp = useCallback(async () => {
     const { email, name, password, confirmPassword } = signUpForm;
 
     if (password !== confirmPassword) {
-      setPasswordError(true);
-      return false;
+      setErrorState({ field: 'password', message: "Passwords don't match. Please try again" });
+      return;
     }
 
     try {
       await signUpUser({ email, name, password }).unwrap();
 
-      navigation.navigate('Login');
+      navigation.navigate('Login', { previousScreen: 'SignUp' });
     } catch (error) {
-      setPasswordError(true);
+      setErrorState(error as SignUpError);
     }
   }, [navigation, signUpForm, signUpUser]);
 
   const isSignUpValid = useMemo(() => {
+    if (errorState) return false;
+
     const { email, name, password } = signUpForm;
 
     return Boolean(email && password && name);
-  }, [signUpForm]);
+  }, [errorState, signUpForm]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -87,52 +92,36 @@ const SignUpScreen: React.FC = React.memo(() => {
           <View style={styles.content}>
             <Text style={styles.title}>Create Account</Text>
             <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
+              <Text style={[styles.errorMsg, errorState && errorState?.field && styles.noDisplay]}>
+                {errorState?.message}
+              </Text>
+              <FormField
+                name="name"
+                errorState={errorState}
                 placeholder="Name"
                 value={signUpForm.name}
-                onChangeText={(text: string) =>
-                  setSignUpForm(prev => ({
-                    ...prev,
-                    name: text,
-                  }))
-                }
+                onChangeValue={handleFormValue}
                 onFocus={handleFocus}
                 autoCapitalize="words"
                 placeholderTextColor={colors.mediumGray}
               />
-              <TextInput
-                style={styles.input}
+              <FormField
+                name="email"
+                errorState={errorState}
                 placeholder="Email"
                 value={signUpForm.email}
-                onChangeText={(text: string) =>
-                  setSignUpForm(prev => ({
-                    ...prev,
-                    email: text,
-                  }))
-                }
+                onChangeValue={handleFormValue}
                 onFocus={handleFocus}
                 autoCapitalize="none"
                 keyboardType="email-address"
                 placeholderTextColor={colors.mediumGray}
               />
-              {passwordError && (
-                <ToolTip
-                  style={styles.tooltip}
-                  text="Passwords don't match. Please try again"
-                  isError={true}
-                />
-              )}
-              <TextInput
-                style={[styles.input, passwordError && styles.inputError]}
+              <FormField
+                name="password"
+                errorState={errorState}
                 placeholder="Password"
                 value={signUpForm.password}
-                onChangeText={(text: string) =>
-                  setSignUpForm(prev => ({
-                    ...prev,
-                    password: text,
-                  }))
-                }
+                onChangeValue={handleFormValue}
                 onFocus={handleFocus}
                 secureTextEntry
                 placeholderTextColor={colors.mediumGray}
@@ -157,7 +146,7 @@ const SignUpScreen: React.FC = React.memo(() => {
       </KeyboardAvoidingView>
       <View style={styles.buttonContainer}>
         <Pressable
-          style={[styles.loginButton, (!isSignUpValid || passwordError) && styles.disabledButton]}
+          style={[styles.loginButton, !isSignUpValid && styles.disabledButton]}
           onPress={handleSignUp}
           disabled={!isSignUpValid}>
           <Text style={styles.loginButtonText}>Continue</Text>
@@ -165,6 +154,6 @@ const SignUpScreen: React.FC = React.memo(() => {
       </View>
     </SafeAreaView>
   );
-});
+};
 
 export default SignUpScreen;

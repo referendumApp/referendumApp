@@ -34,6 +34,87 @@ export enum ApiResource {
   votes = 'votes',
 }
 
+type RequestBody = Record<string, any>;
+
+type ErrorContext = {
+  error: Record<string, string>;
+};
+
+type ErrorDetail<T extends RequestBody> = {
+  ctx: ErrorContext | Record<'reason', string>;
+  input: T[keyof T];
+  loc: ['body', string & keyof T];
+  msg: string;
+  type: string;
+};
+
+type ErrorDetails<T extends RequestBody> = ErrorDetail<T>[] | TransformedError<T> | string;
+
+export type ErrorResponse<T extends RequestBody> = {
+  status: number;
+  data: Record<'detail', ErrorDetails<T>>;
+};
+
+export type TransformedError<T extends RequestBody> = {
+  field?: string & keyof T;
+  message: string;
+};
+
+export function isReason(
+  ctx: ErrorContext | Record<'reason', string>,
+): ctx is Record<'reason', string> {
+  return 'reason' in ctx;
+}
+
+export function isErrorString<T extends RequestBody>(detail: ErrorDetails<T>): detail is string {
+  return typeof detail === 'string';
+}
+
+export function isTransformedError<T extends RequestBody>(
+  detail: ErrorDetails<T>,
+): detail is TransformedError<T> {
+  return !Array.isArray(detail) && typeof detail === 'object';
+}
+
+export function isErrorDetail<T extends RequestBody>(
+  detail: ErrorDetails<T>,
+  validFields: (keyof T)[],
+): detail is ErrorDetail<T>[] {
+  return (
+    Array.isArray(detail) && detail[0].loc[0] === 'body' && validFields.includes(detail[0].loc[1])
+  );
+}
+
+export const handleErrorDetails = <T extends RequestBody>(
+  response: ErrorResponse<T>,
+  body?: T,
+): TransformedError<T> => {
+  const detail = response.data?.detail;
+
+  if (isErrorString<T>(detail)) {
+    return { message: detail };
+  }
+
+  if (body) {
+    const validFields = Object.keys(body);
+
+    if (isErrorDetail<T>(detail, validFields)) {
+      return {
+        field: detail[0].loc[1],
+        message: isReason(detail[0].ctx) ? detail[0].ctx?.reason : detail[0].msg,
+      };
+    }
+
+    if (isTransformedError<T>(detail)) {
+      return detail.field && validFields.includes(detail.field)
+        ? detail
+        : { message: detail.message };
+    }
+  }
+
+  return { message: 'Unknown error, please contact an administrator or try again' };
+};
+
 export interface OnQueryStarted<T> {
   dispatch: AppDispatch;
   queryFulfilled: Promise<{ data: T }>;

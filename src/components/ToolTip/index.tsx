@@ -5,7 +5,7 @@ import styles from './styles';
 
 type ToolTipProps = {
   style?: StyleProp<ViewStyle>;
-  text: string;
+  text?: string;
   isError?: boolean;
 };
 

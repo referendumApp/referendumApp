@@ -23,10 +23,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '85%',
   },
-  input: {
-    ...componentStyles.input,
-    marginBottom: size.m,
-  },
   backButton: {
     padding: size.m,
   },

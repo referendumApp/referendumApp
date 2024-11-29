@@ -7,7 +7,7 @@ export type RootStackParamList = {
 
 export type AuthStackParamList = {
   Welcome: undefined;
-  Login: undefined;
+  Login: { previousScreen: 'Welcome' | 'SignUp' };
   SignUp: undefined;
 };
 

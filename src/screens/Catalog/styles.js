@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
   },
+  svg: {
+    marginRight: size.m,
+  },
   legislatorImage: {
     width: 50,
     height: 50,

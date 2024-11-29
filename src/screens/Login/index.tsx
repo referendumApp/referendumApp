@@ -4,63 +4,97 @@ import {
   View,
   Pressable,
   Text,
-  TextInput,
   TouchableWithoutFeedback,
   SafeAreaView,
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackScreenProps, StackNavigationProp } from '@react-navigation/stack';
 
+import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
 import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { useGetUserSessionMutation } from './api';
+import { LoginError, useGetUserSessionMutation } from './api';
 import styles from './styles';
+import { LoginCredentials, LoginFields } from './types';
 
-type NavigationProp = StackNavigationProp<AuthStackParamList, 'SignUp'>;
+type NavigationProp = StackNavigationProp<AuthStackParamList, 'Login'>;
+type LoginScreenProps = StackScreenProps<AuthStackParamList, 'Login'>;
 
-const LoginScreen: React.FC = React.memo(() => {
+const LoginScreen: React.FC<LoginScreenProps> = ({
+  route: {
+    params: { previousScreen },
+  },
+}) => {
   const navigation = useNavigation<NavigationProp>();
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+
+  const [loginForm, setLoginForm] = useState<LoginCredentials>({
+    username: '',
+    password: '',
+  });
+  const [errorState, setErrorState] = useState<LoginError | null>();
+
   const [getUserSession] = useGetUserSessionMutation();
 
+  const handleBack = () => {
+    if (previousScreen === 'Welcome') {
+      navigation.goBack();
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Welcome' }],
+      });
+    }
+  };
+
+  const handleFocus = () => {
+    if (errorState) {
+      setErrorState(null);
+    }
+  };
+
+  const handleFormValue = (name: LoginFields, value: string) => {
+    setLoginForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleLogin = async () => {
-    await getUserSession({ password, username: email });
+    try {
+      await getUserSession(loginForm).unwrap();
+    } catch (error) {
+      setErrorState(error as LoginError);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <BackButton
-        style={styles.backButton}
-        iconColor={colors.darkGray}
-        handleBack={() =>
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Welcome' }],
-          })
-        }
-      />
+      <BackButton style={styles.backButton} iconColor={colors.darkGray} handleBack={handleBack} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
           <Text style={styles.title}>Welcome to Referendum</Text>
           <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.input}
+            <FormField
+              name="username"
+              errorState={errorState}
               placeholder="Email"
-              value={email}
-              onChangeText={(text: string) => setEmail(text)}
+              value={loginForm.username}
+              onChangeValue={handleFormValue}
+              onFocus={handleFocus}
               autoCapitalize="none"
               keyboardType="email-address"
               placeholderTextColor={colors.mediumGray}
             />
-            <TextInput
-              style={styles.input}
+            <FormField
+              name="password"
+              errorState={errorState}
               placeholder="Password"
-              value={password}
-              onChangeText={(text: string) => setPassword(text)}
+              value={loginForm.password}
+              onChangeValue={handleFormValue}
+              onFocus={handleFocus}
               secureTextEntry
               placeholderTextColor={colors.mediumGray}
             />
@@ -75,6 +109,6 @@ const LoginScreen: React.FC = React.memo(() => {
       <View style={styles.dividerHorizontal} />
     </SafeAreaView>
   );
-});
+};
 
 export default LoginScreen;
