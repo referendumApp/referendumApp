@@ -106,9 +106,17 @@ export interface BillText {
 }
 
 export interface User {
+  email: string;
+  name: string;
+  id: number;
+  followedBills: [];
+  followedTopics: [];
+  followedLegislators: [];
+}
+
+export interface Token {
   accessToken: string;
   tokenType: string;
-  username: string;
 }
 
 export const VoteChoice = {

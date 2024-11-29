@@ -7,8 +7,11 @@ const styles = StyleSheet.create({
     ...componentStyles.container,
     backgroundColor: colors.white,
   },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
   content: {
-    flex: 0.5,
+    flex: 1,
     alignItems: 'center',
     marginTop: size.l,
   },
@@ -23,6 +26,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '85%',
   },
+  tooltip: {
+    alignItems: 'flex-start',
+    width: '95%',
+  },
+  input: {
+    ...componentStyles.input,
+    marginBottom: size.m,
+  },
+  inputError: {
+    borderWidth: 1,
+    borderColor: colors.errorRed,
+  },
   backButton: {
     padding: size.m,
   },
@@ -30,6 +45,10 @@ const styles = StyleSheet.create({
     gap: size.l,
     alignItems: 'center',
     width: '100%',
+    marginBottom: '20%',
+  },
+  disabledButton: {
+    backgroundColor: colors.lightMediumGray,
   },
   loginButton: {
     ...buttonStyles.medium,
@@ -40,7 +59,13 @@ const styles = StyleSheet.create({
     ...componentStyles.semiBoldText,
     color: colors.tertiary,
   },
-  dividerHorizontal: componentStyles.dividerHorizontal,
+  errorMsg: {
+    ...typography.body,
+    color: colors.errorRed,
+  },
+  noDisplay: {
+    opacity: 0,
+  },
 });
 
 export default styles;

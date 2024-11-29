@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { Bill } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
@@ -30,7 +30,7 @@ interface BillListProps {
   isSortOpen: boolean;
 }
 
-type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>;
+type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
 const BillList: React.FC<BillListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {

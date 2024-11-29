@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import LegislatorImage from '@/components/LegislatorImage';
 import NavBar from '@/components/NavBar';
 import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
+import { colors } from '@/themes';
 
 import { useFollowLegislatorMutation, useUnfollowLegislatorMutation } from './api';
 import Funding from './Funding';
@@ -16,7 +17,7 @@ import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
 
-type LegislatorScreenProps = StackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
+type LegislatorScreenProps = NativeStackScreenProps<CatalogStackParamList, 'LegislatorScreen'>;
 
 const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
   ({
@@ -50,7 +51,8 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
         <View style={styles.header}>
           <LegislatorImage
             party={legislator.party.name}
-            partySvgStyle={styles.partyImage}
+            svgBackgroundColor={colors.white}
+            svgSize={120}
             uri={legislator.imageUrl}
             style={styles.image}
           />

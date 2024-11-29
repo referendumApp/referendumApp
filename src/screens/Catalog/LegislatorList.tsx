@@ -2,12 +2,15 @@ import React, { useCallback, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { Legislator } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
 import SortModal from '@/screens/Catalog/sort/SortModal';
-import { useGetLegislatorsQuery, useGetFollowedLegislatorsQuery } from '@/screens/LegislatorDetail/api';
+import {
+  useGetLegislatorsQuery,
+  useGetFollowedLegislatorsQuery,
+} from '@/screens/LegislatorDetail/api';
 
 import { filterConfigs } from './filters/constants';
 import FilterModal from './filters/FilterModal';
@@ -26,7 +29,7 @@ interface LegislatorListProps {
   isSortOpen: boolean;
 }
 
-type NavigationProp = StackNavigationProp<CatalogStackParamList, 'Catalog'>
+type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
 
 const LegislatorList: React.FC<LegislatorListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {
@@ -58,13 +61,18 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
       setSelectedSort(sortField);
     };
 
-    const handleLegislatorPress = useCallback((legislator: Legislator) => {
-      const initialFollow = followedLegislators?.some(follow => follow.id === legislator.id);
-      navigation.navigate('LegislatorScreen', { legislator, initialFollow });
-    }, [followedLegislators, navigation]);
+    const handleLegislatorPress = useCallback(
+      (legislator: Legislator) => {
+        const initialFollow = followedLegislators?.some(follow => follow.id === legislator.id);
+        navigation.navigate('LegislatorScreen', { legislator, initialFollow });
+      },
+      [followedLegislators, navigation],
+    );
 
     const renderItem = useCallback(
-      ({ item }: { item: Legislator }) => <LegislatorItem legislator={item} onPress={handleLegislatorPress} />,
+      ({ item }: { item: Legislator }) => (
+        <LegislatorItem legislator={item} onPress={handleLegislatorPress} />
+      ),
       [handleLegislatorPress],
     );
 

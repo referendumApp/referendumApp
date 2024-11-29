@@ -75,13 +75,13 @@ const styles = StyleSheet.create({
   },
   checkbox: componentStyles.checkbox,
   checked: {
-    backgroundColor: colors.appleBlue,
-    borderColor: colors.appleBlue,
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
   },
   optionText: typography.body,
   selectedOptionText: {
     ...typography.body,
-    color: colors.appleBlue,
+    color: colors.primary,
   },
   noResults: {
     fontFamily: 'OpenSans-Regular',
@@ -101,4 +101,3 @@ const styles = StyleSheet.create({
 });
 
 export default styles;
-

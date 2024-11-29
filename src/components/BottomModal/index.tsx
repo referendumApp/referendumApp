@@ -41,22 +41,18 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   animationType,
   statusBarTranslucent = false,
   presentationStyle,
-
 }) => {
   const slideAnim = useAnimatedValue(0);
 
   useEffect(() => {
-    if (isVisible) {
-      Animated.spring(slideAnim, {
-        toValue: 1,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.spring(slideAnim, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
-    }
+    const animation = Animated.spring(slideAnim, {
+      toValue: isVisible ? 1 : 0,
+      useNativeDriver: true,
+    });
+
+    animation.start();
+
+    return () => slideAnim.stopAnimation();
   }, [isVisible, slideAnim]);
 
   return (

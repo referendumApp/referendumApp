@@ -8,39 +8,48 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   content: {
-    flex: 0.5,
+    flex: 1,
     alignItems: 'center',
-    marginTop: size.l,
+    marginTop: '10%',
   },
-  title: {
-    ...typography.title,
-    textAlign: 'center',
-    color: colors.darkGray,
-  },
-  inputContainer: {
+  logoContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '85%',
   },
-  backButton: {
-    padding: size.m,
+  title: {
+    ...componentStyles.boldText,
+    marginBottom: size.m,
+    color: colors.secondary,
+  },
+  subtitle: {
+    ...typography.largeTitle,
+    textAlign: 'center',
+    marginBottom: size.xl,
+    color: colors.darkGray,
   },
   buttonContainer: {
     gap: size.l,
+    marginTop: 'auto',
     alignItems: 'center',
     width: '100%',
+    marginBottom: '25%',
   },
   loginButton: {
     ...buttonStyles.medium,
     width: '85%',
+    backgroundColor: colors.tertiary,
+  },
+  loginButtonText: componentStyles.semiBoldText,
+  signUpButton: {
+    ...buttonStyles.medium,
+    width: '85%',
     backgroundColor: colors.primary,
   },
-  loginButtonText: {
+  signUpButtonText: {
     ...componentStyles.semiBoldText,
-    color: colors.tertiary,
+    color: colors.lightGray,
   },
-  dividerHorizontal: componentStyles.dividerHorizontal,
 });
 
 export default styles;

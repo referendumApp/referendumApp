@@ -11,7 +11,7 @@ export enum ToggleButtonSize {
   small = 'small',
   medium = 'medium',
   large = 'large',
-  xlarge= 'xlarge',
+  xlarge = 'xlarge',
 }
 
 interface ToggleButtonProps extends Omit<IconProps, 'iconFamily'> {
@@ -29,21 +29,21 @@ interface ToggleButtonProps extends Omit<IconProps, 'iconFamily'> {
   onToggle: (isActive: boolean, buttonValue: any) => void;
 }
 
-const ToggleButton = ({
+const ToggleButton: React.FC<ToggleButtonProps> = ({
   style,
   buttonText,
   buttonTextStyles,
   buttonValue,
   iconFamily,
   iconName,
-  activeButtonColor = colors.appleBlue,
+  activeButtonColor = colors.primary,
   inactiveButtonColor = colors.veryLightGray,
   activeContentColor = colors.tertiary,
   inactiveContentColor = colors.black,
   size = ToggleButtonSize.medium,
   isActive = false,
   onToggle,
-}: ToggleButtonProps) => {
+}) => {
   const handlePress = () => {
     onToggle(isActive, buttonValue);
   };
