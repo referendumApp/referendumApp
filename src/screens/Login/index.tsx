@@ -1,69 +1,112 @@
 import React, { useState } from 'react';
 import {
+  Keyboard,
   View,
+  Pressable,
   Text,
-  TextInput,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
   SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
 } from 'react-native';
 
-import Logo from '@/assets/logo.svg';
-import { useGetUserSessionMutation } from '@/screens/Login/api';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps, NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import FormField from '@/components/FormField';
+import { BackButton } from '@/components/NavBar';
+import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
+import { LoginError, useGetUserSessionMutation } from './api';
 import styles from './styles';
+import { LoginCredentials, LoginFields } from './types';
 
-const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+type NavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
+type LoginScreenProps = NativeStackScreenProps<AuthStackParamList, 'Login'>;
+
+const LoginScreen: React.FC<LoginScreenProps> = ({
+  route: {
+    params: { previousScreen },
+  },
+}) => {
+  const navigation = useNavigation<NavigationProp>();
+
+  const [loginForm, setLoginForm] = useState<LoginCredentials>({
+    username: '',
+    password: '',
+  });
+  const [errorState, setErrorState] = useState<LoginError | null>();
+
   const [getUserSession] = useGetUserSessionMutation();
 
-  const handleLogin = async () => {
-    await getUserSession({ password, username: email });
+  const handleBack = () => {
+    if (previousScreen === 'Welcome') {
+      navigation.goBack();
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Welcome' }],
+      });
+    }
   };
 
-  const handleSignUp = (): void => {
-    console.log('Navigate to sign up');
+  const handleFocus = () => {
+    if (errorState) {
+      setErrorState(null);
+    }
+  };
+
+  const handleFormValue = (name: LoginFields, value: string) => {
+    setLoginForm(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleLogin = async () => {
+    try {
+      await getUserSession(loginForm).unwrap();
+    } catch (error) {
+      setErrorState(error as LoginError);
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardAvoidingView}>
+      <BackButton style={styles.backButton} iconColor={colors.darkGray} handleBack={handleBack} />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
-          <View style={styles.logo}>
-            <Logo height={100} width={100} />
-          </View>
           <Text style={styles.title}>Welcome to Referendum</Text>
-          <Text style={styles.subtitle}>Your platform for democratic engagement</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            placeholderTextColor={colors.mediumGray}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholderTextColor={colors.mediumGray}
-          />
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.loginButtonText}>Log In</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-            <Text style={styles.signUpButtonText}>Don't have an account? Sign up!</Text>
-          </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <FormField
+              name="username"
+              errorState={errorState}
+              placeholder="Email"
+              value={loginForm.username}
+              onChangeValue={handleFormValue}
+              onFocus={handleFocus}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholderTextColor={colors.mediumGray}
+            />
+            <FormField
+              name="password"
+              errorState={errorState}
+              placeholder="Password"
+              value={loginForm.password}
+              onChangeValue={handleFormValue}
+              onFocus={handleFocus}
+              secureTextEntry
+              placeholderTextColor={colors.mediumGray}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Pressable style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.loginButtonText}>Continue</Text>
+            </Pressable>
+          </View>
         </View>
-      </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+      <View style={styles.dividerHorizontal} />
     </SafeAreaView>
   );
 };

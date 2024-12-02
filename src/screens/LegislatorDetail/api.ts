@@ -1,5 +1,5 @@
 import { Legislator } from '@/appTypes';
-import baseApi, { ApiResource, HttpMethod, createGetQuery } from '@/store/baseApi';
+import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { setLegislators } from './duck';
@@ -14,7 +14,7 @@ const catalogApi = baseApi
   })
   .injectEndpoints({
     endpoints: builder => ({
-      getLegislators: createGetQuery<Legislator[]>({
+      getLegislators: createGetQueryAndReducer<Legislator[]>({
         builder,
         resource: ApiResource.legislators,
         reducer: setLegislators,

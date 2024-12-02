@@ -1,13 +1,22 @@
-import { User } from '@/appTypes';
-import baseApi, { ApiResource, HttpMethod, OnQueryStarted } from '@/store/baseApi';
+import { Token } from '@/appTypes';
+import baseApi, {
+  ApiResource,
+  ErrorResponse,
+  HttpMethod,
+  OnQueryStarted,
+  TransformedError,
+  handleErrorDetails,
+} from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
 import { LoginCredentials, LoginSession } from './types';
 
-const authApi = baseApi.injectEndpoints({
+export type LoginError = TransformedError<LoginCredentials>;
+
+const loginApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getUserSession: builder.mutation<User, LoginCredentials>({
+    getUserSession: builder.mutation<Token, LoginCredentials>({
       query: creds => {
         const formData = new URLSearchParams({
           grant_type: 'password',
@@ -28,21 +37,15 @@ const authApi = baseApi.injectEndpoints({
           url: `${ApiResource.auth}/login`,
         };
       },
-      async onQueryStarted(
-        args: LoginCredentials,
-        { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>,
-      ) {
-        const { username } = args;
-        try {
-          const { data } = await queryFulfilled;
-          dispatch(login({ ...data, username }));
-        } catch (error) {
-          console.error(error);
-        }
+      async onQueryStarted(_, { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>) {
+        const { data } = await queryFulfilled;
+        dispatch(login({ ...data }));
       },
+      transformErrorResponse: (response: ErrorResponse<LoginCredentials>, _, body): LoginError =>
+        handleErrorDetails<LoginCredentials>(response, body),
     }),
   }),
   overrideExisting: isDevEnv(),
 });
 
-export const { useGetUserSessionMutation } = authApi;
+export const { useGetUserSessionMutation } = loginApi;

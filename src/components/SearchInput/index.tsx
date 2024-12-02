@@ -12,7 +12,7 @@ const SearchInput: React.FC<{
   placeholder?: string;
 }> = ({ onSearch, placeholder = 'Search' }) => {
   return (
-    <View style={[styles.searchInputContainer]}>
+    <View style={styles.searchInputContainer}>
       <Feather name="search" size={20} color={colors.mediumGray} style={styles.searchIcon} />
       <TextInput
         style={styles.searchInput}

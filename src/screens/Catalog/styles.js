@@ -26,12 +26,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.m,
     paddingBottom: size.s * 1.5,
   },
-  tabContainer: {
-    flexDirection: 'row',
-    backgroundColor: colors.tertiary,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.mediumGray,
-  },
+  tabContainer: componentStyles.tabContainer,
   tabButton: {
     flex: 1,
     paddingVertical: size.s * 1.5,
@@ -73,6 +68,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: size.m,
     borderBottomWidth: 1,
     borderBottomColor: colors.lightGray,
+  },
+  svg: {
+    marginRight: size.m,
   },
   legislatorImage: {
     width: 50,

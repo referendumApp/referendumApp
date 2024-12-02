@@ -15,7 +15,8 @@ const LegislatorItem: React.FC<{
       <Pressable style={styles.legislatorItem} onPress={() => onPress(legislator)}>
         <LegislatorImage
           party={legislator.party.name}
-          partySvgStyle={styles.legislatorImage}
+          svgSize={60}
+          svgStyle={styles.svg}
           uri={legislator.imageUrl}
           style={styles.legislatorImage}
         />

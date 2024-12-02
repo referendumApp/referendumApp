@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
-import { Image, ImageStyle, StyleProp, ViewStyle } from 'react-native';
+import { ColorValue, Image, ImageStyle, StyleProp, ViewStyle } from 'react-native';
 
-import Democrat from '@/assets/democrat_logo.svg';
-import Republican from '@/assets/republican_logo.svg';
+import PartyLogo from '@/components/PartyLogo';
 
 interface LegislatorImageProps {
   party: string;
-  partySvgStyle: StyleProp<ViewStyle>;
+  svgBackgroundColor?: ColorValue;
+  svgSize: number;
+  svgStyle?: StyleProp<ViewStyle>;
   style: StyleProp<ImageStyle>;
   uri: string;
 }
 
-const LegislatorImage: React.FC<LegislatorImageProps> = ({ party, partySvgStyle, style, uri }) => {
+const LegislatorImage: React.FC<LegislatorImageProps> = ({
+  party,
+  svgBackgroundColor,
+  svgSize,
+  svgStyle,
+  style,
+  uri,
+}) => {
   const [error, setError] = useState<boolean>(false);
 
   if (error) {
-    return party === 'Democrat' ? <Democrat style={partySvgStyle} /> : <Republican style={partySvgStyle} />;
+    return (
+      <PartyLogo
+        party={party}
+        style={svgStyle}
+        size={svgSize}
+        backgroundColor={svgBackgroundColor}
+      />
+    );
   }
 
   return <Image source={{ uri }} style={style} onError={() => setError(true)} />;

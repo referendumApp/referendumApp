@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
     ...componentStyles.container,
     paddingVertical: size.m,
   },
+  tabContainer: componentStyles.tabContainer,
+  scrollContainer: {
+    paddingTop: size.m,
+  },
   header: {
     ...componentStyles.header,
     paddingTop: 0,
@@ -15,11 +19,6 @@ const styles = StyleSheet.create({
     gap: size.xs,
   },
   dividerVertical: componentStyles.dividerVertical,
-  partyImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 70,
-  },
   image: {
     width: 120,
     height: 120,

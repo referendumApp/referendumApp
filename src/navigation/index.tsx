@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import BillScreen from '@/screens/BillDetail';
 import CatalogScreen from '@/screens/Catalog';
@@ -12,24 +12,51 @@ import FeedScreen from '@/screens/Feed';
 import LegislatorScreen from '@/screens/LegislatorDetail';
 import LoginScreen from '@/screens/Login';
 import SettingsScreen from '@/screens/Settings';
+import SignUpScreen from '@/screens/SignUp';
+import WelcomeScreen from '@/screens/Welcome';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
 import styles from './styles';
-import { RootStackParamList, CatalogStackParamList } from './types';
+import {
+  RootStackParamList,
+  AuthStackParamList,
+  AppStackParamList,
+  CatalogStackParamList,
+} from './types';
 
-const Tab = createBottomTabNavigator<RootStackParamList>();
-const CatalogStack = createStackNavigator<CatalogStackParamList>();
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const Tab = createBottomTabNavigator<AppStackParamList>();
+const CatalogStack = createNativeStackNavigator<CatalogStackParamList>();
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
-const CatalogStackScreen = React.memo(() => (
-  <CatalogStack.Navigator
-    detachInactiveScreens={false}
+const AuthNavigator = React.memo(() => (
+  <AuthStack.Navigator
     screenOptions={{
       headerShown: false,
       gestureEnabled: true,
-      gestureResponseDistance: 50,
+      gestureResponseDistance: {
+        start: 50,
+        end: 50,
+      },
+    }}>
+    <AuthStack.Screen name="Welcome" component={WelcomeScreen} />
+    <AuthStack.Screen name="Login" component={LoginScreen} />
+    <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+  </AuthStack.Navigator>
+));
+
+const CatalogStackScreen = React.memo(() => (
+  <CatalogStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        start: 50,
+        end: 50,
+      },
     }}>
     <CatalogStack.Screen name="Catalog" component={CatalogScreen} />
     <CatalogStack.Screen name="LegislatorScreen" component={LegislatorScreen} />
@@ -38,10 +65,18 @@ const CatalogStackScreen = React.memo(() => (
 ));
 
 const AppNavigator: React.FC = () => {
-  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-
   const tabBarIcon = useCallback(
-    ({ focused, color, size, name }: { focused: boolean; color: string; size: number; name: string }) => {
+    ({
+      focused,
+      color,
+      size,
+      name,
+    }: {
+      focused: boolean;
+      color: string;
+      size: number;
+      name: string;
+    }) => {
       let iconName: IconName | undefined;
 
       switch (name) {
@@ -69,10 +104,6 @@ const AppNavigator: React.FC = () => {
     );
   }, []);
 
-  if (!isLoggedIn) {
-    return <LoginScreen />;
-  }
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -94,4 +125,18 @@ const AppNavigator: React.FC = () => {
   );
 };
 
-export default AppNavigator;
+const RootNavigator = () => {
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
+  return (
+    <RootStack.Navigator>
+      {!isLoggedIn ? (
+        <RootStack.Screen name="Auth" component={AuthNavigator} options={{ headerShown: false }} />
+      ) : (
+        <RootStack.Screen name="App" component={AppNavigator} options={{ headerShown: false }} />
+      )}
+    </RootStack.Navigator>
+  );
+};
+
+export default RootNavigator;

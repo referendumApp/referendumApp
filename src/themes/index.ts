@@ -6,6 +6,7 @@ export enum colors {
   secondary = 'rgb(163, 29, 40)', // #A31D28
   tertiary = 'rgb(240, 240, 240)', // #F0F0F0
   transparent = 'rgba(0, 0, 0, 0.5)',
+  semiTransparent = 'rgba(0, 0, 0, 0.8)',
   black = 'rgb(0, 0, 0)', // black
   white = 'rgb(255, 255, 255)', // white
   veryLightGray = 'rgb(238, 238, 238)', // #eee
@@ -16,7 +17,6 @@ export enum colors {
   darkGray = 'rgb(34, 34, 34)', // #222
   yesVoteGreen = 'rgb(102, 184, 90)', // #66B85A
   veryLightBlue = 'rgb(240, 248, 255)', // #F0F8FF
-  appleBlue = 'rgb(0, 122, 255)', // #007AFF
   successGreen = 'rgb(37, 142, 79)', // #258E4F
   errorRed = 'rgb(155, 3, 0)', // #EB5757
   linkBlue = 'rgb(53, 149, 250)', // #3595FA
@@ -86,6 +86,12 @@ export const componentStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.lightGray,
   },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: colors.tertiary,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.mediumGray,
+  },
   header: {
     backgroundColor: colors.primary,
     padding: size.m,
@@ -102,6 +108,7 @@ export const componentStyles = StyleSheet.create({
     backgroundColor: colors.tertiary,
     borderRadius: 8,
     padding: size.s,
+    paddingLeft: size.s * 1.5,
     ...typography.body,
   },
   centerRow: {
@@ -147,6 +154,13 @@ export const componentStyles = StyleSheet.create({
         shadowRadius: 4,
       },
     }),
+  },
+  dividerHorizontal: {
+    alignSelf: 'center',
+    height: 1,
+    width: '85%',
+    backgroundColor: colors.mediumGray,
+    marginVertical: size.l,
   },
   dividerVertical: {
     height: '100%',
@@ -243,11 +257,11 @@ export const buttonStyles = StyleSheet.create({
   },
   medium: {
     ...componentStyles.button,
-    padding: size.m,
+    padding: size.s * 1.5,
   },
   large: {
     ...componentStyles.button,
-    padding: size.l,
+    padding: size.m,
   },
 });
 

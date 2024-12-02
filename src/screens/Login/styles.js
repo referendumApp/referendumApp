@@ -5,54 +5,42 @@ import { buttonStyles, colors, componentStyles, size, typography } from '@/theme
 const styles = StyleSheet.create({
   container: {
     ...componentStyles.container,
-    backgroundColor: colors.primary,
-  },
-  keyboardAvoidingView: {
-    flex: 1,
+    backgroundColor: colors.white,
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
+    flex: 0.5,
     alignItems: 'center',
-    padding: size.xl,
-  },
-  logo: {
-    backgroundColor: colors.tertiary,
-    borderRadius: 9999,
-    padding: size.s * 1.5,
-    marginBottom: size.xl,
+    marginTop: size.l,
   },
   title: {
     ...typography.title,
-    marginBottom: size.s,
-  },
-  subtitle: {
-    ...typography.subtitle,
     textAlign: 'center',
-    marginBottom: size.xl,
+    color: colors.darkGray,
   },
-  input: {
-    ...componentStyles.input,
-    width: '80%',
-    marginBottom: size.m,
+  inputContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '85%',
+  },
+  backButton: {
+    padding: size.m,
+  },
+  buttonContainer: {
+    gap: size.l,
+    alignItems: 'center',
+    width: '100%',
   },
   loginButton: {
     ...buttonStyles.medium,
-    width: '80%',
-    backgroundColor: colors.secondary,
+    width: '85%',
+    backgroundColor: colors.primary,
   },
   loginButtonText: {
-    ...componentStyles.boldText,
+    ...componentStyles.semiBoldText,
     color: colors.tertiary,
   },
-  signUpButton: {
-    marginTop: size.m,
-  },
-  signUpButtonText: {
-    ...componentStyles.boldText,
-    color: colors.tertiary,
-  },
-  placeholderTextColor: colors.mediumGray,
+  dividerHorizontal: componentStyles.dividerHorizontal,
 });
 
 export default styles;
