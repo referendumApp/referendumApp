@@ -81,3 +81,6 @@ android/
 ios/
 *.tar.gz
 referendum.app/
+
+# Windows OS specific
+/%ProgramData%
