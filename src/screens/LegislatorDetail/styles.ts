@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
   header: {
     ...componentStyles.header,
     paddingTop: 0,
-    paddingBottom: size.l,
+    paddingBottom: size.xl,
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     gap: size.xs,
   },
@@ -36,6 +37,9 @@ const styles = StyleSheet.create({
     color: colors.tertiary,
     paddingBottom: size.xs * 0.5,
   },
+  cardContent: {
+    padding: 0,
+  },
   sectionHeader: {
     paddingLeft: size.s * 1.5,
   },
@@ -43,35 +47,80 @@ const styles = StyleSheet.create({
     padding: size.s * 1.5,
   },
   sectionBody: typography.body,
+  test: {
+    paddingBottom: 95,
+  },
   table: {
     backgroundColor: colors.tertiary,
     borderRadius: 8,
-    marginTop: size.s,
+    marginBottom: size.xl,
   },
   tableHeader: {
-    flexDirection: 'row',
+    ...componentStyles.centerRow,
+    justifyContent: 'space-between',
     backgroundColor: colors.primary,
-    padding: size.s,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
+    paddingVertical: size.s,
+    paddingHorizontal: size.m,
+  },
+  billHeaderText: {
+    ...typography.title,
+    fontSize: size.m + 2,
+    flex: 0.4,
   },
   tableHeaderText: {
-    ...typography.subtitle,
-    flex: 1,
+    ...typography.title,
+    fontSize: size.m + 2,
   },
   tableRow: {
-    flexDirection: 'row',
-    padding: size.s,
-    borderBottomWidth: 1,
+    paddingVertical: size.s,
+    marginBottom: 0,
+    borderTopWidth: 1,
+    borderTopColor: colors.darkGray,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
   },
   tableCell: {
-    ...typography.body,
-    flex: 1,
+    ...componentStyles.boldText,
+  },
+  tableContent: {
+    paddingTop: 0,
+    paddingBottom: size.s,
+    paddingHorizontal: size.s,
+  },
+  itemRow: {
+    ...componentStyles.centerRow,
+    justifyContent: 'space-between',
+    paddingVertical: size.s,
+    paddingHorizontal: size.s * 1.5,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    flex: 0.4,
+  },
+  itemHeader: {
+    padding: size.xs,
+  },
+  itemCell: {
+    ...typography.small,
+    color: colors.darkGray,
   },
   seeMoreText: {
     ...typography.caption,
     color: colors.primary,
     marginTop: size.s,
+  },
+  noVote: {
+    padding: size.s * 1.5,
+    backgroundColor: colors.errorRed,
+    borderRadius: 9999,
+  },
+  yesVote: {
+    padding: size.s * 1.5,
+    backgroundColor: colors.successGreen,
+    borderRadius: 9999,
+  },
+  noDisplay: {
+    opacity: 0,
   },
 });
 

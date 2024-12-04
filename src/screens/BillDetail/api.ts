@@ -1,4 +1,4 @@
-import { Bill, BillText, BillVersion } from '@/appTypes';
+import { Bill, BillText, BillVersion, BillVotingHistory } from '@/appTypes';
 import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
@@ -10,11 +10,18 @@ enum BillTags {
   text = 'BillText',
   versions = 'BillVersions',
   vote = 'BillVote',
+  votingHistory = 'BillVotingHistory',
 }
 
 const catalogApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [BillTags.follow, BillTags.text, BillTags.versions, BillTags.vote],
+    addTagTypes: [
+      BillTags.follow,
+      BillTags.text,
+      BillTags.versions,
+      BillTags.vote,
+      BillTags.votingHistory,
+    ],
   })
   .injectEndpoints({
     endpoints: builder => ({
@@ -22,6 +29,13 @@ const catalogApi = baseApi
         builder,
         resource: ApiResource.bills,
         reducer: setBills,
+      }),
+      getBillVotingHistory: builder.query<BillVotingHistory, { billId: number }>({
+        query: ({ billId }) => ({
+          url: `${ApiResource.bills}/${billId}/voting_history`,
+        }),
+        providesTags: (result, _, { billId }) =>
+          result ? [{ type: BillTags.votingHistory, id: billId }] : [],
       }),
       getBillVersions: builder.query<BillVersion[], { billId: number }>({
         query: ({ billId }) => ({
@@ -87,6 +101,7 @@ const catalogApi = baseApi
 export const {
   useGetBillsQuery,
   useGetBillVersionsQuery,
+  useGetBillVotingHistoryQuery,
   useGetBillTextQuery,
   useGetBillVotesQuery,
   useCastBillVoteMutation,

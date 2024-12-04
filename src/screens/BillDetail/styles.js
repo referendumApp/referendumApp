@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     display: 'flex',
     flexDirection: 'column',
+    maxHeight: '30%',
   },
   titleContainer: {
     alignItems: 'center',
@@ -75,31 +76,23 @@ const styles = StyleSheet.create({
     padding: size.s * 1.5,
   },
   sectionBody: typography.body,
-  votingButtons: {
+  votingContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: size.s,
+    marginTop: size.m,
   },
   voteButton: {
-    color: colors.transparent,
-    padding: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: colors.black,
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        shadowOpacity: 0,
-        shadowRadius: 0,
-      },
-      android: {
-        elevation: 0,
-      },
-    }),
+    opacity: 1,
+    minWidth: 'auto',
+    borderRadius: 9999,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  selectedVoteButton: {
-    backgroundColor: colors.secondary,
+  votingTextContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: size.xl,
   },
   overviewText: {
     ...typography.small,
@@ -109,7 +102,7 @@ const styles = StyleSheet.create({
   table: {
     backgroundColor: colors.tertiary,
     borderRadius: 8,
-    marginTop: size.s,
+    marginBottom: size.xl,
   },
   tableHeader: {
     flexDirection: 'row',
@@ -152,7 +145,19 @@ const styles = StyleSheet.create({
     marginTop: size.s,
     marginBottom: size.m * 1.5,
   },
-  voteCountBody: componentStyles.boldText,
+  voteBody: componentStyles.boldText,
+  voteCount: {
+    ...typography.body,
+    paddingTop: size.xs,
+  },
+  voteText: {
+    ...typography.body,
+    textAlign: 'center',
+    paddingTop: size.s,
+  },
+  noDisplay: {
+    opacity: 0,
+  },
 });
 
 export default styles;

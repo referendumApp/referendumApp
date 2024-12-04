@@ -1,43 +1,66 @@
 import React, { PropsWithChildren, ReactNode, useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleProp, TextStyle, ViewStyle } from 'react-native';
 
 import RotatingChevron from '@/components/RotatingChevron';
 
 import styles from './styles';
 
-interface AccordionItemProps {
-  title: string;
+interface AccordionStyles {
+  container?: StyleProp<ViewStyle>;
+  item?: StyleProp<ViewStyle>;
+  header?: StyleProp<ViewStyle>;
+  text?: StyleProp<TextStyle>;
+  content?: StyleProp<ViewStyle>;
 }
 
-const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({ title, children }) => {
+interface AccordionItemProps {
+  title: string;
+  itemStyles?: Omit<AccordionStyles, 'container'>;
+}
+
+const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({
+  title,
+  itemStyles,
+  children,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <View style={styles.accordionItem}>
+    <View style={[styles.accordionItem, itemStyles?.item]}>
       <RotatingChevron
-        headerStyle={styles.header}
-        textStyle={styles.headerText}
+        headerStyle={[styles.header, itemStyles?.header]}
+        textStyle={[styles.headerText, itemStyles?.text]}
         isOpen={isOpen}
         text={title}
         onPress={(open: boolean) => setIsOpen(open)}
       />
-      {isOpen && <View style={styles.content}>{children}</View>}
+      {isOpen && <View style={[styles.content, itemStyles?.content]}>{children}</View>}
     </View>
   );
 };
 
 interface AccordionProps {
   data: Array<{
+    key: number;
     title: string;
     content: ReactNode;
   }>;
+  accordionStyles?: AccordionStyles;
 }
 
-const Accordion: React.FC<AccordionProps> = React.memo(({ data }) => {
+const Accordion: React.FC<AccordionProps> = React.memo(({ data, accordionStyles }) => {
   return (
-    <View style={styles.container}>
-      {data.map((item, index) => (
-        <AccordionItem key={index} title={item.title}>
+    <View style={[styles.container, accordionStyles?.container]}>
+      {data.map(item => (
+        <AccordionItem
+          key={item.key}
+          title={item.title}
+          itemStyles={{
+            item: accordionStyles?.item,
+            header: accordionStyles?.header,
+            text: accordionStyles?.text,
+            content: accordionStyles?.content,
+          }}>
           {item.content}
         </AccordionItem>
       ))}

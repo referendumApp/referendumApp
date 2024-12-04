@@ -48,14 +48,14 @@ type ErrorDetail<T extends RequestBody> = {
   type: string;
 };
 
-type ErrorDetails<T extends RequestBody> = ErrorDetail<T>[] | TransformedError<T> | string;
+type ErrorDetails<T extends RequestBody> = ErrorDetail<T>[] | FormError<T> | string;
 
 export type ErrorResponse<T extends RequestBody> = {
   status: number;
   data: Record<'detail', ErrorDetails<T>>;
 };
 
-export type TransformedError<T extends RequestBody> = {
+export type FormError<T extends RequestBody> = {
   field?: string & keyof T;
   message: string;
 };
@@ -70,9 +70,9 @@ export function isErrorString<T extends RequestBody>(detail: ErrorDetails<T>): d
   return typeof detail === 'string';
 }
 
-export function isTransformedError<T extends RequestBody>(
+export function isFormError<T extends RequestBody>(
   detail: ErrorDetails<T>,
-): detail is TransformedError<T> {
+): detail is FormError<T> {
   return !Array.isArray(detail) && typeof detail === 'object';
 }
 
@@ -85,14 +85,15 @@ export function isErrorDetail<T extends RequestBody>(
   );
 }
 
-export const handleErrorDetails = <T extends RequestBody>(
+export const handleFormError = <T extends RequestBody>(
   response: ErrorResponse<T>,
   body?: T,
-): TransformedError<T> => {
+): FormError<T> => {
   const detail = response.data?.detail;
+  const defaultError = { message: 'Unknown error, please contact an administrator or try again' };
 
   if (isErrorString<T>(detail)) {
-    return { message: detail };
+    return defaultError;
   }
 
   if (body) {
@@ -105,14 +106,14 @@ export const handleErrorDetails = <T extends RequestBody>(
       };
     }
 
-    if (isTransformedError<T>(detail)) {
+    if (isFormError<T>(detail)) {
       return detail.field && validFields.includes(detail.field)
         ? detail
         : { message: detail.message };
     }
   }
 
-  return { message: 'Unknown error, please contact an administrator or try again' };
+  return defaultError;
 };
 
 export interface OnQueryStarted<T> {

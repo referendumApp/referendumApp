@@ -50,6 +50,20 @@ export interface Legislator {
 
 export type LegislatorField = FlattenFieldKeys<Legislator>;
 
+export type BillActionVote = {
+  billActionId: number;
+  date: string;
+  actionDescription: string;
+  voteChoiceId: number;
+};
+
+export type LegislatorVote = {
+  billId: number;
+  identifier: string;
+  title: string;
+  billActionVotes: BillActionVote[];
+};
+
 export interface Bill {
   id: number;
   legiscanId: number;
@@ -125,3 +139,40 @@ export const VoteChoice = {
 } as const;
 
 export type VoteChoiceType = (typeof VoteChoice)[keyof typeof VoteChoice];
+
+export type VoteCountByChoice = {
+  voteChoiceId: number;
+  count: number;
+};
+
+export type VoteCountByParty = {
+  voteChoiceId: number;
+  partyId: number;
+  count: number;
+};
+
+export type VoteSummary = {
+  billActionId: number;
+  totalVotes: number;
+  voteCountsByChoice: VoteCountByChoice[];
+  voteCountsByParty: VoteCountByParty[];
+};
+
+export type LegislatorVoteDetail = {
+  billActionId: number;
+  date: string;
+  actionDescription: string;
+  legislativeBodyId: number;
+  legislatorId: number;
+  legislatorName: string;
+  partyName: string;
+  roleName: string;
+  stateName: string;
+  voteChoiceId: number;
+};
+
+export type BillVotingHistory = {
+  billId: number;
+  votes: LegislatorVoteDetail[];
+  summaries: VoteSummary[];
+};

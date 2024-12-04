@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     paddingVertical: size.m,
   },
   billItem: {
-    ...componentStyles.card,
+    ...componentStyles.item,
     ...Platform.select({
       android: {
         paddingHorizontal: size.m,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     marginBottom: size.s,
   },
   legislatorItem: {
-    ...componentStyles.card,
+    ...componentStyles.item,
     height: LEGISLATOR_ITEM_HEIGHT,
     flexDirection: 'row',
     alignItems: 'center',

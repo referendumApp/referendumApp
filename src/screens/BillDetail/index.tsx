@@ -9,7 +9,11 @@ import NavBar from '@/components/NavBar';
 import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
 
-import { useFollowBillMutation, useUnfollowBillMutation } from './api';
+import {
+  useFollowBillMutation,
+  useUnfollowBillMutation,
+  // useGetBillVotingHistoryQuery,
+} from './api';
 import FullBillText from './FullBillText';
 import Overview from './Overview';
 import styles from './styles';
@@ -31,6 +35,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
 
   const [followBill] = useFollowBillMutation();
   const [unfollowBill] = useUnfollowBillMutation();
+  // const { data: votingHistory } = useGetBillVotingHistoryQuery({ billId: bill.id });
 
   // useEffect(() => {
   //   setComments([]);
@@ -50,7 +55,9 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{`${bill.state.name}  -  ${bill.identifier}`}</Text>
-          <Text style={styles.subtitle}>{bill.title}</Text>
+          <Text style={styles.subtitle} numberOfLines={3} ellipsizeMode="tail">
+            {bill.title}
+          </Text>
         </View>
         <Carousel
           items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}

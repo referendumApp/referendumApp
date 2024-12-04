@@ -10,7 +10,11 @@ import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { useFollowLegislatorMutation, useUnfollowLegislatorMutation } from './api';
+import {
+  useGetLegislatorVotingHistoryQuery,
+  useFollowLegislatorMutation,
+  useUnfollowLegislatorMutation,
+} from './api';
 import Funding from './Funding';
 import Snapshot from './Snapshot';
 import styles from './styles';
@@ -30,9 +34,11 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
     const [selectedTab, setSelectedTab] = useState<TabType>('snapshot');
     const [isFollowing, setIsFollowing] = useState(initialFollow);
 
+    const { data: votingHistory } = useGetLegislatorVotingHistoryQuery({
+      legislatorId: legislator.id,
+    });
     const [followLegislator] = useFollowLegislatorMutation();
     const [unfollowLegislator] = useUnfollowLegislatorMutation();
-
     const handleBack = () => {
       navigation.goBack();
     };
@@ -86,7 +92,7 @@ const LegislatorScreen: React.FC<LegislatorScreenProps> = React.memo(
 
         <ScrollView style={styles.scrollContainer}>
           {selectedTab === 'snapshot' && <Snapshot legislator={legislator} />}
-          {selectedTab === 'voting' && <Voting />}
+          {selectedTab === 'voting' && <Voting votingHistory={votingHistory ?? []} />}
           {selectedTab === 'funding' && <Funding />}
         </ScrollView>
       </SafeAreaView>

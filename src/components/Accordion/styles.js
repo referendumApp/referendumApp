@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   },
   accordionItem: {
     backgroundColor: colors.tertiary,
-    borderRadius: size.s,
     marginBottom: size.s,
     overflow: 'hidden',
   },

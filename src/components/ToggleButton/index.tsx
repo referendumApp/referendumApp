@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 
 import Button from '@/components/Button';
-import { IconLibrary, IconProps } from '@/components/Icon';
+import { IconLibrary, IconNames } from '@/components/Icon';
 import { colors } from '@/themes';
 
 import styles from './styles';
@@ -14,7 +14,7 @@ export enum ToggleButtonSize {
   xlarge = 'xlarge',
 }
 
-interface ToggleButtonProps extends Omit<IconProps, 'iconFamily'> {
+interface ToggleButtonProps {
   style?: StyleProp<TextStyle>;
   buttonText?: string;
   buttonTextStyles?: TextStyle;
@@ -26,6 +26,7 @@ interface ToggleButtonProps extends Omit<IconProps, 'iconFamily'> {
   size?: ToggleButtonSize;
   isActive?: boolean;
   iconFamily?: IconLibrary;
+  iconName?: IconNames<IconLibrary>;
   onToggle: (isActive: boolean, buttonValue: any) => void;
 }
 
@@ -54,9 +55,9 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
       case ToggleButtonSize.small:
         return { buttonSize: styles.buttonSmall, textSize: styles.buttonTextSmall, iconSize: 16 };
       case ToggleButtonSize.large:
-        return { buttonSize: styles.buttonLarge, textSize: styles.buttonTextLarge, iconSize: 24 };
+        return { buttonSize: styles.buttonLarge, textSize: styles.buttonTextLarge, iconSize: 28 };
       case ToggleButtonSize.xlarge:
-        return { buttonSize: styles.buttonXlarge, textSize: styles.buttonTextXlarge, iconSize: 32 };
+        return { buttonSize: styles.buttonXlarge, textSize: styles.buttonTextXlarge, iconSize: 42 };
       default:
         return { buttonSize: styles.buttonMedium, textSize: styles.buttonTextMedium, iconSize: 20 };
     }
@@ -64,20 +65,21 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
 
   const { buttonSize, textSize, iconSize } = getSize();
 
-  const buttonStyle =
-    !buttonText && iconFamily
-      ? styles.buttonIcon
-      : {
-          ...styles.buttonContainer,
-          ...buttonSize,
-          backgroundColor: isActive ? activeButtonColor : inactiveButtonColor,
-        };
+  const buttonColor = {
+    backgroundColor: isActive ? activeButtonColor : inactiveButtonColor,
+  };
 
   const contentColor = isActive ? activeContentColor : inactiveContentColor;
 
   return (
     <Button
-      style={[buttonStyle, isActive && styles.buttonActive, style]}
+      style={[
+        styles.buttonContainer,
+        buttonSize,
+        buttonColor,
+        isActive && styles.buttonActive,
+        style,
+      ]}
       buttonText={buttonText}
       buttonTextSize={textSize.fontSize}
       buttonTextStyles={[
@@ -90,7 +92,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
       iconName={iconName}
       iconSize={iconSize}
       iconStyle={{ color: contentColor }}
-      hitSlop={buttonStyle.padding}
+      hitSlop={buttonSize.padding}
       onPress={handlePress}
     />
   );

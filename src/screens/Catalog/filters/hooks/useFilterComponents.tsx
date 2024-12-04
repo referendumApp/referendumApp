@@ -9,6 +9,7 @@ import {
 } from '@/screens/Catalog/types';
 
 interface FilterComponentConfigs {
+  key: number;
   title: string;
   content: ReactNode;
   category: ToggleOptions;
@@ -18,16 +19,19 @@ type FilterComponents = { [K in FilterComponentFieldTypes]: FilterComponentConfi
 
 const components: FilterComponents = {
   [FilterComponentFields.partyId]: {
+    key: 0,
     title: FilterTitles[FilterComponentFields.partyId],
     content: <PartyFilter />,
     category: ToggleOptions.all,
   },
   [FilterComponentFields.roleId]: {
+    key: 1,
     title: FilterTitles[FilterComponentFields.roleId],
     content: <RoleFilter />,
     category: ToggleOptions.federal,
   },
   [FilterComponentFields.stateId]: {
+    key: 2,
     title: FilterTitles[FilterComponentFields.stateId],
     content: <StateFilter />,
     category: ToggleOptions.state,

@@ -10,24 +10,16 @@ const styles = StyleSheet.create({
     opacity: 1,
     gap: size.s,
     ...Platform.select({
-      ios: {
-        shadowColor: colors.black,
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-      },
       android: {
-        elevation: 2,
+        elevation: 6,
+      },
+      ios: {
+        shadowColor: colors.darkGray,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
       },
     }),
-  },
-  buttonIcon: {
-    backgroundColor: colors.tertiary,
-    alignSelf: 'flex-start',
-    padding: size.s,
   },
   buttonSmall: {
     padding: size.s,
@@ -42,7 +34,7 @@ const styles = StyleSheet.create({
     minWidth: size.xxl * 3.5,
   },
   buttonXlarge: {
-    padding: size.l,
+    padding: size.xl,
     minWidth: size.xxl * 4.5,
   },
   buttonTextSmall: {
