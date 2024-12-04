@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, size } from '@/themes';
+import { size } from '@/themes';
 
 const styles = StyleSheet.create({
   buttonContainer: {
