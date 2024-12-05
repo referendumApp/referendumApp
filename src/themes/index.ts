@@ -20,6 +20,7 @@ export enum colors {
   successGreen = 'rgb(37, 142, 79)', // #258E4F
   errorRed = 'rgb(155, 3, 0)', // #EB5757
   linkBlue = 'rgb(53, 149, 250)', // #3595FA
+  gold = 'rgb(255, 215, 0)', // #FFD700
 }
 
 export const withOpacity = (color: string, opacity: number) => {
@@ -117,7 +118,6 @@ export const componentStyles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
-    borderRadius: 8,
     justifyContent: 'center' as const,
     backgroundColor: colors.lightGray,
   },
@@ -145,12 +145,30 @@ export const componentStyles = StyleSheet.create({
     padding: size.m,
     ...Platform.select({
       android: {
-        elevation: 3,
+        elevation: 16,
       },
       ios: {
         shadowColor: colors.darkGray,
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.44,
+        shadowRadius: 10.32,
+      },
+    }),
+  },
+  item: {
+    backgroundColor: colors.tertiary,
+    borderRadius: 12,
+    marginHorizontal: size.m,
+    marginVertical: size.s,
+    padding: size.m,
+    ...Platform.select({
+      android: {
+        elevation: 6,
+      },
+      ios: {
+        shadowColor: colors.darkGray,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.25,
         shadowRadius: 4,
       },
     }),

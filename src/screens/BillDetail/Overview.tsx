@@ -1,10 +1,9 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 
 import { Bill, VoteChoice, VoteChoiceType } from '@/appTypes';
 import Card from '@/components/Card';
 import ToggleButton, { ToggleButtonSize } from '@/components/ToggleButton';
-import VoteDistributionBar from '@/components/VoteDistributionBar';
 import { colors } from '@/themes';
 
 import { useCastBillVoteMutation, useUncastBillVoteMutation } from './api';
@@ -14,6 +13,10 @@ interface OverviewProps {
   bill: Bill;
   initialVote?: VoteChoiceType;
 }
+
+// const formatPercentage = (value: number) => {
+//   return `${(value * 100).toFixed(1)}%`;
+// };
 
 const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
   const [userVote, setUserVote] = useState<VoteChoiceType | undefined>(initialVote);
@@ -34,32 +37,6 @@ const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
     [bill.id, castBillVote, uncastBillVote],
   );
 
-  const { yesActive, yesIcon, noActive, noIcon } = useMemo(() => {
-    switch (userVote) {
-      case VoteChoice.YES:
-        return {
-          yesActive: true,
-          yesIcon: 'thumb-up',
-          noActive: false,
-          noIcon: 'thumb-down-outline',
-        };
-      case VoteChoice.NO:
-        return {
-          yesActive: false,
-          yesIcon: 'thumb-up-outline',
-          noActive: true,
-          noIcon: 'thumb-down',
-        };
-      default:
-        return {
-          yesActive: false,
-          yesIcon: 'thumb-up-outline',
-          noActive: false,
-          noIcon: 'thumb-down-outline',
-        };
-    }
-  }, [userVote]);
-
   return (
     <>
       <Card
@@ -79,31 +56,47 @@ const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
         title="Citizens Opinion"
         headerStyle={styles.sectionHeader}
         contentStyle={styles.sectionContent}>
-        <View style={styles.voteCounts}>
-          <Text style={styles.voteCountBody}>Yes: {bill.communityYesVotes ?? 0}</Text>
-          <Text style={styles.voteCountBody}>No: {bill.communityNoVotes ?? 0}</Text>
-        </View>
-        <VoteDistributionBar yesVotes={bill.communityYesVotes} noVotes={bill.communityNoVotes} />
-        <View style={styles.votingButtons}>
+        <View style={styles.votingContainer}>
           <ToggleButton
-            iconFamily="MaterialCommunityIcons"
-            iconName={yesIcon}
+            style={styles.voteButton}
+            iconFamily="Octicons"
+            iconName="thumbsup"
             buttonValue={VoteChoice.YES}
-            isActive={yesActive}
-            activeContentColor={colors.successGreen}
+            isActive={userVote === VoteChoice.YES}
+            activeButtonColor={colors.successGreen}
+            inactiveButtonColor={colors.darkGray}
+            inactiveContentColor={colors.tertiary}
             size={ToggleButtonSize.xlarge}
             onToggle={(isActive, buttonValue) => handleVote(isActive, buttonValue)}
           />
           <ToggleButton
-            iconFamily="MaterialCommunityIcons"
-            iconName={noIcon}
+            style={styles.voteButton}
+            iconFamily="Octicons"
+            iconName="thumbsdown"
             buttonValue={VoteChoice.NO}
-            isActive={noActive}
-            activeContentColor={colors.errorRed}
+            isActive={userVote === VoteChoice.NO}
+            activeButtonColor={colors.errorRed}
+            inactiveButtonColor={colors.darkGray}
+            inactiveContentColor={colors.tertiary}
             size={ToggleButtonSize.xlarge}
             onToggle={(isActive, buttonValue) => handleVote(isActive, buttonValue)}
           />
         </View>
+        <View style={styles.votingContainer}>
+          <View style={styles.votingTextContainer}>
+            <Text style={styles.voteBody}>Support</Text>
+            {/* <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
+              {formatPercentage(0.475)}
+            </Text> */}
+          </View>
+          <View style={styles.votingTextContainer}>
+            <Text style={styles.voteBody}>Oppose</Text>
+            {/* <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
+              {formatPercentage(0.525)}
+            </Text> */}
+          </View>
+        </View>
+        <Text style={styles.voteText}>{userVote ? 'You voted!' : 'Vote to see results'}</Text>
       </Card>
 
       <Card

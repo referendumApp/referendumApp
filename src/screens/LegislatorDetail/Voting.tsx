@@ -1,38 +1,62 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, View } from 'react-native';
 
+import { BillActionVote, LegislatorVote, VoteChoice } from '@/appTypes';
+import Accordion from '@/components/Accordion';
 import Card from '@/components/Card';
+import Icon from '@/components/Icon';
+import { colors } from '@/themes';
 
 import styles from './styles';
 
-const Voting = React.memo(() => {
-  const legislatorVotes: any[] = [];
-  const bills: any[] = [];
+const TableItem = ({ action }: { action: BillActionVote }) => {
+  return (
+    <View style={styles.itemRow}>
+      <Text style={styles.itemCell} numberOfLines={0}>
+        {action.date}
+      </Text>
+      <View style={[styles.yesVote, action.voteChoiceId !== VoteChoice.YES && styles.noDisplay]}>
+        <Icon iconFamily="Octicons" iconName="thumbsup" iconSize={20} iconColor={colors.tertiary} />
+      </View>
+      <View style={[styles.noVote, action.voteChoiceId !== VoteChoice.NO && styles.noDisplay]}>
+        <Icon
+          iconFamily="Octicons"
+          iconName="thumbsdown"
+          iconSize={20}
+          iconColor={colors.tertiary}
+        />
+      </View>
+    </View>
+  );
+};
+
+const Voting = React.memo(({ votingHistory }: { votingHistory: LegislatorVote[] }) => {
+  const tableContents = useMemo(
+    () =>
+      votingHistory.map(vote => {
+        const content = vote.billActionVotes.map(action => (
+          <TableItem key={action.billActionId} action={action} />
+        ));
+        return { key: vote.billId, title: vote.identifier, content };
+      }),
+    [votingHistory],
+  );
 
   return (
-    <Card title="Voting" headerStyle={styles.sectionHeader} contentStyle={styles.sectionContent}>
-      <View style={styles.table}>
-        <View style={styles.tableHeader}>
-          <Text style={styles.tableHeaderText}>Bill</Text>
-          <Text style={styles.tableHeaderText}>Vote</Text>
-        </View>
-        {legislatorVotes.slice(0, 5).map((vote, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.tableCell}>
-              {bills.find(bill => bill.id === vote.billId)?.title || 'Unknown Bill'}
-            </Text>
-            <Text style={styles.tableCell}>{vote.vote}</Text>
-          </View>
-        ))}
+    <Card style={styles.table} contentStyle={styles.cardContent}>
+      <View style={styles.tableHeader}>
+        <Text style={styles.billHeaderText}>Bill/Date</Text>
+        <Text style={styles.tableHeaderText}>For</Text>
+        <Text style={styles.tableHeaderText}>Against</Text>
       </View>
-      {legislatorVotes.length > 5 && (
-        <Pressable
-          onPress={() => {
-            /* Navigate to full voting record */
-          }}>
-          <Text style={styles.seeMoreText}>See full voting record</Text>
-        </Pressable>
-      )}
+      <Accordion
+        data={tableContents}
+        accordionStyles={{
+          item: styles.tableRow,
+          text: styles.tableCell,
+          content: styles.tableContent,
+        }}
+      />
     </Card>
   );
 });

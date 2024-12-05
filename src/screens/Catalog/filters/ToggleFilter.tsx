@@ -1,4 +1,4 @@
-import React, {  useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
 import ToggleButton from '@/components/ToggleButton';
@@ -38,6 +38,7 @@ const ToggleFilter: React.FC = () => {
   return (
     <View style={styles.buttonContainer}>
       <ToggleButton
+        style={styles.button}
         buttonText={ToggleOptions.all}
         buttonTextStyles={styles.buttonText}
         buttonValue={ToggleOptions.all}
@@ -45,6 +46,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        style={styles.button}
         iconFamily="Ionicons"
         iconName="flag"
         buttonText={ToggleOptions.federal}
@@ -54,6 +56,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        style={styles.button}
         iconFamily="Ionicons"
         iconName="star"
         buttonText={ToggleOptions.state}

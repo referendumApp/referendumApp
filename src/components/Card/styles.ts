@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { colors, componentStyles, size } from '@/themes';
+import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   card: {
@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 12,
   },
   cardTitle: {
-    ...componentStyles.boldText,
+    ...typography.title,
     fontSize: size.m + 2,
-    color: colors.tertiary,
   },
   cardContent: {
     padding: size.m,

@@ -1,14 +1,14 @@
 import React from 'react';
-import { ColorValue, View, Text, Pressable, StyleProp, ViewStyle } from 'react-native';
+import { ColorValue, View, StyleProp, ViewStyle } from 'react-native';
 
-import Icon from '@/components/Icon';
+import Button, { IconSize } from '@/components/Button';
 import { colors } from '@/themes';
 
 import styles from './styles';
 
 interface BackButtonProps {
   style?: StyleProp<ViewStyle>;
-  iconColor?: ColorValue;
+  iconColor?: ColorValue | colors;
   handleBack: () => void;
 }
 
@@ -18,9 +18,14 @@ export const BackButton: React.FC<BackButtonProps> = ({
   handleBack,
 }) => {
   return (
-    <Pressable style={style} onPress={handleBack}>
-      <Icon iconFamily="Ionicons" iconName="chevron-back" iconSize={24} iconColor={iconColor} />
-    </Pressable>
+    <Button
+      style={style}
+      iconFamily="Ionicons"
+      iconName="chevron-back"
+      iconSize={IconSize.xlarge}
+      contentColor={iconColor}
+      onPress={handleBack}
+    />
   );
 };
 
@@ -31,16 +36,19 @@ interface NavBarProps {
 }
 
 const NavBar: React.FC<NavBarProps> = React.memo(({ handleBack, handleFollow, isFollowing }) => {
+  const buttonProps = isFollowing
+    ? { iconName: 'star-sharp', contentColor: colors.gold }
+    : { iconName: 'star-outline', contentColor: colors.tertiary };
+
   return (
     <View style={styles.headerNavBar}>
       <BackButton handleBack={handleBack} />
-      <Pressable
+      <Button
+        {...buttonProps}
+        iconFamily="Ionicons"
+        iconSize={IconSize.xlarge}
         onPress={handleFollow}
-        style={isFollowing ? styles.selectedFollowButton : styles.followButton}>
-        <Text style={isFollowing ? styles.selectedFollowButtonText : styles.followButtonText}>
-          {isFollowing ? 'Following' : 'Follow'}
-        </Text>
-      </Pressable>
+      />
     </View>
   );
 });

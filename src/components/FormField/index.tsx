@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, TextInputProps } from 'react-native';
 
 import ToolTip from '@/components/ToolTip';
-import { TransformedError } from '@/store/baseApi';
+import { FormError } from '@/store/baseApi';
 
 import styles from './styles';
 
@@ -10,7 +10,7 @@ interface FormFieldProps<T extends Record<string, any>> extends Omit<TextInputPr
   name: keyof T;
   value: string;
   onChangeValue: (name: keyof T, value: string) => void;
-  errorState?: TransformedError<T> | null;
+  errorState?: FormError<T> | null;
 }
 
 type FormFieldComponent = <T extends Record<string, any>>(

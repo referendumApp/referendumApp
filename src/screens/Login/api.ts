@@ -4,15 +4,15 @@ import baseApi, {
   ErrorResponse,
   HttpMethod,
   OnQueryStarted,
-  TransformedError,
-  handleErrorDetails,
+  FormError,
+  handleFormError,
 } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
 import { LoginCredentials, LoginSession } from './types';
 
-export type LoginError = TransformedError<LoginCredentials>;
+export type LoginError = FormError<LoginCredentials>;
 
 const loginApi = baseApi.injectEndpoints({
   endpoints: builder => ({
@@ -42,7 +42,7 @@ const loginApi = baseApi.injectEndpoints({
         dispatch(login({ ...data }));
       },
       transformErrorResponse: (response: ErrorResponse<LoginCredentials>, _, body): LoginError =>
-        handleErrorDetails<LoginCredentials>(response, body),
+        handleFormError<LoginCredentials>(response, body),
     }),
   }),
   overrideExisting: isDevEnv(),

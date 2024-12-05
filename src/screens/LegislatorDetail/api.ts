@@ -1,4 +1,4 @@
-import { Legislator } from '@/appTypes';
+import { Legislator, LegislatorVote } from '@/appTypes';
 import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
@@ -6,11 +6,12 @@ import { setLegislators } from './duck';
 
 enum LegislatorTags {
   follow = 'LegislatorFollow',
+  votingHistory = 'LegislatorVotingHistory',
 }
 
 const catalogApi = baseApi
   .enhanceEndpoints({
-    addTagTypes: [LegislatorTags.follow],
+    addTagTypes: [LegislatorTags.follow, LegislatorTags.votingHistory],
   })
   .injectEndpoints({
     endpoints: builder => ({
@@ -18,6 +19,13 @@ const catalogApi = baseApi
         builder,
         resource: ApiResource.legislators,
         reducer: setLegislators,
+      }),
+      getLegislatorVotingHistory: builder.query<LegislatorVote[], { legislatorId: number }>({
+        query: ({ legislatorId }) => ({
+          url: `${ApiResource.legislators}/${legislatorId}/voting_history`,
+        }),
+        providesTags: (result, _, { legislatorId }) =>
+          result ? [{ type: LegislatorTags.votingHistory, id: legislatorId }] : [],
       }),
       getFollowedLegislators: builder.query<Legislator[], void>({
         query: () => ({
@@ -45,6 +53,7 @@ const catalogApi = baseApi
 
 export const {
   useGetLegislatorsQuery,
+  useGetLegislatorVotingHistoryQuery,
   useGetFollowedLegislatorsQuery,
   useFollowLegislatorMutation,
   useUnfollowLegislatorMutation,

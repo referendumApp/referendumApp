@@ -9,6 +9,9 @@ const styles = StyleSheet.create({
     gap: size.s * 1.5,
     marginBottom: size.m * 1.5,
   },
+  button: {
+    borderRadius: 8,
+  },
   buttonText: {
     fontWeight: '500',
   },
