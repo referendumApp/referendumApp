@@ -59,9 +59,9 @@
     "@reduxjs/toolkit": "^2.2.7",
     "babel-plugin-module-resolver": "^5.0.2",
     "date-fns": "^4.1.0",
-    "expo": "~52.0.14",
+    "expo": "~52.0.17",
     "expo-dev-client": "~5.0.5",
-    "expo-splash-screen": "~0.29.13",
+    "expo-splash-screen": "~0.29.16",
     "immutable": "^4.3.4",
     "lucide-react": "^0.441.0",
     "metro-react-native-babel-transformer": "^0.77.0",
@@ -107,9 +107,6 @@
   },
   "engines": {
     "node": ">=18"
-  },
-  "resolutions": {
-    "expo-modules-autolinking": "2.0.3"
   },
   "expo": {
     "doctor": {
