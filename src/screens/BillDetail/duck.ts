@@ -9,6 +9,7 @@ interface BillsState {
 
 const initialState: BillsState = {
   list: [],
+  detail: [],
 };
 
 const billsSlice = createSlice({
