@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 0.5,
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: size.l,
   },
@@ -18,7 +19,6 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
   },
   inputContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: '85%',
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     padding: size.m,
   },
   buttonContainer: {
-    gap: size.l,
     alignItems: 'center',
     width: '100%',
   },

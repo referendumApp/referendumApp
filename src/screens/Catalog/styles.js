@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   catalogList: {
-    paddingVertical: size.m,
+    paddingTop: size.m,
   },
   billItem: {
     ...componentStyles.item,

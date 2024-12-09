@@ -11,9 +11,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     display: 'flex',
     flexDirection: 'column',
-    maxHeight: '30%',
+    paddingBottom: size.xxl,
   },
   titleContainer: {
+    flexShrink: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: size.xs,
@@ -67,14 +68,23 @@ const styles = StyleSheet.create({
     ...componentStyles.boldText,
     color: colors.primary,
   },
+  wip: {
+    ...typography.subtitle,
+    color: colors.darkGray,
+    paddingBottom: size.m,
+  },
   title: { ...typography.largeTitle, paddingBottom: size.s },
   subtitle: typography.subtitle,
   sectionHeader: {
     paddingLeft: size.s * 1.5,
   },
+  briefingContainer: {
+    marginBottom: size.xl,
+  },
   sectionContent: {
     padding: size.s * 1.5,
   },
+  billTitle: componentStyles.boldText,
   sectionBody: typography.body,
   votingContainer: {
     flexDirection: 'row',

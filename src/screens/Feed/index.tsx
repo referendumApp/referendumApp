@@ -1,9 +1,10 @@
 import { format } from 'date-fns';
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, FlatList, RefreshControl } from 'react-native';
+import { View, Text, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Carousel, { CarouselItem } from '@/components/Carousel';
+import List from '@/components/List';
 
 import styles from './styles';
 
@@ -49,9 +50,7 @@ const FeedItemView: React.FC<{
           id: assocItem.id,
           title: assocItem.title,
         }))}
-        onItemPress={pressedItem =>
-          onAssociatedItemPress(pressedItem as AssociatedItem)
-        }
+        onItemPress={pressedItem => onAssociatedItemPress(pressedItem as AssociatedItem)}
         title="Links:"
         containerStyle={styles.feedItemCarouselContainer}
         titleStyle={styles.feedItemCarouselLinkTitle}
@@ -79,8 +78,7 @@ const FeedScreen: React.FC = () => {
         {
           id: '1',
           title: 'Town hall announced by a senator you follow',
-          description:
-            'Senator Patty Murray to hold town hall with Fox 13 Seattle',
+          description: 'Senator Patty Murray to hold town hall with Fox 13 Seattle',
           date: new Date(Date.now() + 86400000 * 30), // One month from now
           associatedItems: [
             {
@@ -95,8 +93,7 @@ const FeedScreen: React.FC = () => {
         {
           id: '2',
           title: 'A bill you follow has failed to proceed',
-          description:
-            'Border Act of 2024 cloture motion fails in Senate, 43-50',
+          description: 'Border Act of 2024 cloture motion fails in Senate, 43-50',
           date: new Date(), // "05/23/2024"
           associatedItems: [
             {
@@ -126,8 +123,7 @@ const FeedScreen: React.FC = () => {
         {
           id: '4',
           title: 'Hearing scheduled on a topic you follow',
-          description:
-            'House Education Committee schedules hearing on Voting Access',
+          description: 'House Education Committee schedules hearing on Voting Access',
           date: new Date(), // "04/21/2024"
           associatedItems: [],
           tags: ['House', 'Voting Access', 'Committee Hearing'],
@@ -154,9 +150,7 @@ const FeedScreen: React.FC = () => {
     () =>
       selectedTags.size === 0
         ? feedItems
-        : feedItems.filter(item =>
-            item.tags.some(tag => selectedTags.has(tag)),
-          ),
+        : feedItems.filter(item => item.tags.some(tag => selectedTags.has(tag))),
     [feedItems, selectedTags],
   );
 
@@ -172,22 +166,14 @@ const FeedScreen: React.FC = () => {
     });
   }, []);
 
-  const handleAssociatedItemPress = useCallback(
-    (item: AssociatedItem): void => {
-      // TODO: Implement navigation to the appropriate screen based on item type
-      console.log(
-        `Navigate to ${item.type} detail page for item ${item.itemId}`,
-      );
-    },
-    [],
-  );
+  const handleAssociatedItemPress = useCallback((item: AssociatedItem): void => {
+    // TODO: Implement navigation to the appropriate screen based on item type
+    console.log(`Navigate to ${item.type} detail page for item ${item.itemId}`);
+  }, []);
 
   const renderFeedItem = useCallback(
     ({ item }: { item: FeedItem }) => (
-      <FeedItemView
-        item={item}
-        onAssociatedItemPress={handleAssociatedItemPress}
-      />
+      <FeedItemView item={item} onAssociatedItemPress={handleAssociatedItemPress} />
     ),
     [handleAssociatedItemPress],
   );
@@ -213,17 +199,13 @@ const FeedScreen: React.FC = () => {
           textSelectedStyle={styles.tagCarouselSelectedItemText}
         />
       </View>
-      <FlatList
+      <List
         data={filteredFeedItems}
         renderItem={renderFeedItem}
         keyExtractor={keyExtractor}
         contentContainerStyle={styles.feedList}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={loadFeedItems} />
-        }
-        ListEmptyComponent={
-          <Text style={styles.emptyListText}>No feed items available</Text>
-        }
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={loadFeedItems} />}
+        ListEmptyComponent={<Text style={styles.emptyListText}>No feed items available</Text>}
       />
     </SafeAreaView>
   );

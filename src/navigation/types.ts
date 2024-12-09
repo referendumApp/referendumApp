@@ -1,4 +1,4 @@
-import { Bill, Legislator, VoteChoiceType } from '@/appTypes';
+import { BillDetail, Legislator, VoteChoiceType } from '@/appTypes';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -20,5 +20,5 @@ export type AppStackParamList = {
 export type CatalogStackParamList = {
   Catalog: undefined;
   LegislatorScreen: { legislator: Legislator; initialFollow?: boolean };
-  BillScreen: { bill: Bill; initialFollow?: boolean; initialVote?: VoteChoiceType };
+  BillScreen: { bill: BillDetail; initialFollow?: boolean; initialVote?: VoteChoiceType };
 };

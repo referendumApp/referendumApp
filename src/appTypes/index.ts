@@ -54,7 +54,7 @@ export type BillActionVote = {
   billActionId: number;
   date: string;
   actionDescription: string;
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
 };
 
 export type LegislatorVote = {
@@ -86,18 +86,20 @@ export interface Bill {
 export type BillField = FlattenFieldKeys<Bill>;
 
 export interface BillDetail {
-  id: number;
+  billId: number;
   legiscanId: number;
   identifier: string;
   title: string;
   description: string;
   briefing: string;
+  currentVersionId: number;
   stateId: number;
   stateName: string;
   legislativeBodyId: number;
-  legislativeBodyRoleId: number;
+  roleId: number;
   legislativeBodyRole: string;
   sessionId: number;
+  sessionName: string;
   statusId: number;
   status: string;
   statusDate: string;
@@ -134,19 +136,21 @@ export interface Token {
 }
 
 export const VoteChoice = {
-  YES: 1,
-  NO: 2,
+  YAY: 1,
+  NAY: 2,
+  ABSTAIN: 3,
+  ABSENT: 4,
 } as const;
 
 export type VoteChoiceType = (typeof VoteChoice)[keyof typeof VoteChoice];
 
 export type VoteCountByChoice = {
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
   count: number;
 };
 
 export type VoteCountByParty = {
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
   partyId: number;
   count: number;
 };
@@ -168,7 +172,7 @@ export type LegislatorVoteDetail = {
   partyName: string;
   roleName: string;
   stateName: string;
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
 };
 
 export type BillVotingHistory = {

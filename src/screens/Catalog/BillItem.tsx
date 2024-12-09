@@ -2,12 +2,12 @@ import { format } from 'date-fns';
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 
-import { Bill } from '@/appTypes';
-import Carousel from '@/components/Carousel';
+import { BillDetail } from '@/appTypes';
+// import Carousel from '@/components/Carousel';
 
 import styles from './styles';
 
-const BillItem: React.FC<{ bill: Bill; onPress: (bill: Bill) => void }> = React.memo(
+const BillItem: React.FC<{ bill: BillDetail; onPress: (bill: BillDetail) => void }> = React.memo(
   ({ bill, onPress }) => {
     return (
       <Pressable style={styles.billItem} onPress={() => onPress(bill)}>
@@ -20,13 +20,13 @@ const BillItem: React.FC<{ bill: Bill; onPress: (bill: Bill) => void }> = React.
         <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
           {bill.title}
         </Text>
-        <Carousel
+        {/* <Carousel
           items={bill?.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
           onItemPress={() => {}}
           containerStyle={styles.tagCarouselContainer}
           itemStyle={styles.tagCarouselItem}
           textStyle={styles.tagCarouselItemText}
-        />
+        /> */}
       </Pressable>
     );
   },

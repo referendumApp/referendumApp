@@ -42,7 +42,7 @@ export const filterConfigs: FilterConfigs = {
       if (Array.isArray(filterValue)) {
         switch (field) {
           case FilterComponentFields.roleId:
-            return filterValue.includes(item.legislativeBody.roleId);
+            return filterValue.includes(item.roleId);
           case FilterComponentFields.stateId:
             return filterValue.includes(item.stateId);
         }

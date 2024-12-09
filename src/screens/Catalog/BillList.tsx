@@ -4,10 +4,11 @@ import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-import { Bill } from '@/appTypes';
+import { BillDetail } from '@/appTypes';
+import List from '@/components/List';
 import { CatalogStackParamList } from '@/navigation/types';
 import {
-  useGetBillsQuery,
+  useGetBillDetailsQuery,
   useGetFollowedBillsQuery,
   useGetBillVotesQuery,
 } from '@/screens/BillDetail/api';
@@ -35,11 +36,11 @@ type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'
 const BillList: React.FC<BillListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {
     const navigation = useNavigation<NavigationProp>();
-    const flatListRef = useRef<FlatList<Bill> | null>(null);
+    const flatListRef = useRef<FlatList<BillDetail> | null>(null);
     const [filter, setFilter] = useState<FilterOptions>({});
     const [selectedSort, setSelectedSort] = useState<TabMappingSortFields<'bill'> | undefined>();
 
-    const { data: bills } = useGetBillsQuery();
+    const { data: bills } = useGetBillDetailsQuery();
     const { data: followedBills } = useGetFollowedBillsQuery();
     const { data: userBillVotes } = useGetBillVotesQuery({ billId: undefined });
 
@@ -62,22 +63,22 @@ const BillList: React.FC<BillListProps> = React.memo(
     };
 
     const handleBillPress = useCallback(
-      (bill: Bill) => {
-        const initialVote = userBillVotes?.find(vote => vote.billId === bill.id)?.voteChoiceId;
-        const initialFollow = followedBills?.some(follow => follow.id === bill.id);
+      (bill: BillDetail) => {
+        const initialVote = userBillVotes?.find(vote => vote.billId === bill.billId)?.voteChoiceId;
+        const initialFollow = followedBills?.some(follow => follow.id === bill.billId);
         navigation.navigate('BillScreen', { bill, initialFollow, initialVote });
       },
       [followedBills, navigation, userBillVotes],
     );
 
     const renderItem = useCallback(
-      ({ item }: { item: Bill }) => {
+      ({ item }: { item: BillDetail }) => {
         return <BillItem bill={item} onPress={handleBillPress} />;
       },
       [handleBillPress],
     );
 
-    const keyExtractor = useCallback((item: Bill) => String(item.id), []);
+    const keyExtractor = useCallback((item: BillDetail) => String(item.billId), []);
 
     const getItemLayout = useCallback(
       (_: any, index: number) => ({
@@ -105,7 +106,7 @@ const BillList: React.FC<BillListProps> = React.memo(
           selectedSort={selectedSort}
           sortOptions={sortOptionsMap.bill}
         />
-        <FlatList
+        <List
           ref={flatListRef}
           data={catalogItems}
           renderItem={renderItem}
