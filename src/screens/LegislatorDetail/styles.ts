@@ -85,15 +85,21 @@ const styles = StyleSheet.create({
     ...componentStyles.centerRow,
     justifyContent: 'space-between',
     paddingVertical: size.s,
-    paddingHorizontal: size.s * 1.5,
+    paddingLeft: size.s * 1.5,
+    paddingRight: size.xs,
     borderTopWidth: StyleSheet.hairlineWidth,
-    flex: 0.4,
   },
   itemHeader: {
     padding: size.xs,
   },
   itemCell: {
     ...typography.small,
+    flex: 0.33,
+    color: colors.darkGray,
+  },
+  descCell: {
+    ...typography.small,
+    flex: 0.45,
     color: colors.darkGray,
   },
   seeMoreText: {

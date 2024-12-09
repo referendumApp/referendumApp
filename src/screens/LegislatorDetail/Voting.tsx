@@ -14,7 +14,7 @@ const TableItem = ({ action }: { action: BillActionVote }) => {
       <Text style={styles.itemCell} numberOfLines={0}>
         {action.date}
       </Text>
-      <Text style={styles.itemCell} numberOfLines={0}>
+      <Text style={styles.descCell} numberOfLines={0}>
         {action.actionDescription}
       </Text>
       <VoteIcon voteChoice={action.voteChoiceId} size={20} />
