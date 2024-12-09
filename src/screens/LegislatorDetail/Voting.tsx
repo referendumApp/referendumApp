@@ -1,11 +1,10 @@
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
 
-import { BillActionVote, LegislatorVote, VoteChoice } from '@/appTypes';
+import { BillActionVote, LegislatorVote } from '@/appTypes';
 import Accordion from '@/components/Accordion';
 import Card from '@/components/Card';
-import Icon from '@/components/Icon';
-import { colors } from '@/themes';
+import VoteIcon from '@/components/VoteIcon';
 
 import styles from './styles';
 
@@ -15,17 +14,10 @@ const TableItem = ({ action }: { action: BillActionVote }) => {
       <Text style={styles.itemCell} numberOfLines={0}>
         {action.date}
       </Text>
-      <View style={[styles.yesVote, action.voteChoiceId !== VoteChoice.YES && styles.noDisplay]}>
-        <Icon iconFamily="Octicons" iconName="thumbsup" iconSize={20} iconColor={colors.tertiary} />
-      </View>
-      <View style={[styles.noVote, action.voteChoiceId !== VoteChoice.NO && styles.noDisplay]}>
-        <Icon
-          iconFamily="Octicons"
-          iconName="thumbsdown"
-          iconSize={20}
-          iconColor={colors.tertiary}
-        />
-      </View>
+      <Text style={styles.itemCell} numberOfLines={0}>
+        {action.actionDescription}
+      </Text>
+      <VoteIcon voteChoice={action.voteChoiceId} size={20} />
     </View>
   );
 };
@@ -45,9 +37,9 @@ const Voting = React.memo(({ votingHistory }: { votingHistory: LegislatorVote[] 
   return (
     <Card style={styles.table} contentStyle={styles.cardContent}>
       <View style={styles.tableHeader}>
-        <Text style={styles.billHeaderText}>Bill/Date</Text>
-        <Text style={styles.tableHeaderText}>For</Text>
-        <Text style={styles.tableHeaderText}>Against</Text>
+        <Text style={styles.tableHeaderText}>Bill/Date</Text>
+        <Text style={styles.tableHeaderText}>Action</Text>
+        <Text style={styles.tableHeaderText}>Vote</Text>
       </View>
       <Accordion
         data={tableContents}

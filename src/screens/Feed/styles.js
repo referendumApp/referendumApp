@@ -4,12 +4,16 @@ import { colors, componentStyles, size, typography, withOpacity } from '@/themes
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
-  header: componentStyles.header,
+  header: {
+    ...componentStyles.header,
+    paddingBottom: size.m * 1.5,
+  },
   headerText: componentStyles.headerText,
   subHeader: componentStyles.subHeader,
   tagCarouselContainer: {
     ...componentStyles.carouselContainer,
     paddingHorizontal: size.m,
+    paddingBottom: size.m,
   },
   tagCarouselTitle: {
     ...typography.subtitle,
@@ -31,12 +35,9 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   feedList: {
-    paddingVertical: size.m,
+    paddingTop: size.m,
   },
-  feedItem: {
-    ...componentStyles.card,
-    marginBottom: size.m,
-  },
+  feedItem: componentStyles.item,
   feedItemDate: {
     ...typography.date,
     marginBottom: size.s * 1.5,

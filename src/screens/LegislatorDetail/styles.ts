@@ -3,10 +3,7 @@ import { ImageStyle, StyleSheet } from 'react-native';
 import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
-  container: {
-    ...componentStyles.container,
-    paddingVertical: size.m,
-  },
+  container: componentStyles.container,
   tabContainer: componentStyles.tabContainer,
   scrollContainer: {
     paddingTop: size.m,
@@ -64,11 +61,6 @@ const styles = StyleSheet.create({
     paddingVertical: size.s,
     paddingHorizontal: size.m,
   },
-  billHeaderText: {
-    ...typography.title,
-    fontSize: size.m + 2,
-    flex: 0.4,
-  },
   tableHeaderText: {
     ...typography.title,
     fontSize: size.m + 2,
@@ -108,19 +100,6 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.primary,
     marginTop: size.s,
-  },
-  noVote: {
-    padding: size.s * 1.5,
-    backgroundColor: colors.errorRed,
-    borderRadius: 9999,
-  },
-  yesVote: {
-    padding: size.s * 1.5,
-    backgroundColor: colors.successGreen,
-    borderRadius: 9999,
-  },
-  noDisplay: {
-    opacity: 0,
   },
 });
 

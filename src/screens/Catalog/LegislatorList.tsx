@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { Legislator } from '@/appTypes';
+import List from '@/components/List';
 import { CatalogStackParamList } from '@/navigation/types';
 import SortModal from '@/screens/Catalog/sort/SortModal';
 import {
@@ -104,7 +105,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
           selectedSort={selectedSort}
           sortOptions={sortOptionsMap.legislator}
         />
-        <FlatList
+        <List
           ref={flatListRef}
           data={catalogItems}
           renderItem={renderItem}
