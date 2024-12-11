@@ -51,7 +51,7 @@
         "appleTeamId": "Q3Z8A24874"
       },
       "android": {
-        "track": "internal",
+        "track": "alpha",
         "releaseStatus": "draft"
       }
     },
