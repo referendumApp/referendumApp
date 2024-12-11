@@ -265,6 +265,15 @@ export const componentStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems: 'center' as const,
+    justifyContent: 'space-between',
+    paddingVertical: size.s,
+    paddingLeft: size.s * 1.5,
+    paddingRight: size.xs,
+    borderTopWidth: StyleSheet.hairlineWidth,
+  },
 });
 
 // Button Styles

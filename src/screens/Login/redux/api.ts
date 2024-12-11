@@ -1,4 +1,5 @@
 import { Token } from '@/appTypes';
+import { LoginCredentials } from '@/screens/Login/types';
 import baseApi, {
   ApiResource,
   ErrorResponse,
@@ -10,7 +11,6 @@ import baseApi, {
 import { isDevEnv } from '@/store/utils';
 
 import { login } from './duck';
-import { LoginCredentials, LoginSession } from './types';
 
 export type LoginError = FormError<LoginCredentials>;
 
@@ -37,7 +37,7 @@ const loginApi = baseApi.injectEndpoints({
           url: `${ApiResource.auth}/login`,
         };
       },
-      async onQueryStarted(_, { dispatch, queryFulfilled }: OnQueryStarted<LoginSession>) {
+      async onQueryStarted(_, { dispatch, queryFulfilled }: OnQueryStarted<Token>) {
         const { data } = await queryFulfilled;
         dispatch(login({ ...data }));
       },

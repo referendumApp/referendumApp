@@ -9,13 +9,13 @@ import NavBar from '@/components/NavBar';
 import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
 
+import FullBillText from './FullBillText';
+import Overview from './Overview';
 import {
   useFollowBillMutation,
   useUnfollowBillMutation,
-  // useGetBillVotingHistoryQuery,
-} from './api';
-import FullBillText from './FullBillText';
-import Overview from './Overview';
+  useGetBillVotingHistoryQuery,
+} from './redux/api';
 import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
@@ -31,15 +31,10 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
 
   const [selectedTab, setSelectedTab] = useState<TabType>('overview');
   const [isFollowing, setIsFollowing] = useState(initialFollow);
-  // const [comments, setComments] = useState<any[]>([]);
 
   const [followBill] = useFollowBillMutation();
   const [unfollowBill] = useUnfollowBillMutation();
-  // const { data: votingHistory } = useGetBillVotingHistoryQuery({ billId: bill.id });
-
-  // useEffect(() => {
-  //   setComments([]);
-  // }, [bill.id]);
+  const { data: votingHistory } = useGetBillVotingHistoryQuery({ billId: bill.billId });
 
   const handleBack = () => navigation.goBack();
 
@@ -94,29 +89,8 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
 
       <ScrollView style={styles.scrollContainer}>
         {selectedTab === 'overview' && <Overview bill={bill} initialVote={initialVote} />}
-        {selectedTab === 'voting' && <Voting billId={bill.billId} />}
+        {selectedTab === 'voting' && <Voting votingHistory={votingHistory?.votes ?? []} />}
         {selectedTab === 'fullText' && <FullBillText billVersionId={bill.currentVersionId} />}
-        {/* <Card
-          title="Comments"
-          headerStyle={styles.sectionHeader}
-          contentStyle={styles.sectionContent}>
-          {comments.length === 0 ? (
-            <Text style={styles.sectionBody}>No comments yet. Be the first to comment!</Text>
-          ) : (
-            comments.slice(0, 3).map((comment, index) => (
-              <View key={index} style={styles.commentContainer}>
-                <Text style={styles.commentAuthor}>{comment.author}</Text>
-                <Text style={styles.commentText}>{comment.text}</Text>
-              </View>
-            ))
-          )}
-          <Pressable
-            onPress={() => {}}>
-            <Text style={styles.seeMoreText}>
-              {comments.length > 0 ? 'See all comments' : 'Add a comment'}
-            </Text>
-          </Pressable>
-        </Card> */}
       </ScrollView>
     </SafeAreaView>
   );

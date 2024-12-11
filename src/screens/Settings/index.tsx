@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { logout } from '@/screens/Login/duck';
+import { logout } from '@/screens/Login/redux/duck';
 
 import styles from './styles';
 

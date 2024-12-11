@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
     ...componentStyles.container,
     paddingVertical: size.m,
   },
+  cardContainer: {
+    marginBottom: size.xl,
+  },
   header: {
     backgroundColor: colors.primary,
     display: 'flex',
@@ -73,19 +76,25 @@ const styles = StyleSheet.create({
     color: colors.darkGray,
     paddingBottom: size.m,
   },
-  title: { ...typography.largeTitle, paddingBottom: size.s },
+  title: {
+    ...typography.largeTitle,
+    paddingBottom: size.s,
+  },
   subtitle: typography.subtitle,
   sectionHeader: {
     paddingLeft: size.s * 1.5,
   },
-  briefingContainer: {
-    marginBottom: size.xl,
-  },
   sectionContent: {
     padding: size.s * 1.5,
   },
-  billTitle: componentStyles.boldText,
-  sectionBody: typography.body,
+  billTitle: {
+    ...componentStyles.boldText,
+    paddingBottom: size.m,
+  },
+  sectionBody: {
+    ...typography.body,
+    fontSize: size.m - 2,
+  },
   votingContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -104,6 +113,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: size.xl,
   },
+  overviewRow: {
+    ...componentStyles.itemRow,
+    paddingVertical: size.s * 1.5,
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  overviewCell: {
+    ...typography.small,
+    padding: size.s,
+    color: colors.darkGray,
+    flex: 0.5,
+    textAlign: 'center',
+  },
   overviewText: {
     ...typography.small,
     fontFamily: 'Inter-Bold',
@@ -114,32 +136,56 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: size.xl,
   },
-  tableHeader: {
-    flexDirection: 'row',
-    backgroundColor: colors.primary,
-    padding: size.s,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-  },
-  tableHeaderText: {
-    ...typography.subtitle,
-    color: colors.tertiary,
-    flex: 1,
-  },
   tableRow: {
-    flexDirection: 'row',
-    padding: size.s,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lightGray,
+    paddingVertical: size.s,
+    marginBottom: 0,
+    borderTopWidth: 1,
+    borderTopColor: colors.darkGray,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+  },
+  tableText: {
+    ...componentStyles.boldText,
+    fontSize: size.m - 2,
+    flex: 0.5,
   },
   tableCell: {
-    ...typography.body,
-    flex: 1,
+    ...componentStyles.boldText,
+    fontSize: size.m - 2,
+    textAlign: 'center',
+    flex: 0.5,
   },
-  seeMoreText: {
-    ...typography.caption,
-    color: colors.primary,
-    marginTop: size.s,
+  tableContent: {
+    paddingTop: 0,
+    paddingBottom: size.s,
+    paddingHorizontal: size.s,
+  },
+  itemRow: componentStyles.itemRow,
+  itemCell: {
+    ...typography.small,
+    flex: 0.55,
+    color: colors.darkGray,
+  },
+  descCell: {
+    ...typography.small,
+    flex: 0.4,
+    color: colors.darkGray,
+  },
+  tableHeader: {
+    paddingHorizontal: 0,
+    justifyContent: 'space-evenly',
+  },
+  tableHeaderText: {
+    flex: 0.5,
+    textAlign: 'center',
+  },
+  tableButton: {
+    flex: 0.5,
+    alignItems: 'center',
+  },
+  linkCell: {
+    color: colors.linkBlue,
+    textDecorationLine: 'underline',
   },
   commentContainer: {
     marginBottom: size.s,
@@ -148,7 +194,6 @@ const styles = StyleSheet.create({
     ...typography.subtitle,
     fontWeight: 'bold',
   },
-  commentText: typography.body,
   voteCounts: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',

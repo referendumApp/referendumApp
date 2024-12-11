@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Button, { IconSize } from '@/components/Button';
 import SearchInput from '@/components/SearchInput';
 import TabButton from '@/components/TabButton';
+import { useGetBillDetailsQuery } from '@/screens/BillDetail/redux/api';
+import { useGetLegislatorsQuery } from '@/screens/LegislatorDetail/redux/api';
 import { colors } from '@/themes';
 
 import BillList from './BillList';
@@ -17,6 +19,9 @@ const CatalogScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
+
+  useGetBillDetailsQuery();
+  useGetLegislatorsQuery();
 
   const handleSearch = (text: string): void => setSearchQuery(text);
 

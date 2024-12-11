@@ -1,14 +1,17 @@
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { BillActionVote, LegislatorVote } from '@/appTypes';
+import { BillActionVote, LegislatorVotingHistory } from '@/appTypes';
 import Accordion from '@/components/Accordion';
-import Card from '@/components/Card';
+import Table from '@/components/Table';
 import VoteIcon from '@/components/VoteIcon';
+import useBillScreenNav from '@/screens/BillDetail/hooks/useBillScreenNav';
+import { getBillDetailsMap } from '@/screens/BillDetail/redux/selectors';
 
 import styles from './styles';
 
-const TableItem = ({ action }: { action: BillActionVote }) => {
+const BillActionItem = ({ action }: { action: BillActionVote }) => {
   return (
     <View style={styles.itemRow}>
       <Text style={styles.itemCell} numberOfLines={0}>
@@ -22,25 +25,31 @@ const TableItem = ({ action }: { action: BillActionVote }) => {
   );
 };
 
-const Voting = React.memo(({ votingHistory }: { votingHistory: LegislatorVote[] }) => {
+const Voting: React.FC<{ votingHistory: LegislatorVotingHistory[] }> = ({ votingHistory }) => {
+  const billIds = useMemo(() => votingHistory.map(vote => vote.billId), [votingHistory]);
+  const billMap = useSelector(state => getBillDetailsMap(state, billIds));
+  const billNav = useBillScreenNav();
+
   const tableContents = useMemo(
     () =>
       votingHistory.map(vote => {
         const content = vote.billActionVotes.map(action => (
-          <TableItem key={action.billActionId} action={action} />
+          <BillActionItem key={action.billActionId} action={action} />
         ));
-        return { key: vote.billId, title: vote.identifier, content };
+        const bill = billMap[vote.billId];
+
+        return {
+          key: vote.billId,
+          title: vote.identifier,
+          onPressTitle: () => billNav(bill),
+          content,
+        };
       }),
-    [votingHistory],
+    [billMap, billNav, votingHistory],
   );
 
   return (
-    <Card style={styles.table} contentStyle={styles.cardContent}>
-      <View style={styles.tableHeader}>
-        <Text style={styles.tableHeaderText}>Bill/Date</Text>
-        <Text style={styles.tableHeaderText}>Action</Text>
-        <Text style={styles.tableHeaderText}>Vote</Text>
-      </View>
+    <Table style={styles.cardContainer} headers={['Bill/Date', 'Action', 'Vote']}>
       <Accordion
         data={tableContents}
         accordionStyles={{
@@ -49,8 +58,8 @@ const Voting = React.memo(({ votingHistory }: { votingHistory: LegislatorVote[] 
           content: styles.tableContent,
         }}
       />
-    </Card>
+    </Table>
   );
-});
+};
 
 export default Voting;

@@ -4,6 +4,9 @@ import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
+  cardContainer: {
+    marginBottom: size.xl,
+  },
   tabContainer: componentStyles.tabContainer,
   scrollContainer: {
     paddingTop: size.m,
@@ -24,9 +27,15 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.white,
   } as ImageStyle,
+  detailContainer: {
+    flex: 1,
+  },
+  nameContainer: {
+    flexShrink: 1,
+    paddingBottom: size.s,
+  },
   name: {
     ...typography.title,
-    paddingBottom: size.s,
   },
   descriptionText: {
     ...typography.body,
@@ -44,27 +53,6 @@ const styles = StyleSheet.create({
     padding: size.s * 1.5,
   },
   sectionBody: typography.body,
-  test: {
-    paddingBottom: 95,
-  },
-  table: {
-    backgroundColor: colors.tertiary,
-    borderRadius: 8,
-    marginBottom: size.xl,
-  },
-  tableHeader: {
-    ...componentStyles.centerRow,
-    justifyContent: 'space-between',
-    backgroundColor: colors.primary,
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    paddingVertical: size.s,
-    paddingHorizontal: size.m,
-  },
-  tableHeaderText: {
-    ...typography.title,
-    fontSize: size.m + 2,
-  },
   tableRow: {
     paddingVertical: size.s,
     marginBottom: 0,
@@ -73,25 +61,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
   },
-  tableCell: {
-    ...componentStyles.boldText,
-  },
+  tableCell: componentStyles.boldText,
   tableContent: {
     paddingTop: 0,
     paddingBottom: size.s,
     paddingHorizontal: size.s,
   },
-  itemRow: {
-    ...componentStyles.centerRow,
-    justifyContent: 'space-between',
-    paddingVertical: size.s,
-    paddingLeft: size.s * 1.5,
-    paddingRight: size.xs,
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  itemHeader: {
-    padding: size.xs,
-  },
+  itemRow: componentStyles.itemRow,
   itemCell: {
     ...typography.small,
     flex: 0.33,

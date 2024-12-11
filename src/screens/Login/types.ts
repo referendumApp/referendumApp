@@ -4,8 +4,3 @@ export interface LoginCredentials {
 }
 
 export type LoginFields = keyof LoginCredentials;
-
-export interface LoginSession {
-  accessToken: string;
-  tokenType: string;
-}

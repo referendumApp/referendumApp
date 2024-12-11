@@ -3,14 +3,17 @@ import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 
 import { BillDetail } from '@/appTypes';
+import useBillScreenNav from '@/screens/BillDetail/hooks/useBillScreenNav';
 // import Carousel from '@/components/Carousel';
 
 import styles from './styles';
 
-const BillItem: React.FC<{ bill: BillDetail; onPress: (bill: BillDetail) => void }> = React.memo(
-  ({ bill, onPress }) => {
+const BillItem: React.FC<{ bill: BillDetail }> = React.memo(
+  ({ bill }) => {
+    const billNav = useBillScreenNav();
+
     return (
-      <Pressable style={styles.billItem} onPress={() => onPress(bill)}>
+      <Pressable style={styles.billItem} onPress={() => billNav(bill)}>
         <Text style={styles.statusDate}>{format(new Date(bill.statusDate), 'MMM d, yyyy')}</Text>
         <View style={styles.billTitleLine}>
           <Text style={styles.itemTitle}>US</Text>
@@ -30,7 +33,7 @@ const BillItem: React.FC<{ bill: BillDetail; onPress: (bill: BillDetail) => void
       </Pressable>
     );
   },
-  (prev, next) => prev.bill === next.bill && prev.onPress === next.onPress,
+  (prev, next) => prev.bill.billId === next.bill.billId,
 );
 
 export default BillItem;

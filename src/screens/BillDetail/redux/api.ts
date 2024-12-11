@@ -1,11 +1,19 @@
-import { Bill, BillDetail, BillText, BillVersion, BillVotingHistory } from '@/appTypes';
+import {
+  Bill,
+  BillBriefing,
+  BillDetail,
+  BillText,
+  BillVersion,
+  BillVotingHistory,
+} from '@/appTypes';
+import { BillVote, UserBillVote, UserBillVotes } from '@/screens/BillDetail/types';
 import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
 import { setBills, setBillDetails } from './duck';
-import { BillVote, UserBillVote, UserBillVotes } from './types';
 
 enum BillTags {
+  briefing = 'BillBriefing',
   follow = 'BillFollow',
   text = 'BillText',
   versions = 'BillVersions',
@@ -58,6 +66,13 @@ const catalogApi = baseApi
         }),
         providesTags: (result, _, { billId }) =>
           result ? [{ type: BillTags.userVotes, id: billId }] : [],
+      }),
+      getBillBriefing: builder.query<BillBriefing, { billVersionId: number }>({
+        query: ({ billVersionId }) => ({
+          url: `${ApiResource.billVersions}/${billVersionId}/briefing`,
+        }),
+        providesTags: (result, _, { billVersionId }) =>
+          result ? [{ type: BillTags.text, id: billVersionId }] : [],
       }),
       getBillText: builder.query<BillText, { billVersionId: number }>({
         query: ({ billVersionId }) => ({
@@ -120,6 +135,7 @@ export const {
   useGetBillVersionsQuery,
   useGetBillVotingHistoryQuery,
   useGetUserBillVotesQuery,
+  useGetBillBriefingQuery,
   useGetBillTextQuery,
   useGetBillVotesQuery,
   useCastBillVoteMutation,

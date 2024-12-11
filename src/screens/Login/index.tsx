@@ -16,7 +16,7 @@ import { BackButton } from '@/components/NavBar';
 import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { LoginError, useGetUserSessionMutation } from './api';
+import { LoginError, useGetUserSessionMutation } from './redux/api';
 import styles from './styles';
 import { LoginCredentials, LoginFields } from './types';
 

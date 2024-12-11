@@ -35,7 +35,7 @@ interface NavBarProps {
   isFollowing?: boolean;
 }
 
-const NavBar: React.FC<NavBarProps> = React.memo(({ handleBack, handleFollow, isFollowing }) => {
+const NavBar: React.FC<NavBarProps> = ({ handleBack, handleFollow, isFollowing }) => {
   const buttonProps = isFollowing
     ? { iconName: 'star-sharp', contentColor: colors.gold }
     : { iconName: 'star-outline', contentColor: colors.tertiary };
@@ -51,6 +51,6 @@ const NavBar: React.FC<NavBarProps> = React.memo(({ handleBack, handleFollow, is
       />
     </View>
   );
-});
+};
 
 export default NavBar;

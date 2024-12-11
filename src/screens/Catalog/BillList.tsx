@@ -1,17 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 
 import { BillDetail } from '@/appTypes';
 import List from '@/components/List';
-import { CatalogStackParamList } from '@/navigation/types';
-import {
-  useGetBillDetailsQuery,
-  useGetFollowedBillsQuery,
-  useGetBillVotesQuery,
-} from '@/screens/BillDetail/api';
+import { getBillDetails } from '@/screens/BillDetail/redux/selectors';
 import SortModal from '@/screens/Catalog/sort/SortModal';
 
 import BillItem from './BillItem';
@@ -31,18 +24,13 @@ interface BillListProps {
   isSortOpen: boolean;
 }
 
-type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
-
 const BillList: React.FC<BillListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {
-    const navigation = useNavigation<NavigationProp>();
+    const bills = useSelector(getBillDetails);
+
     const flatListRef = useRef<FlatList<BillDetail> | null>(null);
     const [filter, setFilter] = useState<FilterOptions>({});
     const [selectedSort, setSelectedSort] = useState<TabMappingSortFields<'bill'> | undefined>();
-
-    const { data: bills } = useGetBillDetailsQuery();
-    const { data: followedBills } = useGetFollowedBillsQuery();
-    const { data: userBillVotes } = useGetBillVotesQuery({ billId: undefined });
 
     const catalogItems = useCatalogItems({
       items: bills,
@@ -62,21 +50,9 @@ const BillList: React.FC<BillListProps> = React.memo(
       setSelectedSort(sortField);
     };
 
-    const handleBillPress = useCallback(
-      (bill: BillDetail) => {
-        const initialVote = userBillVotes?.find(vote => vote.billId === bill.billId)?.voteChoiceId;
-        const initialFollow = followedBills?.some(follow => follow.id === bill.billId);
-        navigation.navigate('BillScreen', { bill, initialFollow, initialVote });
-      },
-      [followedBills, navigation, userBillVotes],
-    );
-
-    const renderItem = useCallback(
-      ({ item }: { item: BillDetail }) => {
-        return <BillItem bill={item} onPress={handleBillPress} />;
-      },
-      [handleBillPress],
-    );
+    const renderItem = ({ item }: { item: BillDetail }) => {
+      return <BillItem bill={item} />;
+    };
 
     const keyExtractor = useCallback((item: BillDetail) => String(item.billId), []);
 

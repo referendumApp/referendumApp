@@ -1,25 +1,21 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { Legislator } from '@/appTypes';
 import Card from '@/components/Card';
 
 import styles from './styles';
 
-interface SnapshotProps {
-  legislator: Legislator;
-}
-
 const formatScore = (score: number | null): string => {
   return score !== null ? `${score.toFixed(0)}%` : 'N/A';
 };
 
-const Snapshot = React.memo(({ legislator }: SnapshotProps) => {
+const Snapshot: React.FC<{ legislator: Legislator }> = ({ legislator }) => {
   const attendanceScore = null; // votingManager.getLegislatorAttendanceScore(legislator.id);
   const alignmentScore = null; // votingManager.getUserLegislatorAlignmentScore(legislator.id, settingsManager.userId);
 
   return (
-    <>
+    <View style={styles.cardContainer}>
       <Card
         title="Referendum Scores"
         headerStyle={styles.sectionHeader}
@@ -28,16 +24,12 @@ const Snapshot = React.memo(({ legislator }: SnapshotProps) => {
         <Text style={styles.sectionBody}>Alignment Score: {formatScore(alignmentScore)}</Text>
       </Card>
 
-      {/* <Card
+      <Card
         title="Top Issues"
         headerStyle={styles.sectionHeader}
         contentStyle={styles.sectionContent}>
-        {legislator?.topIssues?.map((issue, index) => (
-          <Text key={index} style={styles.sectionBody}>
-            • {issue}
-          </Text>
-        ))}
-      </Card> */}
+        <Text style={styles.sectionBody}>Coming Soon...</Text>
+      </Card>
 
       <Card
         title="Contact & Social"
@@ -55,8 +47,8 @@ const Snapshot = React.memo(({ legislator }: SnapshotProps) => {
           <Text style={styles.sectionBody}>Instagram: {legislator.instagram}</Text>
         )}
       </Card>
-    </>
+    </View>
   );
-});
+};
 
 export default Snapshot;
