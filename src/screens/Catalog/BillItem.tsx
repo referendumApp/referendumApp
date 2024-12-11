@@ -20,11 +20,9 @@ const BillItem: React.FC<{ bill: BillDetail }> = React.memo(
           <View style={styles.dividerVertical} />
           <Text style={styles.itemTitle}>{bill.identifier}</Text>
         </View>
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
-            {bill.title}
-          </Text>
-        </View>
+        <Text style={styles.itemDescription} numberOfLines={3} ellipsizeMode="tail">
+          {bill.title}
+        </Text>
         {/* <Carousel
           items={bill?.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
           onItemPress={() => {}}
