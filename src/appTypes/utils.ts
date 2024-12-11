@@ -19,3 +19,7 @@ export type FlattenFieldKeys<T> = keyof FlattenFields<T>;
 export type FieldValidator<S, F extends string> = {
   [K in F]: K extends S ? K : never;
 }[F];
+
+export type AssertExistsUnion<T, K extends string> = Extract<T, K> extends never
+  ? 'Key does not exist in the union type'
+  : K;

@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -7,11 +8,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BillDetail } from '@/appTypes';
 import List from '@/components/List';
 import { CatalogStackParamList } from '@/navigation/types';
-import {
-  useGetBillDetailsQuery,
-  useGetFollowedBillsQuery,
-  useGetBillVotesQuery,
-} from '@/screens/BillDetail/api';
+import { useGetFollowedBillsQuery, useGetBillVotesQuery } from '@/screens/BillDetail/redux/api';
+import { getBillDetails } from '@/screens/BillDetail/redux/selectors';
 import SortModal from '@/screens/Catalog/sort/SortModal';
 
 import BillItem from './BillItem';
@@ -35,12 +33,13 @@ type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'
 
 const BillList: React.FC<BillListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {
+    const bills = useSelector(getBillDetails);
+
     const navigation = useNavigation<NavigationProp>();
     const flatListRef = useRef<FlatList<BillDetail> | null>(null);
     const [filter, setFilter] = useState<FilterOptions>({});
     const [selectedSort, setSelectedSort] = useState<TabMappingSortFields<'bill'> | undefined>();
 
-    const { data: bills } = useGetBillDetailsQuery();
     const { data: followedBills } = useGetFollowedBillsQuery();
     const { data: userBillVotes } = useGetBillVotesQuery({ billId: undefined });
 

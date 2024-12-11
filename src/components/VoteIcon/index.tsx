@@ -37,11 +37,11 @@ const VoteConfig: Record<VoteChoiceType, VoteConfigProps> = {
     containerStyle: styles.default,
     iconFamily: 'SimpleLineIcons',
     iconName: 'ghost',
-    iconColor: colors.darkGray,
+    iconColor: colors.tertiary,
   },
 };
 
-interface VoteIconProps {
+export interface VoteIconProps {
   style?: StyleProp<ViewStyle>;
   voteChoice: VoteChoiceType;
   size: number;

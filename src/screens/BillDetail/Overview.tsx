@@ -1,29 +1,52 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { BillDetail, VoteChoice, VoteChoiceType } from '@/appTypes';
+import { BillDetail, SponsorDetail, VoteChoice, VoteChoiceType } from '@/appTypes';
 import Card from '@/components/Card';
+import Table from '@/components/Table';
 import ToggleButton, { ToggleButtonSize } from '@/components/ToggleButton';
+import useLegislatorScreenNav from '@/screens/LegislatorDetail/hooks/useLegislatorScreenNav';
+import { getLegislatorById } from '@/screens/LegislatorDetail/redux/selectors';
 import { colors } from '@/themes';
 
 import {
+  useGetBillBriefingQuery,
   useGetUserBillVotesQuery,
   useCastBillVoteMutation,
   useUncastBillVoteMutation,
-} from './api';
+} from './redux/api';
 import styles from './styles';
-
-interface OverviewProps {
-  bill: BillDetail;
-  initialVote?: VoteChoiceType;
-}
 
 const formatPercentage = (value?: number) => {
   if (value == null) return;
   return `${(value * 100).toFixed(1)}%`;
 };
 
-const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
+const SponsorItems = ({ sponsor }: { sponsor: SponsorDetail }) => {
+  const legislator = useSelector(getLegislatorById(sponsor.legislatorId));
+  const legislatorNav = useLegislatorScreenNav();
+
+  return (
+    <View style={styles.overviewRow}>
+      <Pressable style={styles.tableButton} onPress={() => legislatorNav(legislator)}>
+        <Text style={[styles.tableCell, legislator && styles.linkCell]} numberOfLines={0}>
+          {sponsor.legislatorName}
+        </Text>
+      </Pressable>
+      <Text style={styles.tableCell} numberOfLines={0}>
+        {sponsor.type}
+      </Text>
+    </View>
+  );
+};
+
+interface OverviewProps {
+  bill: BillDetail;
+  initialVote?: VoteChoiceType;
+}
+
+const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
   const [userVote, setUserVote] = useState<VoteChoiceType | undefined>(initialVote);
 
   const { data: userVotes } = useGetUserBillVotesQuery(
@@ -32,6 +55,7 @@ const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
       skip: !userVote,
     },
   );
+  const { data: briefing } = useGetBillBriefingQuery({ billVersionId: bill.currentVersionId });
   const [castBillVote] = useCastBillVoteMutation();
   const [uncastBillVote] = useUncastBillVoteMutation();
 
@@ -48,8 +72,16 @@ const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
     [bill.billId, castBillVote, uncastBillVote],
   );
 
+  const sponsorRows = bill.sponsors
+    .slice(0, 3)
+    .map(sponsor => <SponsorItems key={sponsor.legislatorId} sponsor={sponsor} />);
+
+  const expandedRows = bill.sponsors
+    .slice(4)
+    .map(sponsor => <SponsorItems key={sponsor.legislatorId} sponsor={sponsor} />);
+
   return (
-    <>
+    <View style={styles.cardContainer}>
       <Card
         title="Citizens Opinion"
         headerStyle={styles.sectionHeader}
@@ -99,14 +131,45 @@ const Overview = React.memo(({ bill, initialVote }: OverviewProps) => {
 
       <Card
         title="Citizens Briefing"
-        style={styles.briefingContainer}
         headerStyle={styles.sectionHeader}
         contentStyle={styles.sectionContent}>
         <Text style={styles.billTitle}>{bill.title}</Text>
-        <Text style={styles.sectionBody}>{bill.briefing}</Text>
+        <Text style={styles.sectionBody}>{briefing?.briefing ?? 'Coming Soon...'}</Text>
       </Card>
-    </>
+
+      <Table
+        expandable={expandedRows.length > 0}
+        expandedRows={expandedRows}
+        headers={['Sponsor Name', 'Sponsor Type']}
+        headerStyle={styles.tableHeader}
+        textStyle={styles.tableHeaderText}>
+        {sponsorRows}
+      </Table>
+
+      <Card
+        title="Comments"
+        headerStyle={styles.sectionHeader}
+        contentStyle={styles.sectionContent}>
+        <Text style={styles.sectionBody}>Coming Soon...</Text>
+        {/* {comments.length === 0 ? (
+            <Text style={styles.sectionBody}>No comments yet. Be the first to comment!</Text>
+          ) : (
+            comments.slice(0, 3).map((comment, index) => (
+              <View key={index} style={styles.commentContainer}>
+                <Text style={styles.commentAuthor}>{comment.author}</Text>
+                <Text style={styles.commentText}>{comment.text}</Text>
+              </View>
+            ))
+          )}
+          <Pressable
+            onPress={() => {}}>
+            <Text style={styles.seeMoreText}>
+              {comments.length > 0 ? 'See all comments' : 'Add a comment'}
+            </Text>
+          </Pressable> */}
+      </Card>
+    </View>
   );
-});
+};
 
 export default Overview;
