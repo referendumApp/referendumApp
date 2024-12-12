@@ -116,13 +116,13 @@ const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
           <View style={styles.votingTextContainer}>
             <Text style={styles.voteBody}>Support</Text>
             <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
-              {formatPercentage(userVotes?.yay)}
+              {formatPercentage(userVotes?.yayPercent)}
             </Text>
           </View>
           <View style={styles.votingTextContainer}>
             <Text style={styles.voteBody}>Oppose</Text>
             <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
-              {formatPercentage(userVotes?.nay)}
+              {formatPercentage(userVotes?.nayPercent)}
             </Text>
           </View>
         </View>
