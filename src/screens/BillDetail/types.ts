@@ -10,8 +10,9 @@ export type UserBillVote = BillVote & {
 };
 
 export type UserBillVotes = {
-  yay: number;
-  nay: number;
+  yayPercent: number;
+  nayPercent: number;
+  total: number;
 };
 
 export type TabType = 'overview' | 'voting' | 'fullText';

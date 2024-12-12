@@ -19,7 +19,7 @@ import { BackButton } from '@/components/NavBar';
 import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { SignUpError, useSignUpUserMutation } from './api';
+import { SignUpError, useSignUpUserMutation } from './redux/api';
 import styles from './styles';
 import { SignUpCredentials, SignUpFields } from './types';
 

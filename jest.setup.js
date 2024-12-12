@@ -18,7 +18,7 @@ jest.mock('expo-splash-screen', () => ({
 }));
 
 // Silence the warning: Animated: `useNativeDriver` is not supported
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+// jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 // Mock Navigation
 jest.mock('@react-navigation/native', () => ({
@@ -56,3 +56,14 @@ jest.mock('redux-devtools-expo-dev-plugin', () => {
     default: () => next => next,
   };
 });
+
+jest.mock('@/screens/Login/redux/api', () => ({
+  useGetUserSessionMutation: () => [
+    jest.fn().mockResolvedValue({ accessToken: 'test', tokenType: 'bearer', username: 'tester' }),
+    { isLoading: false },
+  ],
+}));
+
+jest.mock('@/screens/SignUp/redux/api', () => ({
+  useSignUpUserMutation: () => [jest.fn().mockResolvedValue(), { isLoading: false }],
+}));
