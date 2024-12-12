@@ -41,7 +41,7 @@ const Voting: React.FC<{ votingHistory: LegislatorVotingHistory[] }> = ({ voting
         return {
           key: vote.billId,
           title: vote.identifier,
-          onPressTitle: () => billNav(bill),
+          onPressTitle: bill ? () => billNav(bill) : undefined,
           content,
         };
       }),
