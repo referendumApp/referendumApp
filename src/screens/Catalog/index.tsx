@@ -36,7 +36,7 @@ const CatalogScreen: React.FC = () => {
           {/* Filter and Sort */}
           <View style={[styles.buttonContainer]}>
             <Button
-              testID="filter"
+              testID="filterButton"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}
@@ -45,7 +45,7 @@ const CatalogScreen: React.FC = () => {
               onPress={() => setIsFilterOpen(true)}
             />
             <Button
-              testID="sort"
+              testID="sortButton"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}

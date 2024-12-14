@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react-native';
 
 import { colors } from '@/themes';
 
@@ -67,6 +67,7 @@ jest.mock('@/navigation', () => {
 
 describe('Filter & Sort', () => {
   beforeEach(() => {
+    jest.useFakeTimers();
     mockLogin();
     render(<App />);
   });
@@ -74,74 +75,81 @@ describe('Filter & Sort', () => {
   describe('Bill Filter & Sort Modals', () => {
     it('Check that filter modal renders', async () => {
       expect(screen.getByTestId(`Ionicons-filter-${colors.tertiary}`)).toBeOnTheScreen();
-      fireEvent.press(screen.getByTestId('filter'));
-
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('All')).toBeOnTheScreen();
-          expect(screen.getByText('Federal')).toBeOnTheScreen();
-          expect(screen.getByText('State')).toBeOnTheScreen();
-          expect(screen.getByText('Legislative Body')).toBeOnTheScreen();
-          expect(screen.queryByText('Political Party')).not.toBeOnTheScreen();
-          expect(screen.getByText('States')).toBeOnTheScreen();
-          expect(screen.getByText('Clear all')).toBeOnTheScreen();
-          expect(screen.getByText('Apply')).toBeOnTheScreen();
-        });
+        fireEvent.press(screen.getByTestId('filterButton'));
+      });
+      const filterModal = screen.getByTestId('filterModal');
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('All')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Federal')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('State')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
+        expect(within(filterModal).queryByText('Political Party')).not.toBeOnTheScreen();
+        expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Clear all')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Apply')).toBeOnTheScreen();
       });
 
       const federalButton = screen.getByTestId('federalButton');
-      fireEvent.press(federalButton);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Legislative Body')).toBeOnTheScreen();
-          expect(screen.queryByText('States')).not.toBeOnTheScreen();
-        });
+        fireEvent.press(federalButton);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
+        expect(within(filterModal).queryByText('States')).not.toBeOnTheScreen();
       });
 
       const stateButton = screen.getByTestId('stateButton');
-      fireEvent.press(stateButton);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('States')).toBeOnTheScreen();
-          expect(screen.queryByText('Legislative Body')).not.toBeOnTheScreen();
-        });
+        fireEvent.press(stateButton);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).queryByText('Legislative Body')).not.toBeOnTheScreen();
       });
     });
 
     it('Check that the filter options render', async () => {
-      fireEvent.press(screen.getByTestId('filter'));
-
+      await act(async () => {
+        fireEvent.press(screen.getByTestId('filterButton'));
+      });
+      const filterModal = screen.getByTestId('filterModal');
       const filterOptions = screen.getAllByTestId(`Ionicons-chevron-down-${colors.darkGray}`);
-      fireEvent.press(filterOptions[0]);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Representative')).toBeOnTheScreen();
-          expect(screen.getByText('Senate')).toBeOnTheScreen();
-        });
+        fireEvent.press(filterOptions[0]);
       });
 
-      fireEvent.press(filterOptions[1]);
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Representative')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Senate')).toBeOnTheScreen();
+      });
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Select items')).toBeOnTheScreen();
-        });
+        fireEvent.press(filterOptions[1]);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Select items')).toBeOnTheScreen();
       });
     });
 
     it('Check that sort modal renders', async () => {
       expect(screen.getByTestId(`Ionicons-swap-vertical-${colors.tertiary}`)).toBeOnTheScreen();
-      fireEvent.press(screen.getByTestId('sort'));
-
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Bill ID (A-Z)')).toBeOnTheScreen();
-          expect(screen.getByText('Bill Title (A-Z)')).toBeOnTheScreen();
-          expect(screen.getByText('Status Date (Newest)')).toBeOnTheScreen();
-        });
+        fireEvent.press(screen.getByTestId('sortButton'));
+      });
+      const sortModal = screen.getByTestId('sortModal');
+
+      await waitFor(() => {
+        expect(within(sortModal).getByText('Bill ID (A-Z)')).toBeOnTheScreen();
+        expect(within(sortModal).getByText('Bill Title (A-Z)')).toBeOnTheScreen();
+        expect(within(sortModal).getByText('Status Date (Newest)')).toBeOnTheScreen();
       });
     });
   });
@@ -154,83 +162,92 @@ describe('Filter & Sort', () => {
 
     it('Check that filter modal renders', async () => {
       expect(screen.getByTestId(`Ionicons-filter-${colors.tertiary}`)).toBeOnTheScreen();
-      fireEvent.press(screen.getByTestId('filter'));
-
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByTestId('legislatorList')).toBeOnTheScreen();
-          expect(screen.getByText('All')).toBeOnTheScreen();
-          expect(screen.getByText('Federal')).toBeOnTheScreen();
-          expect(screen.getByText('State')).toBeOnTheScreen();
-          expect(screen.getByText('Legislative Body')).toBeOnTheScreen();
-          expect(screen.getByText('Political Party')).toBeOnTheScreen();
-          expect(screen.getByText('States')).toBeOnTheScreen();
-          expect(screen.getByText('Clear all')).toBeOnTheScreen();
-          expect(screen.getByText('Apply')).toBeOnTheScreen();
-        });
+        fireEvent.press(screen.getByTestId('filterButton'));
+      });
+      const filterModal = screen.getByTestId('filterModal');
+
+      await waitFor(() => {
+        expect(screen.getByTestId('legislatorList')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('All')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Federal')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('State')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Political Party')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Clear all')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Apply')).toBeOnTheScreen();
       });
 
       const federalButton = screen.getByTestId('federalButton');
-      fireEvent.press(federalButton);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Legislative Body')).toBeOnTheScreen();
-          expect(screen.getByText('Political Party')).toBeOnTheScreen();
-          expect(screen.queryByText('States')).not.toBeOnTheScreen();
-        });
+        fireEvent.press(federalButton);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Political Party')).toBeOnTheScreen();
+        expect(within(filterModal).queryByText('States')).not.toBeOnTheScreen();
       });
 
       const stateButton = screen.getByTestId('stateButton');
-      fireEvent.press(stateButton);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Political Party')).toBeOnTheScreen();
-          expect(screen.getByText('States')).toBeOnTheScreen();
-          expect(screen.queryByText('Legislative Body')).not.toBeOnTheScreen();
-        });
+        fireEvent.press(stateButton);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Political Party')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).queryByText('Legislative Body')).not.toBeOnTheScreen();
       });
     });
 
     it('Check that the filter options render', async () => {
-      fireEvent.press(screen.getByTestId('filter'));
-
+      await act(async () => {
+        fireEvent.press(screen.getByTestId('filterButton'));
+      });
+      const filterModal = screen.getByTestId('filterModal');
       const filterOptions = screen.getAllByTestId(`Ionicons-chevron-down-${colors.darkGray}`);
-      fireEvent.press(filterOptions[0]);
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Representative')).toBeOnTheScreen();
-          expect(screen.getByText('Senate')).toBeOnTheScreen();
-        });
+        fireEvent.press(filterOptions[0]);
       });
 
-      fireEvent.press(filterOptions[1]);
-
-      await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Democrat')).toBeOnTheScreen();
-          expect(screen.getByText('Republican')).toBeOnTheScreen();
-        });
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Representative')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Senate')).toBeOnTheScreen();
       });
 
-      fireEvent.press(filterOptions[2]);
+      await act(async () => {
+        fireEvent.press(filterOptions[1]);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Democrat')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Republican')).toBeOnTheScreen();
+      });
 
       await act(async () => {
-        await waitFor(() => {
-          expect(screen.getByText('Select items')).toBeOnTheScreen();
-        });
+        fireEvent.press(filterOptions[2]);
+      });
+
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Select items')).toBeOnTheScreen();
       });
     });
 
     it('Check that sort modal renders', async () => {
       expect(screen.getByTestId(`Ionicons-swap-vertical-${colors.tertiary}`)).toBeOnTheScreen();
-      fireEvent.press(screen.getByTestId('sort'));
+      await act(async () => {
+        fireEvent.press(screen.getByTestId('sortButton'));
+      });
+      const sortModal = screen.getByTestId('sortModal');
 
       await act(async () => {
         await waitFor(() => {
-          expect(screen.getByText('Legislator Name (A-Z)')).toBeOnTheScreen();
+          expect(within(sortModal).getByText('Legislator Name (A-Z)')).toBeOnTheScreen();
         });
       });
     });

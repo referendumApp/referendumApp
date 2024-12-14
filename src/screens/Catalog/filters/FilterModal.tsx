@@ -40,6 +40,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
 
   return (
     <BottomModal
+      testID="filterModal"
       handleApply={handleApply}
       handleReset={handleReset}
       isVisible={isVisible}

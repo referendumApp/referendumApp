@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 
 import { BillDetail, VoteChoiceType } from '@/appTypes';
 import { colors } from '@/themes';
@@ -28,6 +28,7 @@ jest.mock('@/navigation', () => {
 
 describe('Bill Screen', () => {
   beforeEach(() => {
+    jest.useFakeTimers();
     mockLogin();
     render(<App />);
   });
@@ -49,7 +50,10 @@ describe('Bill Screen', () => {
 
   it('Check follow button', async () => {
     const followButton = screen.getByTestId(`Ionicons-star-outline-${colors.tertiary}`);
-    fireEvent.press(followButton);
+
+    await act(async () => {
+      fireEvent.press(followButton);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId(`Ionicons-star-sharp-${colors.gold}`)).toBeOnTheScreen();
@@ -63,19 +67,28 @@ describe('Bill Screen', () => {
     expect(yayButton).toHaveStyle({ backgroundColor: colors.darkGray });
     expect(nayButton).toHaveStyle({ backgroundColor: colors.darkGray });
 
-    fireEvent.press(yayButton);
+    await act(async () => {
+      fireEvent.press(yayButton);
+    });
+
     await waitFor(() => {
       expect(yayButton).toHaveStyle({ backgroundColor: colors.successGreen });
       expect(nayButton).toHaveStyle({ backgroundColor: colors.darkGray });
     });
 
-    fireEvent.press(nayButton);
+    await act(async () => {
+      fireEvent.press(nayButton);
+    });
+
     await waitFor(() => {
       expect(yayButton).toHaveStyle({ backgroundColor: colors.darkGray });
       expect(nayButton).toHaveStyle({ backgroundColor: colors.errorRed });
     });
 
-    fireEvent.press(nayButton);
+    await act(async () => {
+      fireEvent.press(nayButton);
+    });
+
     await waitFor(() => {
       expect(yayButton).toHaveStyle({ backgroundColor: colors.darkGray });
       expect(nayButton).toHaveStyle({ backgroundColor: colors.darkGray });
@@ -83,7 +96,9 @@ describe('Bill Screen', () => {
   });
 
   it('Check Bill Voting Tab renders', async () => {
-    fireEvent.press(screen.getByText('Voting'));
+    await act(async () => {
+      fireEvent.press(screen.getByText('Voting'));
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Action/Name')).toBeOnTheScreen();
@@ -94,6 +109,7 @@ describe('Bill Screen', () => {
     });
 
     const dropButton = screen.getAllByTestId(`Ionicons-chevron-down-${colors.darkGray}`);
+
     fireEvent.press(dropButton[0]);
 
     await waitFor(() => {
@@ -107,7 +123,9 @@ describe('Bill Screen', () => {
   });
 
   it('Check Full Text Tab renders', async () => {
-    fireEvent.press(screen.getByText('Full Text'));
+    await act(async () => {
+      fireEvent.press(screen.getByText('Full Text'));
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Test Text')).toBeOnTheScreen();

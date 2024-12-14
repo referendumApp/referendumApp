@@ -25,8 +25,8 @@ describe('Catalog', () => {
     expect(screen.getByText('Catalog')).toBeOnTheScreen();
     expect(screen.getByText('Bills')).toBeOnTheScreen();
     expect(screen.getByText('Legislators')).toBeOnTheScreen();
-    expect(screen.getByTestId('filter')).toBeOnTheScreen();
-    expect(screen.getByTestId('sort')).toBeOnTheScreen();
+    expect(screen.getByTestId('filterButton')).toBeOnTheScreen();
+    expect(screen.getByTestId('sortButton')).toBeOnTheScreen();
     expect(screen.getByTestId('billList')).toBeOnTheScreen();
     const billItems = screen.getAllByTestId('billItem');
 

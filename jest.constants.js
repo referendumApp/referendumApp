@@ -627,7 +627,7 @@ export const mockLegislators = jest.fn().mockImplementation(() => {
   });
 
   const { data } = result();
-  if (mockReduxState().bills.detail.length === 0) {
+  if (mockReduxState().legislators.list.length === 0) {
     store.dispatch(setLegislators(data));
   }
 

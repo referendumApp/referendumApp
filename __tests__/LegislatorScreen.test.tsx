@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 
 import { Legislator } from '@/appTypes';
 import { colors } from '@/themes';
@@ -26,6 +26,7 @@ jest.mock('@/navigation', () => {
 
 describe('Legislator Screen', () => {
   beforeEach(() => {
+    jest.useFakeTimers();
     mockLogin();
     render(<App />);
   });
@@ -46,7 +47,10 @@ describe('Legislator Screen', () => {
 
   it('Check follow buttons', async () => {
     const followButton = screen.getByTestId(`Ionicons-star-outline-${colors.tertiary}`);
-    fireEvent.press(followButton);
+
+    await act(async () => {
+      fireEvent.press(followButton);
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId(`Ionicons-star-sharp-${colors.gold}`)).toBeOnTheScreen();
@@ -54,7 +58,9 @@ describe('Legislator Screen', () => {
   });
 
   it('Check Legislator Voting Tab renders', async () => {
-    fireEvent.press(screen.getByText('Voting'));
+    await act(async () => {
+      fireEvent.press(screen.getByText('Voting'));
+    });
 
     await waitFor(() => {
       expect(screen.getByText('Bill/Date')).toBeOnTheScreen();
@@ -65,7 +71,10 @@ describe('Legislator Screen', () => {
     });
 
     const dropButton = screen.getAllByTestId(`Ionicons-chevron-down-${colors.darkGray}`);
-    fireEvent.press(dropButton[0]);
+
+    await act(async () => {
+      fireEvent.press(dropButton[0]);
+    });
 
     await waitFor(() => {
       expect(screen.getByText('2023-03-30')).toBeOnTheScreen();
