@@ -69,6 +69,7 @@ const BillList: React.FC<BillListProps> = React.memo(
       <View testID="billList">
         <FilterProvider initialFilters={filter}>
           <FilterModal
+            currentFilters={filter}
             filterFields={filterConfigs.bill.fields}
             isVisible={isFilterOpen}
             setFilter={handleFilter}

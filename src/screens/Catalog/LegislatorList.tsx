@@ -69,6 +69,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
       <View testID="legislatorList">
         <FilterProvider initialFilters={filter}>
           <FilterModal
+            currentFilters={filter}
             filterFields={filterConfigs.legislator.fields}
             isVisible={isFilterOpen}
             setFilter={handleFilter}

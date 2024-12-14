@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { ScrollView } from 'react-native';
 
 import Accordion from '@/components/Accordion';
@@ -11,6 +11,7 @@ import styles from './styles';
 import ToggleFilter from './ToggleFilter';
 
 interface FilterModalProps {
+  currentFilters: FilterOptions;
   filterFields: ValidFilterFields;
   isVisible: boolean;
   onRequestClose: () => void;
@@ -18,6 +19,7 @@ interface FilterModalProps {
 }
 
 const FilterModal: React.FC<FilterModalProps> = ({
+  currentFilters,
   filterFields,
   isVisible,
   onRequestClose,
@@ -26,6 +28,11 @@ const FilterModal: React.FC<FilterModalProps> = ({
   const { activeToggle, filterOptions, setFilterOptions } = useFilterContext();
 
   const filterComponents = useFilterComponents(activeToggle, filterFields);
+
+  const handleClose = useCallback(() => {
+    setFilterOptions(currentFilters);
+    onRequestClose();
+  }, [currentFilters, onRequestClose, setFilterOptions]);
 
   const handleApply = () => {
     setFilter(
@@ -44,7 +51,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       handleApply={handleApply}
       handleReset={handleReset}
       isVisible={isVisible}
-      onRequestClose={onRequestClose}
+      onRequestClose={handleClose}
       title="Filters"
       animationType="fade"
       statusBarTranslucent={true}
