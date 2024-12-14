@@ -14,6 +14,7 @@ import LoginScreen from '@/screens/Login';
 import SettingsScreen from '@/screens/Settings';
 import SignUpScreen from '@/screens/SignUp';
 import WelcomeScreen from '@/screens/Welcome';
+// import PasswordResetScreen from '@/screens/PasswordReset';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
@@ -23,12 +24,15 @@ import {
   AuthStackParamList,
   AppStackParamList,
   CatalogStackParamList,
+  SettingsStackParamList,
 } from './types';
+import PasswordResetScreen from '@/screens/PasswordReset';
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const Tab = createBottomTabNavigator<AppStackParamList>();
 const CatalogStack = createNativeStackNavigator<CatalogStackParamList>();
+const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -64,6 +68,23 @@ const CatalogStackScreen = React.memo(() => (
   </CatalogStack.Navigator>
 ));
 
+const SettingsStackScreen = React.memo(() => (
+  <SettingsStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        start: 50,
+        end: 50,
+      },
+    }}
+  >
+    <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+    <SettingsStack.Screen name="PasswordReset" component={PasswordResetScreen} />
+
+  </SettingsStack.Navigator>
+));
+
 const AppNavigator: React.FC = () => {
   const tabBarIcon = useCallback(
     ({
@@ -86,7 +107,7 @@ const AppNavigator: React.FC = () => {
         case 'CatalogStack':
           iconName = focused ? 'book' : 'book-outline';
           break;
-        case 'Settings':
+        case 'SettingsStack':
           iconName = focused ? 'settings' : 'settings-outline';
           break;
       }
@@ -97,9 +118,10 @@ const AppNavigator: React.FC = () => {
   );
 
   const tabBarLabel = useCallback(({ color, name }: { color: string; name: string }) => {
+    const tabName = name.split('Stack')[0];
     return (
       <Text style={[styles.tabBarLabel, { color }]}>
-        {name === 'CatalogStack' ? 'Catalog' : name}
+        {tabName}
       </Text>
     );
   }, []);
@@ -120,7 +142,7 @@ const AppNavigator: React.FC = () => {
       })}>
       <Tab.Screen name="Feed" component={FeedScreen} />
       <Tab.Screen name="CatalogStack" component={CatalogStackScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="SettingsStack" component={SettingsStackScreen} />
     </Tab.Navigator>
   );
 };

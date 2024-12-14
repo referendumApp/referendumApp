@@ -1,4 +1,4 @@
-import { Bill, Legislator, VoteChoiceType } from '@/appTypes';
+import { Bill, Legislator, VoteChoiceType, User } from '@/appTypes';
 
 export type RootStackParamList = {
   Auth: undefined;
@@ -14,7 +14,7 @@ export type AuthStackParamList = {
 export type AppStackParamList = {
   Feed: undefined;
   CatalogStack: undefined;
-  Settings: undefined;
+  SettingsStack: undefined;
 };
 
 export type CatalogStackParamList = {
@@ -22,3 +22,8 @@ export type CatalogStackParamList = {
   LegislatorScreen: { legislator: Legislator; initialFollow?: boolean };
   BillScreen: { bill: Bill; initialFollow?: boolean; initialVote?: VoteChoiceType };
 };
+
+export type SettingsStackParamList = {
+  Settings: undefined;
+  PasswordReset: undefined;
+}
