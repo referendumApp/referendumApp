@@ -88,6 +88,7 @@ const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
         contentStyle={styles.sectionContent}>
         <View style={styles.votingContainer}>
           <ToggleButton
+            testID="yayButton"
             style={styles.voteButton}
             iconFamily="Octicons"
             iconName="thumbsup"
@@ -100,6 +101,7 @@ const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
             onToggle={(isActive, buttonValue) => handleVote(isActive, buttonValue)}
           />
           <ToggleButton
+            testID="nayButton"
             style={styles.voteButton}
             iconFamily="Octicons"
             iconName="thumbsdown"

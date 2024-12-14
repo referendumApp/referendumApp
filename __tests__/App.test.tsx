@@ -1,32 +1,33 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 
 import App from '../App';
-import store from '../src/store';
+import { mockNavigate } from '../jest.setup';
 
-// jest.mock('@/screens/Login/api', () => ({
-//   useGetUserSessionMutation: () => [
-//     jest.fn().mockResolvedValue({ accessToken: 'test', tokenType: 'bearer', username: 'tester' }),
-//     { isLoading: false },
-//   ],
-// }));
+jest.mock('@/navigation', () => {
+  const WelcomeScreen = require('../src/screens/Welcome').default;
+  return function AuthNavigator() {
+    return <WelcomeScreen />;
+  };
+});
 
 describe('App', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('App and Welcome Page Renders', () => {
-    render(
-      <Provider store={store}>
-        <App />
-      </Provider>,
-    );
+  it('App, Welcome Page Renders, Navigate to Login Screen + Sign Up Screen', () => {
+    render(<App />);
 
     expect(screen.getByText('Referendum')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Login')).toBeOnTheScreen();
-    expect(screen.getByPlaceholderText('Create Account')).toBeOnTheScreen();
+    expect(screen.getByText('Login')).toBeOnTheScreen();
+    expect(screen.getByText('Create Account')).toBeOnTheScreen();
+
+    const loginButton = screen.getByText('Login');
+    fireEvent.press(loginButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('Login', { previousScreen: 'Welcome' });
+
+    const createButton = screen.getByText('Create Account');
+    fireEvent.press(createButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith('SignUp');
   });
 });

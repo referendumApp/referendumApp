@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { Legislator } from '@/appTypes';
@@ -66,7 +66,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
     );
 
     return (
-      <>
+      <View testID="legislatorList">
         <FilterProvider initialFilters={filter}>
           <FilterModal
             filterFields={filterConfigs.legislator.fields}
@@ -94,7 +94,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
           initialNumToRender={7}
           windowSize={5}
         />
-      </>
+      </View>
     );
   },
 );

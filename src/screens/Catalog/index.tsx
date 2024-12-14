@@ -36,6 +36,7 @@ const CatalogScreen: React.FC = () => {
           {/* Filter and Sort */}
           <View style={[styles.buttonContainer]}>
             <Button
+              testID="filter"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}
@@ -44,6 +45,7 @@ const CatalogScreen: React.FC = () => {
               onPress={() => setIsFilterOpen(true)}
             />
             <Button
+              testID="sort"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}
@@ -56,11 +58,13 @@ const CatalogScreen: React.FC = () => {
       </View>
       <View style={styles.tabContainer}>
         <TabButton
+          testID="billsTab"
           title="Bills"
           isSelected={selectedTab === 'bill'}
           onPress={() => setSelectedTab('bill')}
         />
         <TabButton
+          testID="legislatorsTab"
           title="Legislators"
           isSelected={selectedTab === 'legislator'}
           onPress={() => setSelectedTab('legislator')}

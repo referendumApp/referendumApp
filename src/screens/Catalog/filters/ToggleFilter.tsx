@@ -38,6 +38,7 @@ const ToggleFilter: React.FC = () => {
   return (
     <View style={styles.buttonContainer}>
       <ToggleButton
+        testID="allButton"
         style={styles.button}
         buttonText={ToggleOptions.all}
         buttonTextStyles={styles.buttonText}
@@ -46,6 +47,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        testID="federalButton"
         style={styles.button}
         iconFamily="Ionicons"
         iconName="flag"
@@ -56,6 +58,7 @@ const ToggleFilter: React.FC = () => {
         onToggle={onToggle}
       />
       <ToggleButton
+        testID="stateButton"
         style={styles.button}
         iconFamily="Ionicons"
         iconName="star"

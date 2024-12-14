@@ -99,7 +99,6 @@ export interface BillDetail {
   identifier: string;
   title: string;
   description: string;
-  briefing: string;
   currentVersionId: number;
   stateId: number;
   stateName: string;
@@ -108,7 +107,6 @@ export interface BillDetail {
   legislativeBodyRole: string;
   sessionId: number;
   sessionName: string;
-  statusId: number;
   status: string;
   statusDate: string;
   sponsors: SponsorDetail[];

@@ -19,6 +19,7 @@ export enum IconSize {
 }
 
 interface ButtonProps extends Omit<IconProps, 'iconFamily'> {
+  testID?: string;
   style?: StyleProp<ViewStyle>;
   buttonText?: string;
   buttonTextSize?: ButtonTextSize;
@@ -31,6 +32,7 @@ interface ButtonProps extends Omit<IconProps, 'iconFamily'> {
 }
 
 const Button: React.FC<ButtonProps> = ({
+  testID,
   style,
   buttonText,
   buttonTextSize,
@@ -45,6 +47,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <Pressable
+      testID={testID}
       style={iconFamily && !buttonText ? style : [buttonStyles.small, style]}
       onPress={onPress}
       hitSlop={hitSlop}>
