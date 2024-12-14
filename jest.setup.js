@@ -13,9 +13,6 @@ import {
   mockLegislatorFollows,
   mockLegislatorVotingHistory,
   mockLogin,
-  mockParty,
-  mockState,
-  mockRole,
   mockSignUp,
 } from './jest.constants';
 
