@@ -59,7 +59,7 @@
     "@reduxjs/toolkit": "^2.2.7",
     "babel-plugin-module-resolver": "^5.0.2",
     "date-fns": "^4.1.0",
-    "expo": "~52.0.18",
+    "expo": "~52.0.19",
     "expo-dev-client": "~5.0.6",
     "expo-splash-screen": "~0.29.18",
     "immutable": "^4.3.4",
