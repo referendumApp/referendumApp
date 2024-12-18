@@ -10,19 +10,41 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginBottom: size.xl,
   },
+
+  // Bill Detail Header
   header: {
     backgroundColor: colors.primary,
-    display: 'flex',
-    flexDirection: 'column',
     paddingBottom: size.xxl,
   },
   titleContainer: {
-    flexShrink: 1,
-    alignItems: 'center',
+    flexDirection: 'row',
+    width: '100%',
     justifyContent: 'center',
     paddingTop: size.xs,
     paddingHorizontal: size.m,
   },
+  title: {
+    ...typography.title,
+    paddingBottom: size.s,
+    flex: 2,
+  },
+  verticalLine: {
+    width: 1,
+    height: '100%',
+    backgroundColor: '#bbb6b6',
+    marginHorizontal: '2%',
+  },
+  billMetadataContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  billMetadata: {
+    ...typography.body,
+    color: colors.veryLightGray,
+  },
+
+  /* To-Do: Insert Status Label and Status Bar CSS Here*/
+
   subHeader: {
     ...componentStyles.subHeader,
     flexDirection: 'column',
@@ -75,10 +97,6 @@ const styles = StyleSheet.create({
     ...typography.subtitle,
     color: colors.darkGray,
     paddingBottom: size.m,
-  },
-  title: {
-    ...typography.largeTitle,
-    paddingBottom: size.s,
   },
   subtitle: typography.subtitle,
   sectionHeader: {
