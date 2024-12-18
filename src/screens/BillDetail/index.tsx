@@ -56,10 +56,18 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
       <NavBar handleBack={handleBack} handleFollow={handleFollow} isFollowing={isFollowing} />
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text
-            style={styles.title}
-            adjustsFontSizeToFit={true}
-            numberOfLines={1}>{`${bill.stateName}  -  ${bill.identifier}`}</Text>
+          <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1}>
+            {`${bill.stateName}  -  ${bill.identifier}`}
+          </Text>
+          <View style={styles.verticalLine} />
+          <View style={styles.billMetadataContainer}>
+            <Text
+              style={styles.billMetadata}
+              numberOfLines={1}>{`Sponsors: ${bill.sponsors.length}`}</Text>
+            <Text style={styles.billMetadata} numberOfLines={1}>{`Session: ${parseInt(
+              bill.sessionName,
+            )}`}</Text>
+          </View>
         </View>
         {/* <Carousel
           items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
@@ -72,6 +80,14 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
           textStyle={styles.tagCarouselItemText}
           textSelectedStyle={styles.tagCarouselSelectedItemText}
         /> */}
+
+        {/* To-Do: Insert Status Label and Status Bar Components here*/}
+        {/*
+        <View style={styles.statusContainer}>
+          <Text style={styles.subtitle}>Status: </Text>
+          <Text style={styles.subtitle}>(Status Bar Coming Soon...) </Text>
+        </View>
+        */}
       </View>
 
       <View style={styles.tabContainer}>
