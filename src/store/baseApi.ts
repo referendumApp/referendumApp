@@ -1,12 +1,15 @@
 import { ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import {
   BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryError,
   EndpointBuilder,
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 
-import { Party, Role, State } from '@/appTypes';
+import { Party, Role, State, Token } from '@/appTypes';
+import { login } from '@/screens/Login/redux/duck';
 import { AppDispatch, RootState } from '@/store';
 
 import baseUrl from './utils';
@@ -22,6 +25,7 @@ export enum HttpMethod {
 export enum ApiResource {
   auth = 'auth',
   bills = 'bills',
+  billActions = 'bill_actions',
   billVersions = 'bill_versions',
   follow = 'follow',
   legislators = 'legislators',
@@ -149,6 +153,46 @@ export const createGetQueryAndReducer = <TResponse>({
   });
 };
 
+const baseQuery = fetchBaseQuery({
+  baseUrl,
+  prepareHeaders: (headers: Headers, { getState }) => {
+    const state = getState() as RootState;
+    const { accessToken, tokenType } = state.auth.user ?? {};
+    if (accessToken) {
+      headers.set('Authorization', `${tokenType} ${accessToken}`);
+    }
+
+    return headers;
+  },
+});
+
+const baseQueryWithRefresh: BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError> = async (
+  args,
+  api,
+  extraOptions,
+) => {
+  const result = await baseQuery(args, api, extraOptions);
+
+  if (result?.error?.status === 401) {
+    const refreshToken = (api.getState() as RootState).auth.user?.refreshToken;
+    const refreshResult = (await baseQuery(
+      { url: `${ApiResource.auth}/refresh`, method: HttpMethod.post, body: { refreshToken } },
+      api,
+      extraOptions,
+    )) as { data?: Token };
+
+    if (refreshResult?.data) {
+      api.dispatch(login({ ...refreshResult.data }));
+
+      // Retry original request
+      const retryResult = await baseQuery(args, api, extraOptions);
+      return retryResult;
+    }
+  }
+
+  return result;
+};
+
 enum BaseTags {
   partys = 'partys',
   roles = 'roles',
@@ -156,18 +200,7 @@ enum BaseTags {
 }
 
 const baseApi = createApi({
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers: Headers, { getState }) => {
-      const state = getState() as RootState;
-      const { accessToken, tokenType } = state.auth.user ?? {};
-      if (accessToken) {
-        headers.set('Authorization', `${tokenType} ${accessToken}`);
-      }
-
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithRefresh,
   tagTypes: [BaseTags.partys, BaseTags.roles, BaseTags.states],
   endpoints: builder => ({
     getPartys: builder.query<Party[], void>({

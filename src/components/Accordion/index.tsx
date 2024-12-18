@@ -15,46 +15,48 @@ interface AccordionStyles {
 
 interface AccordionItemProps {
   title: string;
+  onPressText?: () => void;
   itemStyles?: Omit<AccordionStyles, 'container'>;
 }
 
-const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = ({
-  title,
-  itemStyles,
-  children,
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AccordionItem: React.FC<PropsWithChildren<AccordionItemProps>> = React.memo(
+  ({ title, onPressText, itemStyles, children }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <View style={[styles.accordionItem, itemStyles?.item]}>
-      <RotatingChevron
-        headerStyle={[styles.header, itemStyles?.header]}
-        textStyle={[styles.headerText, itemStyles?.text]}
-        isOpen={isOpen}
-        text={title}
-        onPress={(open: boolean) => setIsOpen(open)}
-      />
-      {isOpen && <View style={[styles.content, itemStyles?.content]}>{children}</View>}
-    </View>
-  );
-};
+    return (
+      <View style={[styles.accordionItem, itemStyles?.item]}>
+        <RotatingChevron
+          headerStyle={[styles.header, itemStyles?.header]}
+          textStyle={[styles.headerText, itemStyles?.text]}
+          isOpen={isOpen}
+          text={title}
+          onPressText={onPressText}
+          onPress={(open: boolean) => setIsOpen(open)}
+        />
+        {isOpen && <View style={[styles.content, itemStyles?.content]}>{children}</View>}
+      </View>
+    );
+  },
+);
 
 interface AccordionProps {
   data: Array<{
     key: number;
     title: string;
+    onPressTitle?: () => void;
     content: ReactNode;
   }>;
   accordionStyles?: AccordionStyles;
 }
 
-const Accordion: React.FC<AccordionProps> = React.memo(({ data, accordionStyles }) => {
+const Accordion: React.FC<AccordionProps> = ({ data, accordionStyles }) => {
   return (
     <View style={[styles.container, accordionStyles?.container]}>
       {data.map(item => (
         <AccordionItem
           key={item.key}
           title={item.title}
+          onPressText={item.onPressTitle}
           itemStyles={{
             item: accordionStyles?.item,
             header: accordionStyles?.header,
@@ -66,6 +68,6 @@ const Accordion: React.FC<AccordionProps> = React.memo(({ data, accordionStyles 
       ))}
     </View>
   );
-});
+};
 
 export default Accordion;

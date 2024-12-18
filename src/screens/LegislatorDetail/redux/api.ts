@@ -1,4 +1,4 @@
-import { Legislator, LegislatorVote } from '@/appTypes';
+import { Legislator, LegislatorVotingHistory } from '@/appTypes';
 import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
@@ -20,7 +20,10 @@ const catalogApi = baseApi
         resource: ApiResource.legislators,
         reducer: setLegislators,
       }),
-      getLegislatorVotingHistory: builder.query<LegislatorVote[], { legislatorId: number }>({
+      getLegislatorVotingHistory: builder.query<
+        LegislatorVotingHistory[],
+        { legislatorId: number }
+      >({
         query: ({ legislatorId }) => ({
           url: `${ApiResource.legislators}/${legislatorId}/voting_history`,
         }),

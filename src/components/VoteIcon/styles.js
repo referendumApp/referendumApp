@@ -5,6 +5,8 @@ import { colors, size } from '@/themes';
 const styles = StyleSheet.create({
   default: {
     padding: size.s * 1.5,
+    backgroundColor: colors.lightMediumGray,
+    borderRadius: 9999,
   },
   noVote: {
     padding: size.s * 1.5,

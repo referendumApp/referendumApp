@@ -1,46 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text, View } from 'react-native';
 
-// import { BillVotingHistory } from '@/appTypes';
-import Card from '@/components/Card';
+import { LegislatorVoteDetail, LegislatorVote } from '@/appTypes';
+import Accordion from '@/components/Accordion';
+import Table from '@/components/Table';
+import VoteIcon from '@/components/VoteIcon';
 
 import styles from './styles';
 
-// const Voting = React.memo(
-//   ({ billId, votingHistory }: { billId: number; votingHistory?: BillVotingHistory }) => {
-const Voting = React.memo(({ billId }: { billId: number }) => {
-  const [legislatorVotes, setLegislatorVotes] = useState<any[]>([]);
+const LegislatorItem = ({ legislatorVote }: { legislatorVote: LegislatorVote }) => {
+  return (
+    <View style={styles.itemRow}>
+      <Text style={styles.itemCell} numberOfLines={0}>
+        {legislatorVote.legislatorName}
+      </Text>
+      <Text style={styles.descCell} numberOfLines={0}>
+        {legislatorVote.partyName}
+      </Text>
+      <VoteIcon voteChoice={legislatorVote.voteChoiceId} size={20} />
+    </View>
+  );
+};
 
-  useEffect(() => {
-    setLegislatorVotes([]);
-  }, [billId]);
+const Voting: React.FC<{ votingHistory: LegislatorVoteDetail[] }> = ({ votingHistory }) => {
+  const tableContents = useMemo(
+    () =>
+      votingHistory.map(vote => {
+        const content = vote.legislatorVotes.map(legislatorVote => (
+          <LegislatorItem key={legislatorVote.legislatorId} legislatorVote={legislatorVote} />
+        ));
+
+        return {
+          key: vote.billActionId,
+          title: vote.actionDescription,
+          content,
+        };
+      }),
+    [votingHistory],
+  );
 
   return (
-    <Card
-      title="Voting"
-      style={styles.table}
-      headerStyle={styles.sectionHeader}
-      contentStyle={styles.sectionContent}>
-      <View style={styles.tableHeader}>
-        <Text style={styles.tableHeaderText}>Legislator</Text>
-        <Text style={styles.tableHeaderText}>Vote</Text>
-      </View>
-      {legislatorVotes.slice(0, 5).map((vote, index) => (
-        <View key={index} style={styles.tableRow}>
-          <Text style={styles.tableCell}>{vote.legislatorName}</Text>
-          <Text style={styles.tableCell}>{vote.vote}</Text>
-        </View>
-      ))}
-      {legislatorVotes.length > 5 && (
-        <Pressable
-          onPress={() => {
-            /* Navigate to full voting record */
-          }}>
-          <Text style={styles.seeMoreText}>See full voting record</Text>
-        </Pressable>
-      )}
-    </Card>
+    <Table style={styles.cardContainer} headers={['Action/Name', 'Party', 'Vote']}>
+      <Accordion
+        data={tableContents}
+        accordionStyles={{
+          item: styles.tableRow,
+          text: styles.tableText,
+          content: styles.tableContent,
+        }}
+      />
+    </Table>
   );
-});
+};
 
 export default Voting;

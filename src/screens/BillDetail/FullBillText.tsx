@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-import { useGetBillTextQuery } from './api';
+import { useGetBillTextQuery } from './redux/api';
 import styles from './styles';
 
-const FullBillText = React.memo(({ billVersionId }: { billVersionId: number }) => {
+const FullBillText: React.FC<{ billVersionId: number }> = ({ billVersionId }) => {
   const { data } = useGetBillTextQuery({ billVersionId });
 
   return (
@@ -13,6 +13,6 @@ const FullBillText = React.memo(({ billVersionId }: { billVersionId: number }) =
       <Text style={styles.sectionBody}>{data?.text}</Text>
     </View>
   );
-});
+};
 
 export default FullBillText;

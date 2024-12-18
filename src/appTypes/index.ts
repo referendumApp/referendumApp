@@ -28,6 +28,14 @@ export interface Sponsor {
   type: string;
 }
 
+export interface SponsorDetail {
+  billId: number;
+  legislatorId: number;
+  legislatorName: string;
+  rank: number;
+  type: string;
+}
+
 export interface Legislator {
   id: number;
   legiscanId: number;
@@ -57,7 +65,7 @@ export type BillActionVote = {
   voteChoiceId: VoteChoiceType;
 };
 
-export type LegislatorVote = {
+export type LegislatorVotingHistory = {
   billId: number;
   identifier: string;
   title: string;
@@ -103,7 +111,7 @@ export interface BillDetail {
   statusId: number;
   status: string;
   statusDate: string;
-  sponsors: Sponsor[];
+  sponsors: SponsorDetail[];
 }
 
 export type BillDetailField = FlattenFieldKeys<BillDetail>;
@@ -113,6 +121,11 @@ export interface BillVersion {
   billId: number;
   url: string;
   hash: string;
+}
+
+export interface BillBriefing {
+  billVersionId: number;
+  briefing: string;
 }
 
 export interface BillText {
@@ -132,6 +145,7 @@ export interface User {
 
 export interface Token {
   accessToken: string;
+  refreshToken: string;
   tokenType: string;
 }
 
@@ -162,17 +176,20 @@ export type VoteSummary = {
   voteCountsByParty: VoteCountByParty[];
 };
 
-export type LegislatorVoteDetail = {
-  billActionId: number;
-  date: string;
-  actionDescription: string;
-  legislativeBodyId: number;
+export type LegislatorVote = {
   legislatorId: number;
   legislatorName: string;
   partyName: string;
   roleName: string;
   stateName: string;
   voteChoiceId: VoteChoiceType;
+};
+
+export type LegislatorVoteDetail = {
+  billActionId: number;
+  date: string;
+  actionDescription: string;
+  legislatorVotes: LegislatorVote[];
 };
 
 export type BillVotingHistory = {
