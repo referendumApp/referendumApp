@@ -131,6 +131,7 @@ export interface User {
 export interface Token {
   accessToken: string;
   tokenType: string;
+  user: User;
 }
 
 export const VoteChoice = {

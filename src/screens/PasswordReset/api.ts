@@ -14,12 +14,6 @@ export type PasswordResetError = FormError<PasswordResetCredentials>;
 
 const userApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getCurrentUser: builder.query<User, void>({
-      query: () => ({
-        url: `${ApiResource.users}`,
-        method: HttpMethod.get,
-      })
-    }),
     passwordReset: builder.mutation<User, Partial<User> & PasswordResetCredentials>({
       query: body => ({
         url: `${ApiResource.users}/password_reset`,
@@ -33,4 +27,4 @@ const userApi = baseApi.injectEndpoints({
   overrideExisting: isDevEnv(),
 });
 
-export const { usePasswordResetMutation, useGetCurrentUserQuery } = userApi;
+export const { usePasswordResetMutation } = userApi;

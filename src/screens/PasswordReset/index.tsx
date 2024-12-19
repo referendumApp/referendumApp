@@ -10,13 +10,15 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
 
 import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
 import { SettingsStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { PasswordResetError, usePasswordResetMutation, useGetCurrentUserQuery } from './api';
+import { PasswordResetError, usePasswordResetMutation } from './api';
 import styles from './styles';
 import { PasswordResetCredentials, PasswordResetFields } from './types';
 
@@ -28,29 +30,16 @@ type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'Passwor
 
 const PasswordResetScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
-
   const [passwordReset] = usePasswordResetMutation();
-  const { data: currentUser } = useGetCurrentUserQuery();
+  const currentUser  = useSelector((state: RootState) => state.auth.user?.user);
 
   const [isPasswordChanged, setIsPasswordChanged] = useState<boolean>(false);
   const [passwordResetForm, setPasswordResetForm] = useState<PasswordResetForm>({
-    email: '',
-    name: '',
     currentPassword: '',
     password: '',
     confirmPassword: '',
   });
   const [errorState, setErrorState] = useState<PasswordResetError | null>();
-
-  useEffect(() => {
-    if (currentUser) {
-      setPasswordResetForm(prev => ({
-        ...prev,
-        email: currentUser.email,
-        name: currentUser.name,
-      }))
-    }
-  }, [currentUser]);
 
   const handleFocus = () => {
     if (errorState) {
@@ -66,7 +55,7 @@ const PasswordResetScreen: React.FC = () => {
   };
 
   const handlePasswordReset = useCallback(async() => {
-    const { email, name, currentPassword, password, confirmPassword } = passwordResetForm;
+    const { currentPassword, password, confirmPassword } = passwordResetForm;
 
     if (password !== confirmPassword) {
       setErrorState({ field: 'password', message: "Passwords don't match. Please try again" });
@@ -74,12 +63,13 @@ const PasswordResetScreen: React.FC = () => {
     }
 
     try {
-      await passwordReset({ email, name, password, currentPassword }).unwrap();
+      await passwordReset({ email: currentUser?.email, name: currentUser?.name, password, currentPassword }).unwrap();
+      console.log(currentUser?.email)
       setIsPasswordChanged(true);
     } catch (error) {
       setErrorState(error as PasswordResetError);
     }
-  }, [navigation, passwordResetForm, passwordReset]);
+  }, [currentUser, navigation, passwordResetForm, passwordReset]);
 
   const isPasswordResetValid = useMemo(() => {
     if (errorState) return false;

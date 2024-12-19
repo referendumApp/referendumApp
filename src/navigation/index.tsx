@@ -81,7 +81,6 @@ const SettingsStackScreen = React.memo(() => (
   >
     <SettingsStack.Screen name="Settings" component={SettingsScreen} />
     <SettingsStack.Screen name="PasswordReset" component={PasswordResetScreen} />
-
   </SettingsStack.Navigator>
 ));
 
