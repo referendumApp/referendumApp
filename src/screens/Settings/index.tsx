@@ -2,7 +2,11 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 
-import { logout } from '@/screens/Login/redux/duck';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+import { SettingsStackParamList } from '@/navigation/types';
+import { logout } from '@/screens/Login/duck';
 
 import styles from './styles';
 
@@ -11,14 +15,18 @@ interface NavItemProps {
   onPress: () => void;
 }
 
+type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'Settings'>;
+
 const NavItem: React.FC<NavItemProps> = ({ title, onPress }) => (
   <TouchableOpacity style={styles.navItem} onPress={onPress}>
     <Text style={styles.navItemText}>{title}</Text>
   </TouchableOpacity>
 );
 
+
 const SettingsScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation<NavigationProp>();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -38,7 +46,7 @@ const SettingsScreen: React.FC = () => {
             title="Edit Follow Preferences"
             onPress={() => console.log('Edit Follow Preferences')}
           />
-          {/* <NavItem title="Change Password" onPress={() => console.log('Change Password')} /> */}
+          <NavItem title="Change Password" onPress={() => navigation.navigate('PasswordReset')} />
           {/* <NavItem title="Privacy Settings" onPress={() => console.log('Privacy Settings')} /> */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutButtonText}>Log Out</Text>

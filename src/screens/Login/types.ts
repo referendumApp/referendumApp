@@ -1,3 +1,5 @@
+import { User } from '@/appTypes';
+
 export interface LoginCredentials {
   username: string;
   password: string;
