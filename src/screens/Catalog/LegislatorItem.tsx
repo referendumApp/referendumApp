@@ -12,7 +12,10 @@ const LegislatorItem: React.FC<{ legislator: Legislator }> = React.memo(
     const legislatorNav = useLegislatorScreenNav();
 
     return (
-      <Pressable style={styles.legislatorItem} onPress={() => legislatorNav(legislator)}>
+      <Pressable
+        testID="legislatorItem"
+        style={styles.legislatorItem}
+        onPress={() => legislatorNav(legislator)}>
         <LegislatorImage
           party={legislator.party.name}
           svgSize={60}

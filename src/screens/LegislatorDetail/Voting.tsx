@@ -11,9 +11,9 @@ import { getBillDetailsMap } from '@/screens/BillDetail/redux/selectors';
 
 import styles from './styles';
 
-const BillActionItem = ({ action }: { action: BillActionVote }) => {
+const BillActionItem = ({ testID, action }: { testID: string; action: BillActionVote }) => {
   return (
-    <View style={styles.itemRow}>
+    <View testID={testID} style={styles.itemRow}>
       <Text style={styles.itemCell} numberOfLines={0}>
         {action.date}
       </Text>
@@ -34,7 +34,11 @@ const Voting: React.FC<{ votingHistory: LegislatorVotingHistory[] }> = ({ voting
     () =>
       votingHistory.map(vote => {
         const content = vote.billActionVotes.map(action => (
-          <BillActionItem key={action.billActionId} action={action} />
+          <BillActionItem
+            key={action.billActionId}
+            testID={`bill-item-${action.billActionId}`}
+            action={action}
+          />
         ));
         const bill = billMap[vote.billId];
 
@@ -50,14 +54,20 @@ const Voting: React.FC<{ votingHistory: LegislatorVotingHistory[] }> = ({ voting
 
   return (
     <Table style={styles.cardContainer} headers={['Bill/Date', 'Action', 'Vote']}>
-      <Accordion
-        data={tableContents}
-        accordionStyles={{
-          item: styles.tableRow,
-          text: styles.tableCell,
-          content: styles.tableContent,
-        }}
-      />
+      {tableContents.length ? (
+        <Accordion
+          data={tableContents}
+          accordionStyles={{
+            item: styles.tableRow,
+            text: styles.tableCell,
+            content: styles.tableContent,
+          }}
+        />
+      ) : (
+        <View style={styles.sectionContent}>
+          <Text style={styles.sectionBody}>No votes found</Text>
+        </View>
+      )}
     </Table>
   );
 };

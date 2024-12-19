@@ -1,4 +1,5 @@
 import { User } from '@/appTypes';
+import { SignUpCredentials } from '@/screens/SignUp/types';
 import baseApi, {
   ApiResource,
   ErrorResponse,
@@ -7,8 +8,6 @@ import baseApi, {
   handleFormError,
 } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
-
-import { SignUpCredentials } from './types';
 
 export type SignUpError = FormError<SignUpCredentials>;
 

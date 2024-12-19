@@ -8,9 +8,15 @@ import VoteIcon from '@/components/VoteIcon';
 
 import styles from './styles';
 
-const LegislatorItem = ({ legislatorVote }: { legislatorVote: LegislatorVote }) => {
+const LegislatorItem = ({
+  testID,
+  legislatorVote,
+}: {
+  testID: string;
+  legislatorVote: LegislatorVote;
+}) => {
   return (
-    <View style={styles.itemRow}>
+    <View testID={testID} style={styles.itemRow}>
       <Text style={styles.itemCell} numberOfLines={0}>
         {legislatorVote.legislatorName}
       </Text>
@@ -27,7 +33,11 @@ const Voting: React.FC<{ votingHistory: LegislatorVoteDetail[] }> = ({ votingHis
     () =>
       votingHistory.map(vote => {
         const content = vote.legislatorVotes.map(legislatorVote => (
-          <LegislatorItem key={legislatorVote.legislatorId} legislatorVote={legislatorVote} />
+          <LegislatorItem
+            key={legislatorVote.legislatorId}
+            testID={`legislator-item-${legislatorVote.legislatorId}`}
+            legislatorVote={legislatorVote}
+          />
         ));
 
         return {

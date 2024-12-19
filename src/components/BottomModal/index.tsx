@@ -19,6 +19,7 @@ import { SCREEN_HEIGHT } from '@/themes/dimensions';
 import styles from './styles';
 
 interface BottomModalProps extends ModalProps {
+  testID?: string;
   handleApply?: () => void;
   handleReset?: () => void;
   isVisible: boolean;
@@ -29,6 +30,7 @@ interface BottomModalProps extends ModalProps {
 }
 
 const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
+  testID,
   children,
   handleApply,
   handleReset,
@@ -64,6 +66,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
 
   return (
     <Modal
+      testID={testID}
       animationType={animationType}
       transparent={transparent}
       visible={isVisible}

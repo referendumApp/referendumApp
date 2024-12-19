@@ -9,7 +9,7 @@
     "pre-push": "tsc --noEmit",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "type-check": "tsc",
-    "test": "[ -n \"$CI\" ] || [ -n \"$EAS_BUILD\" ] || jest",
+    "test": "[ -n \"$EAS_BUILD\" ] || jest",
     "ios:devices": "xcrun simctl list devices",
     "ios:default": "xcrun simctl create 'default' 'iPhone SE (3rd generation)'",
     "ios:build": "eas build --profile development --platform ios --local --output ./ios/build.tar.gz --clear-cache && tar -xzf ./ios/build.tar.gz -C ./ios/",
