@@ -30,6 +30,7 @@ const SortModal = <T extends TabType>({
 
   return (
     <BottomModal
+      testID="sortModal"
       isVisible={isVisible}
       onRequestClose={onRequestClose}
       title="Sort"
@@ -39,7 +40,10 @@ const SortModal = <T extends TabType>({
       screenHeight={300}>
       <ScrollView style={styles.optionsContainer}>
         {sortOptions.map(option => (
-          <TouchableOpacity key={option.field} style={styles.optionItem} onPress={() => onPress(option.field)}>
+          <TouchableOpacity
+            key={option.field}
+            style={styles.optionItem}
+            onPress={() => onPress(option.field)}>
             <View style={styles.radioContainer}>
               <View style={[styles.radio, selectedSort === option.field && styles.radioSelected]}>
                 {selectedSort === option.field && <View style={styles.radioInner} />}

@@ -15,6 +15,7 @@ export enum ToggleButtonSize {
 }
 
 interface ToggleButtonProps {
+  testID?: string;
   style?: StyleProp<TextStyle>;
   buttonText?: string;
   buttonTextStyles?: TextStyle;
@@ -31,6 +32,7 @@ interface ToggleButtonProps {
 }
 
 const ToggleButton: React.FC<ToggleButtonProps> = ({
+  testID,
   style,
   buttonText,
   buttonTextStyles,
@@ -73,6 +75,7 @@ const ToggleButton: React.FC<ToggleButtonProps> = ({
 
   return (
     <Button
+      testID={testID}
       style={[
         styles.buttonContainer,
         buttonSize,
