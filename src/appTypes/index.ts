@@ -28,6 +28,14 @@ export interface Sponsor {
   type: string;
 }
 
+export interface SponsorDetail {
+  billId: number;
+  legislatorId: number;
+  legislatorName: string;
+  rank: number;
+  type: string;
+}
+
 export interface Legislator {
   id: number;
   legiscanId: number;
@@ -54,10 +62,10 @@ export type BillActionVote = {
   billActionId: number;
   date: string;
   actionDescription: string;
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
 };
 
-export type LegislatorVote = {
+export type LegislatorVotingHistory = {
   billId: number;
   identifier: string;
   title: string;
@@ -86,22 +94,22 @@ export interface Bill {
 export type BillField = FlattenFieldKeys<Bill>;
 
 export interface BillDetail {
-  id: number;
+  billId: number;
   legiscanId: number;
   identifier: string;
   title: string;
   description: string;
-  briefing: string;
+  currentVersionId: number;
   stateId: number;
   stateName: string;
   legislativeBodyId: number;
-  legislativeBodyRoleId: number;
+  roleId: number;
   legislativeBodyRole: string;
   sessionId: number;
-  statusId: number;
+  sessionName: string;
   status: string;
   statusDate: string;
-  sponsors: Sponsor[];
+  sponsors: SponsorDetail[];
 }
 
 export type BillDetailField = FlattenFieldKeys<BillDetail>;
@@ -111,6 +119,11 @@ export interface BillVersion {
   billId: number;
   url: string;
   hash: string;
+}
+
+export interface BillBriefing {
+  billVersionId: number;
+  briefing: string;
 }
 
 export interface BillText {
@@ -130,24 +143,27 @@ export interface User {
 
 export interface Token {
   accessToken: string;
+  refreshToken: string;
   tokenType: string;
   user: User;
 }
 
 export const VoteChoice = {
-  YES: 1,
-  NO: 2,
+  YAY: 1,
+  NAY: 2,
+  ABSTAIN: 3,
+  ABSENT: 4,
 } as const;
 
 export type VoteChoiceType = (typeof VoteChoice)[keyof typeof VoteChoice];
 
 export type VoteCountByChoice = {
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
   count: number;
 };
 
 export type VoteCountByParty = {
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
   partyId: number;
   count: number;
 };
@@ -159,17 +175,20 @@ export type VoteSummary = {
   voteCountsByParty: VoteCountByParty[];
 };
 
-export type LegislatorVoteDetail = {
-  billActionId: number;
-  date: string;
-  actionDescription: string;
-  legislativeBodyId: number;
+export type LegislatorVote = {
   legislatorId: number;
   legislatorName: string;
   partyName: string;
   roleName: string;
   stateName: string;
-  voteChoiceId: number;
+  voteChoiceId: VoteChoiceType;
+};
+
+export type LegislatorVoteDetail = {
+  billActionId: number;
+  date: string;
+  actionDescription: string;
+  legislatorVotes: LegislatorVote[];
 };
 
 export type BillVotingHistory = {

@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Animated,
   LayoutAnimation,
+  Pressable,
   StyleProp,
   ViewStyle,
   TextStyle,
@@ -13,11 +14,14 @@ import {
 import Icon from '@/components/Icon';
 import { colors } from '@/themes';
 
+import styles from './styles';
+
 interface RotatingChevronProps {
   headerStyle: StyleProp<ViewStyle>;
   textStyle: StyleProp<TextStyle>;
   isOpen: boolean;
   text: string;
+  onPressText?: () => void;
   onPress: (open: boolean) => void;
 }
 
@@ -26,6 +30,7 @@ const RotatingChevron: React.FC<RotatingChevronProps> = ({
   textStyle,
   isOpen,
   text,
+  onPressText,
   onPress,
 }) => {
   const rotateAnim = useAnimatedValue(0);
@@ -53,7 +58,13 @@ const RotatingChevron: React.FC<RotatingChevronProps> = ({
 
   return (
     <TouchableOpacity activeOpacity={0.7} onPress={toggleAccordion} style={headerStyle}>
-      <Text style={textStyle}>{text}</Text>
+      {onPressText ? (
+        <Pressable onPress={onPressText}>
+          <Text style={[textStyle, styles.linkText]}>{text}</Text>
+        </Pressable>
+      ) : (
+        <Text style={textStyle}>{text}</Text>
+      )}
       <Animated.View style={{ transform: [{ rotate: rotateInterpolate }] }}>
         <Icon
           iconFamily="Ionicons"

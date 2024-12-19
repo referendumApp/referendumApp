@@ -1,16 +1,25 @@
-import { Bill, BillText, BillVersion, BillVotingHistory } from '@/appTypes';
+import {
+  Bill,
+  BillBriefing,
+  BillDetail,
+  BillText,
+  BillVersion,
+  BillVotingHistory,
+} from '@/appTypes';
+import { BillVote, UserBillVote, UserBillVotes } from '@/screens/BillDetail/types';
 import baseApi, { ApiResource, HttpMethod, createGetQueryAndReducer } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
-import { setBills } from './duck';
-import { BillVote, UserBillVote } from './types';
+import { setBills, setBillDetails } from './duck';
 
 enum BillTags {
+  briefing = 'BillBriefing',
   follow = 'BillFollow',
   text = 'BillText',
   versions = 'BillVersions',
   vote = 'BillVote',
   votingHistory = 'BillVotingHistory',
+  userVotes = 'UserBillVotes',
 }
 
 const catalogApi = baseApi
@@ -21,6 +30,7 @@ const catalogApi = baseApi
       BillTags.versions,
       BillTags.vote,
       BillTags.votingHistory,
+      BillTags.userVotes,
     ],
   })
   .injectEndpoints({
@@ -29,6 +39,12 @@ const catalogApi = baseApi
         builder,
         resource: ApiResource.bills,
         reducer: setBills,
+      }),
+      getBillDetails: createGetQueryAndReducer<BillDetail[]>({
+        builder,
+        resource: ApiResource.bills,
+        pathParams: 'details',
+        reducer: setBillDetails,
       }),
       getBillVotingHistory: builder.query<BillVotingHistory, { billId: number }>({
         query: ({ billId }) => ({
@@ -43,6 +59,20 @@ const catalogApi = baseApi
         }),
         providesTags: (result, _, { billId }) =>
           result && result.length > 0 ? [{ type: BillTags.versions, id: billId }] : [],
+      }),
+      getUserBillVotes: builder.query<UserBillVotes, { billId: number }>({
+        query: ({ billId }) => ({
+          url: `${ApiResource.bills}/${billId}/user_votes`,
+        }),
+        providesTags: (result, _, { billId }) =>
+          result ? [{ type: BillTags.userVotes, id: billId }] : [],
+      }),
+      getBillBriefing: builder.query<BillBriefing, { billVersionId: number }>({
+        query: ({ billVersionId }) => ({
+          url: `${ApiResource.billVersions}/${billVersionId}/briefing`,
+        }),
+        providesTags: (result, _, { billVersionId }) =>
+          result ? [{ type: BillTags.text, id: billVersionId }] : [],
       }),
       getBillText: builder.query<BillText, { billVersionId: number }>({
         query: ({ billVersionId }) => ({
@@ -64,7 +94,8 @@ const catalogApi = baseApi
           method: HttpMethod.put,
           body,
         }),
-        invalidatesTags: (_, error) => (error ? [] : [BillTags.vote]),
+        invalidatesTags: (_, error, { billId }) =>
+          error ? [] : [{ type: BillTags.vote }, { type: BillTags.userVotes, id: billId }],
       }),
       uncastBillVote: builder.mutation<undefined, { billId: number }>({
         query: params => ({
@@ -72,7 +103,7 @@ const catalogApi = baseApi
           method: HttpMethod.delete,
           params,
         }),
-        invalidatesTags: (_, error) => (error ? [] : [BillTags.vote]),
+        invalidatesTags: (_, error) => (error ? [] : [{ type: BillTags.vote }]),
       }),
       getFollowedBills: builder.query<Bill[], void>({
         query: () => ({
@@ -100,8 +131,11 @@ const catalogApi = baseApi
 
 export const {
   useGetBillsQuery,
+  useGetBillDetailsQuery,
   useGetBillVersionsQuery,
   useGetBillVotingHistoryQuery,
+  useGetUserBillVotesQuery,
+  useGetBillBriefingQuery,
   useGetBillTextQuery,
   useGetBillVotesQuery,
   useCastBillVoteMutation,

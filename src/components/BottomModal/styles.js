@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { colors, componentStyles, size, typography } from '@/themes';
 
 const styles = StyleSheet.create({
+  container: componentStyles.container,
   modalContainer: {
     flex: 1,
     justifyContent: 'flex-end',

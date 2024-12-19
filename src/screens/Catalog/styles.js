@@ -2,7 +2,7 @@ import { Platform, StyleSheet } from 'react-native';
 
 import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
-export const BILL_ITEM_HEIGHT = 150;
+export const BILL_ITEM_HEIGHT = 158;
 export const LEGISLATOR_ITEM_HEIGHT = 96;
 
 const styles = StyleSheet.create({
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   catalogList: {
-    paddingVertical: size.m,
+    paddingTop: size.m,
   },
   billItem: {
     ...componentStyles.item,
@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: 'bold',
   },
-  legislatorDetails: typography.body,
   legislatorChamber: {
     ...typography.small,
     color: colors.darkGray,
@@ -96,10 +95,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: 'bold',
   },
-  itemDescription: {
-    ...typography.body,
-    marginBottom: size.s * 1.5,
-  },
+  itemDescription: typography.body,
   dividerVertical: componentStyles.dividerVertical,
   statusDate: {
     ...typography.date,

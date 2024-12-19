@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { Bill } from '@/appTypes';
+import { Bill, BillDetail } from '@/appTypes';
 
 interface BillsState {
   list: Bill[];
+  detail: BillDetail[];
 }
 
 const initialState: BillsState = {
   list: [],
+  detail: [],
 };
 
 const billsSlice = createSlice({
@@ -17,8 +19,11 @@ const billsSlice = createSlice({
     setBills: (state, action: PayloadAction<Bill[]>) => {
       state.list = action.payload;
     },
+    setBillDetails: (state, action: PayloadAction<BillDetail[]>) => {
+      state.detail = action.payload;
+    },
   },
 });
 
-export const { setBills } = billsSlice.actions;
+export const { setBills, setBillDetails } = billsSlice.actions;
 export default billsSlice.reducer;

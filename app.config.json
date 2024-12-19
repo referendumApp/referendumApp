@@ -38,7 +38,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/referendum_icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "softwareKeyboardLayoutMode": "pan"
     },
     "ios": {
       "bundleIdentifier": "com.referendum.referendumapp"

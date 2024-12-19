@@ -1,24 +1,25 @@
 import React, { PropsWithChildren, useEffect } from 'react';
 import {
   Animated,
-  Dimensions,
   View,
   Text,
   Modal,
   ModalProps,
+  Platform,
   TouchableOpacity,
   useAnimatedValue,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Ionicons } from '@expo/vector-icons';
 
 import Button from '@/components/Button';
+import { SCREEN_HEIGHT } from '@/themes/dimensions';
 
 import styles from './styles';
 
-const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
 interface BottomModalProps extends ModalProps {
+  testID?: string;
   handleApply?: () => void;
   handleReset?: () => void;
   isVisible: boolean;
@@ -29,6 +30,7 @@ interface BottomModalProps extends ModalProps {
 }
 
 const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
+  testID,
   children,
   handleApply,
   handleReset,
@@ -42,6 +44,13 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
   statusBarTranslucent = false,
   presentationStyle,
 }) => {
+  const insets = useSafeAreaInsets();
+  const calcHeight =
+    Platform.OS === 'ios' &&
+    (presentationStyle === 'fullScreen' || presentationStyle === 'overFullScreen')
+      ? screenHeight - insets.top
+      : screenHeight;
+  const bottomBar = insets.bottom;
   const slideAnim = useAnimatedValue(0);
 
   useEffect(() => {
@@ -57,6 +66,7 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
 
   return (
     <Modal
+      testID={testID}
       animationType={animationType}
       transparent={transparent}
       visible={isVisible}
@@ -67,13 +77,13 @@ const BottomModal: React.FC<PropsWithChildren<BottomModalProps>> = ({
         <Animated.View
           style={[
             styles.modalContent,
-            { height: screenHeight },
+            { height: calcHeight, paddingBottom: bottomBar },
             {
               transform: [
                 {
                   translateY: slideAnim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [screenHeight, 0], // Adjust based on screen height
+                    outputRange: [calcHeight, 0], // Adjust based on screen height
                   }),
                 },
               ],
