@@ -63,8 +63,7 @@ const PasswordResetScreen: React.FC = () => {
     }
 
     try {
-      await passwordReset({ email: currentUser?.email, name: currentUser?.name, password, currentPassword }).unwrap();
-      console.log(currentUser?.email)
+      await passwordReset({ email: currentUser?.email, password, currentPassword }).unwrap();
       setIsPasswordChanged(true);
     } catch (error) {
       setErrorState(error as PasswordResetError);

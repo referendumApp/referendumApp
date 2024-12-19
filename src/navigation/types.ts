@@ -1,4 +1,4 @@
-import { Bill, Legislator, VoteChoiceType, User } from '@/appTypes';
+import { Bill, Legislator, VoteChoiceType } from '@/appTypes';
 
 export type RootStackParamList = {
   Auth: undefined;
