@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   Keyboard,
   View,
@@ -8,14 +8,15 @@ import {
   TouchableWithoutFeedback,
   SafeAreaView,
 } from 'react-native';
+
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootState } from '@/store';
-import { useSelector } from 'react-redux';
 
 import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
 import { SettingsStackParamList } from '@/navigation/types';
+import { RootState } from '@/store';
 import { colors } from '@/themes';
 
 import { PasswordResetError, usePasswordResetMutation } from './api';
@@ -36,7 +37,7 @@ const PasswordResetScreen: React.FC = () => {
   const [isPasswordChanged, setIsPasswordChanged] = useState<boolean>(false);
   const [passwordResetForm, setPasswordResetForm] = useState<PasswordResetForm>({
     currentPassword: '',
-    password: '',
+    newPassword: '',
     confirmPassword: '',
   });
   const [errorState, setErrorState] = useState<PasswordResetError | null>();
@@ -55,15 +56,15 @@ const PasswordResetScreen: React.FC = () => {
   };
 
   const handlePasswordReset = useCallback(async() => {
-    const { currentPassword, password, confirmPassword } = passwordResetForm;
+    const { currentPassword, newPassword, confirmPassword } = passwordResetForm;
 
-    if (password !== confirmPassword) {
-      setErrorState({ field: 'password', message: "Passwords don't match. Please try again" });
+    if (newPassword !== confirmPassword) {
+      setErrorState({ field: 'newPassword', message: "Passwords don't match. Please try again" });
       return;
     }
 
     try {
-      await passwordReset({ email: currentUser?.email, password, currentPassword }).unwrap();
+      await passwordReset({ currentPassword, newPassword }).unwrap();
       setIsPasswordChanged(true);
     } catch (error) {
       setErrorState(error as PasswordResetError);
@@ -73,9 +74,9 @@ const PasswordResetScreen: React.FC = () => {
   const isPasswordResetValid = useMemo(() => {
     if (errorState) return false;
 
-    const { currentPassword, password, confirmPassword } = passwordResetForm;
+    const { currentPassword, newPassword, confirmPassword } = passwordResetForm;
 
-    return Boolean(currentPassword && password && confirmPassword);
+    return Boolean(currentPassword && newPassword && confirmPassword);
   }, [errorState, passwordResetForm]);
 
   if (isPasswordChanged) {
@@ -122,10 +123,10 @@ const PasswordResetScreen: React.FC = () => {
               placeholderTextColor={colors.mediumGray}
             />
             <FormField 
-              name="password"
+              name="newPassword"
               errorState={errorState}
               placeholder="New Password"
-              value={passwordResetForm.password}
+              value={passwordResetForm.newPassword}
               onChangeValue={handleFormValue}
               onFocus={handleFocus}
               secureTextEntry

@@ -14,11 +14,12 @@ import LoginScreen from '@/screens/Login';
 import SettingsScreen from '@/screens/Settings';
 import SignUpScreen from '@/screens/SignUp';
 import WelcomeScreen from '@/screens/Welcome';
-// import PasswordResetScreen from '@/screens/PasswordReset';
+import PasswordResetScreen from '@/screens/PasswordReset';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
 import styles from './styles';
+
 import {
   RootStackParamList,
   AuthStackParamList,
@@ -26,7 +27,7 @@ import {
   CatalogStackParamList,
   SettingsStackParamList,
 } from './types';
-import PasswordResetScreen from '@/screens/PasswordReset';
+
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
@@ -62,7 +63,7 @@ const CatalogStackScreen = React.memo(() => (
         end: 50,
       },
     }}>
-    <CatalogStack.Screen name="Catalog" component={CatalogScreen} />
+    <CatalogStack.Screen name="CatalogScreen" component={CatalogScreen} />
     <CatalogStack.Screen name="LegislatorScreen" component={LegislatorScreen} />
     <CatalogStack.Screen name="BillScreen" component={BillScreen} />
   </CatalogStack.Navigator>
@@ -79,7 +80,7 @@ const SettingsStackScreen = React.memo(() => (
       },
     }}
   >
-    <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+    <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} />
     <SettingsStack.Screen name="PasswordReset" component={PasswordResetScreen} />
   </SettingsStack.Navigator>
 ));
@@ -103,10 +104,10 @@ const AppNavigator: React.FC = () => {
         case 'Feed':
           iconName = focused ? 'home' : 'home-outline';
           break;
-        case 'CatalogStack':
+        case 'Catalog':
           iconName = focused ? 'book' : 'book-outline';
           break;
-        case 'SettingsStack':
+        case 'Settings':
           iconName = focused ? 'settings' : 'settings-outline';
           break;
       }
@@ -117,10 +118,9 @@ const AppNavigator: React.FC = () => {
   );
 
   const tabBarLabel = useCallback(({ color, name }: { color: string; name: string }) => {
-    const tabName = name.split('Stack')[0];
     return (
       <Text style={[styles.tabBarLabel, { color }]}>
-        {tabName}
+        {name}
       </Text>
     );
   }, []);
@@ -140,8 +140,8 @@ const AppNavigator: React.FC = () => {
         freezeOnBlur: true,
       })}>
       <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="CatalogStack" component={CatalogStackScreen} />
-      <Tab.Screen name="SettingsStack" component={SettingsStackScreen} />
+      <Tab.Screen name="Catalog" component={CatalogStackScreen} />
+      <Tab.Screen name="Settings" component={SettingsStackScreen} />
     </Tab.Navigator>
   );
 };

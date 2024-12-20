@@ -1,5 +1,5 @@
 export interface PasswordResetCredentials {
-  password: string;
+  newPassword: string;
   currentPassword: string;
 }
 
