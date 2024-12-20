@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     width: '100%',
+    alignItems: 'center',
     justifyContent: 'center',
     paddingTop: size.xs,
     paddingHorizontal: size.m,
@@ -29,10 +30,7 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   verticalLine: {
-    width: 1,
-    height: '100%',
-    backgroundColor: '#bbb6b6',
-    marginHorizontal: '2%',
+    ...componentStyles.dividerVertical,
   },
   billMetadataContainer: {
     flex: 1,

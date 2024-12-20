@@ -52,7 +52,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
       <View style={styles.header}>
         <View style={styles.titleContainer}>
           <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1}>
-            {`${bill.stateName}  -  ${bill.identifier}`}
+            {`${bill.stateName} - ${bill.identifier}`}
           </Text>
           <View style={styles.verticalLine} />
           <View style={styles.billMetadataContainer}>
@@ -61,6 +61,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
               numberOfLines={1}>{`Sponsors: ${bill.sponsors.length}`}</Text>
             <Text style={styles.billMetadata} numberOfLines={1}>{`Session: ${parseInt(
               bill.sessionName,
+              10,
             )}`}</Text>
           </View>
         </View>
