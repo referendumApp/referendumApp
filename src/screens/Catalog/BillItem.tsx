@@ -14,7 +14,10 @@ const BillItem: React.FC<{ bill: BillDetail }> = React.memo(
 
     return (
       <Pressable testID="billItem" style={styles.billItem} onPress={() => billNav(bill)}>
-        <Text style={styles.statusDate}>{format(new Date(bill.statusDate), 'MMM d, yyyy')}</Text>
+        <View style={styles.statusContainer}>
+          <Text style={styles.statusDate}>{format(new Date(bill.statusDate), 'MMM d, yyyy')}</Text>
+          <Text style={styles.smallText}>{bill.status}</Text>
+        </View>
         <View style={styles.billTitleLine}>
           <Text style={styles.itemTitle}>US</Text>
           <View style={styles.dividerVertical} />
