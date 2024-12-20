@@ -16,6 +16,7 @@ import {
   useUnfollowBillMutation,
   useGetBillVotingHistoryQuery,
 } from './redux/api';
+import Status from './Status';
 import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
@@ -51,10 +52,19 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
       <NavBar handleBack={handleBack} handleFollow={handleFollow} isFollowing={isFollowing} />
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text
-            style={styles.title}
-            adjustsFontSizeToFit={true}
-            numberOfLines={1}>{`${bill.stateName}  -  ${bill.identifier}`}</Text>
+          <Text style={styles.title} adjustsFontSizeToFit={true} numberOfLines={1}>
+            {`${bill.stateName} - ${bill.identifier}`}
+          </Text>
+          <View style={styles.verticalLine} />
+          <View style={styles.billMetadataContainer}>
+            <Text
+              style={styles.billMetadata}
+              numberOfLines={1}>{`Sponsors: ${bill.sponsors.length}`}</Text>
+            <Text style={styles.billMetadata} numberOfLines={1}>{`Session: ${parseInt(
+              bill.sessionName,
+              10,
+            )}`}</Text>
+          </View>
         </View>
         {/* <Carousel
           items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
@@ -67,6 +77,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
           textStyle={styles.tagCarouselItemText}
           textSelectedStyle={styles.tagCarouselSelectedItemText}
         /> */}
+        <Status status={bill.status} />
       </View>
 
       <View style={styles.tabContainer}>

@@ -10,19 +10,51 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginBottom: size.xl,
   },
+
+  // Bill Detail Header
   header: {
     backgroundColor: colors.primary,
-    display: 'flex',
-    flexDirection: 'column',
     paddingBottom: size.xxl,
   },
   titleContainer: {
-    flexShrink: 1,
+    flexDirection: 'row',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: size.xs,
     paddingHorizontal: size.m,
   },
+  title: {
+    ...typography.title,
+    paddingBottom: size.s,
+    flex: 2,
+  },
+  verticalLine: {
+    ...componentStyles.dividerVertical,
+  },
+  billMetadataContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  billMetadata: {
+    ...typography.body,
+    color: colors.veryLightGray,
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    marginTop: '6%',
+    justifyContent: 'center',
+  },
+  statusLabel: {
+    color: colors.lightGray,
+    fontFamily: 'Inter-Regular',
+    fontSize: size.m,
+  },
+  statusText: {
+    fontFamily: 'Inter-Bold',
+    fontSize: size.m,
+  },
+
   subHeader: {
     ...componentStyles.subHeader,
     flexDirection: 'column',
@@ -75,10 +107,6 @@ const styles = StyleSheet.create({
     ...typography.subtitle,
     color: colors.darkGray,
     paddingBottom: size.m,
-  },
-  title: {
-    ...typography.largeTitle,
-    paddingBottom: size.s,
   },
   subtitle: typography.subtitle,
   sectionHeader: {
