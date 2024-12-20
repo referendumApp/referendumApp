@@ -5,6 +5,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Button, { IconSize } from '@/components/Button';
 import SearchInput from '@/components/SearchInput';
 import TabButton from '@/components/TabButton';
+import { useGetBillDetailsQuery } from '@/screens/BillDetail/redux/api';
+import { useGetLegislatorsQuery } from '@/screens/LegislatorDetail/redux/api';
 import { colors } from '@/themes';
 
 import BillList from './BillList';
@@ -17,6 +19,9 @@ const CatalogScreen: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [isSortOpen, setIsSortOpen] = useState<boolean>(false);
+
+  useGetBillDetailsQuery();
+  useGetLegislatorsQuery();
 
   const handleSearch = (text: string): void => setSearchQuery(text);
 
@@ -31,6 +36,7 @@ const CatalogScreen: React.FC = () => {
           {/* Filter and Sort */}
           <View style={[styles.buttonContainer]}>
             <Button
+              testID="filterButton"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}
@@ -39,6 +45,7 @@ const CatalogScreen: React.FC = () => {
               onPress={() => setIsFilterOpen(true)}
             />
             <Button
+              testID="sortButton"
               style={styles.button}
               contentColor={colors.tertiary}
               iconSize={IconSize.large}
@@ -51,11 +58,13 @@ const CatalogScreen: React.FC = () => {
       </View>
       <View style={styles.tabContainer}>
         <TabButton
+          testID="billsTab"
           title="Bills"
           isSelected={selectedTab === 'bill'}
           onPress={() => setSelectedTab('bill')}
         />
         <TabButton
+          testID="legislatorsTab"
           title="Legislators"
           isSelected={selectedTab === 'legislator'}
           onPress={() => setSelectedTab('legislator')}

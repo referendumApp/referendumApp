@@ -16,6 +16,7 @@ interface Option {
 type MultiSelectOption<T = {}> = T & Option;
 
 interface MultiSelectProps<T> {
+  testID?: string;
   onSelect: (ids: any[]) => void;
   options?: MultiSelectOption<T>[];
   placeholder?: string;
@@ -24,6 +25,7 @@ interface MultiSelectProps<T> {
 }
 
 function MultiSelect<T>({
+  testID,
   onSelect,
   options = [],
   placeholder = 'Select items',
@@ -57,7 +59,7 @@ function MultiSelect<T>({
   };
 
   return (
-    <View style={styles.container}>
+    <View testID={testID} style={styles.container}>
       {/* Dropdown Header */}
       <RotatingChevron
         headerStyle={[styles.header, isOpen && styles.headerOpen]}

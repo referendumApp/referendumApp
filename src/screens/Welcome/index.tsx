@@ -18,7 +18,7 @@ const WelcomeScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Referendum</Text>
-        <Text style={styles.subtitle}>Empower yourself</Text>
+        <Text style={styles.subtitle}>Citizens United</Text>
         <View style={styles.logoContainer}>
           <Logo height={200} width={200} />
         </View>

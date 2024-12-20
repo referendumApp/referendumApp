@@ -4,18 +4,18 @@ import { View, Text, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import Carousel from '@/components/Carousel';
+// import Carousel from '@/components/Carousel';
 import NavBar from '@/components/NavBar';
 import TabButton from '@/components/TabButton';
 import { CatalogStackParamList } from '@/navigation/types';
 
+import FullBillText from './FullBillText';
+import Overview from './Overview';
 import {
   useFollowBillMutation,
   useUnfollowBillMutation,
-  // useGetBillVotingHistoryQuery,
-} from './api';
-import FullBillText from './FullBillText';
-import Overview from './Overview';
+  useGetBillVotingHistoryQuery,
+} from './redux/api';
 import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
@@ -31,35 +31,32 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
 
   const [selectedTab, setSelectedTab] = useState<TabType>('overview');
   const [isFollowing, setIsFollowing] = useState(initialFollow);
-  // const [comments, setComments] = useState<any[]>([]);
 
   const [followBill] = useFollowBillMutation();
   const [unfollowBill] = useUnfollowBillMutation();
-  // const { data: votingHistory } = useGetBillVotingHistoryQuery({ billId: bill.id });
-
-  // useEffect(() => {
-  //   setComments([]);
-  // }, [bill.id]);
+  const { data: votingHistory } = useGetBillVotingHistoryQuery({ billId: bill.billId });
 
   const handleBack = () => navigation.goBack();
 
   const handleFollow = useCallback(async () => {
-    !isFollowing ? await followBill({ billId: bill.id }) : await unfollowBill({ billId: bill.id });
+    !isFollowing
+      ? await followBill({ billId: bill.billId })
+      : await unfollowBill({ billId: bill.billId });
 
     setIsFollowing(!isFollowing);
-  }, [bill.id, followBill, unfollowBill, isFollowing]);
+  }, [bill.billId, followBill, unfollowBill, isFollowing]);
 
   return (
     <SafeAreaView style={styles.container}>
       <NavBar handleBack={handleBack} handleFollow={handleFollow} isFollowing={isFollowing} />
       <View style={styles.header}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>{`${bill.state.name}  -  ${bill.identifier}`}</Text>
-          <Text style={styles.subtitle} numberOfLines={3} ellipsizeMode="tail">
-            {bill.title}
-          </Text>
+          <Text
+            style={styles.title}
+            adjustsFontSizeToFit={true}
+            numberOfLines={1}>{`${bill.stateName}  -  ${bill.identifier}`}</Text>
         </View>
-        <Carousel
+        {/* <Carousel
           items={bill.tags?.map(tag => ({ id: tag, title: tag })) ?? []}
           onItemPress={() => {}}
           title="Related: "
@@ -69,7 +66,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
           itemSelectedStyle={styles.tagCarouselSelectedItem}
           textStyle={styles.tagCarouselItemText}
           textSelectedStyle={styles.tagCarouselSelectedItemText}
-        />
+        /> */}
       </View>
 
       <View style={styles.tabContainer}>
@@ -92,29 +89,8 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
 
       <ScrollView style={styles.scrollContainer}>
         {selectedTab === 'overview' && <Overview bill={bill} initialVote={initialVote} />}
-        {selectedTab === 'voting' && <Voting billId={bill.id} />}
-        {selectedTab === 'fullText' && <FullBillText />}
-        {/* <Card
-          title="Comments"
-          headerStyle={styles.sectionHeader}
-          contentStyle={styles.sectionContent}>
-          {comments.length === 0 ? (
-            <Text style={styles.sectionBody}>No comments yet. Be the first to comment!</Text>
-          ) : (
-            comments.slice(0, 3).map((comment, index) => (
-              <View key={index} style={styles.commentContainer}>
-                <Text style={styles.commentAuthor}>{comment.author}</Text>
-                <Text style={styles.commentText}>{comment.text}</Text>
-              </View>
-            ))
-          )}
-          <Pressable
-            onPress={() => {}}>
-            <Text style={styles.seeMoreText}>
-              {comments.length > 0 ? 'See all comments' : 'Add a comment'}
-            </Text>
-          </Pressable>
-        </Card> */}
+        {selectedTab === 'voting' && <Voting votingHistory={votingHistory?.votes ?? []} />}
+        {selectedTab === 'fullText' && <FullBillText billVersionId={bill.currentVersionId} />}
       </ScrollView>
     </SafeAreaView>
   );

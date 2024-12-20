@@ -1,17 +1,11 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { SettingsStackParamList } from '@/navigation/types';
 
+import { SettingsStackParamList } from '@/navigation/types';
 import { logout } from '@/screens/Login/duck';
 
 import styles from './styles';

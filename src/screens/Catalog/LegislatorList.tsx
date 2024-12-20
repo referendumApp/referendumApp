@@ -1,16 +1,11 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { FlatList } from 'react-native';
-
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useSelector } from 'react-redux';
 
 import { Legislator } from '@/appTypes';
-import { CatalogStackParamList } from '@/navigation/types';
+import List from '@/components/List';
 import SortModal from '@/screens/Catalog/sort/SortModal';
-import {
-  useGetLegislatorsQuery,
-  useGetFollowedLegislatorsQuery,
-} from '@/screens/LegislatorDetail/api';
+import { getLegislators } from '@/screens/LegislatorDetail/redux/selectors';
 
 import { filterConfigs } from './filters/constants';
 import FilterModal from './filters/FilterModal';
@@ -29,19 +24,15 @@ interface LegislatorListProps {
   isSortOpen: boolean;
 }
 
-type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
-
 const LegislatorList: React.FC<LegislatorListProps> = React.memo(
   ({ closeFilter, closeSort, isFilterOpen, isSortOpen, searchQuery }) => {
-    const navigation = useNavigation<NavigationProp>();
+    const legislators = useSelector(getLegislators);
 
     const flatListRef = useRef<FlatList<Legislator> | null>(null);
     const [filter, setFilter] = useState<FilterOptions>({});
     const [selectedSort, setSelectedSort] = useState<
       TabMappingSortFields<'legislator'> | undefined
     >();
-    const { data: legislators } = useGetLegislatorsQuery();
-    const { data: followedLegislators } = useGetFollowedLegislatorsQuery();
 
     const catalogItems = useCatalogItems({
       items: legislators,
@@ -61,20 +52,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
       setSelectedSort(sortField);
     };
 
-    const handleLegislatorPress = useCallback(
-      (legislator: Legislator) => {
-        const initialFollow = followedLegislators?.some(follow => follow.id === legislator.id);
-        navigation.navigate('LegislatorScreen', { legislator, initialFollow });
-      },
-      [followedLegislators, navigation],
-    );
-
-    const renderItem = useCallback(
-      ({ item }: { item: Legislator }) => (
-        <LegislatorItem legislator={item} onPress={handleLegislatorPress} />
-      ),
-      [handleLegislatorPress],
-    );
+    const renderItem = ({ item }: { item: Legislator }) => <LegislatorItem legislator={item} />;
 
     const keyExtractor = useCallback((item: Legislator) => String(item.id), []);
 
@@ -91,6 +69,7 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
       <>
         <FilterProvider initialFilters={filter}>
           <FilterModal
+            currentFilters={filter}
             filterFields={filterConfigs.legislator.fields}
             isVisible={isFilterOpen}
             setFilter={handleFilter}
@@ -104,7 +83,8 @@ const LegislatorList: React.FC<LegislatorListProps> = React.memo(
           selectedSort={selectedSort}
           sortOptions={sortOptionsMap.legislator}
         />
-        <FlatList
+        <List
+          testID="legislatorList"
           ref={flatListRef}
           data={catalogItems}
           renderItem={renderItem}

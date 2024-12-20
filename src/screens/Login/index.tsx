@@ -16,7 +16,7 @@ import { BackButton } from '@/components/NavBar';
 import { AuthStackParamList } from '@/navigation/types';
 import { colors } from '@/themes';
 
-import { LoginError, useGetUserSessionMutation } from './api';
+import { LoginError, useGetUserSessionMutation } from './redux/api';
 import styles from './styles';
 import { LoginCredentials, LoginFields } from './types';
 
@@ -71,9 +71,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <BackButton style={styles.backButton} iconColor={colors.darkGray} handleBack={handleBack} />
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <BackButton style={styles.backButton} iconColor={colors.darkGray} handleBack={handleBack} />
         <View style={styles.content}>
           <Text style={styles.title}>Welcome to Referendum</Text>
           <View style={styles.inputContainer}>
@@ -104,10 +104,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
               <Text style={styles.loginButtonText}>Continue</Text>
             </Pressable>
           </View>
+          <View style={styles.dividerHorizontal} />
         </View>
-      </TouchableWithoutFeedback>
-      <View style={styles.dividerHorizontal} />
-    </SafeAreaView>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 

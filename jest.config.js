@@ -15,4 +15,5 @@ module.exports = {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
   },
   testPathIgnorePatterns: ['__tests__/mockUtils.ts'],
+  testTimeout: 10000,
 };

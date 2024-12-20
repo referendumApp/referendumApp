@@ -17,8 +17,9 @@ export enum ToggleOptions {
 
 export const FilterTitles = {
   [FilterComponentFields.roleId]: 'Legislative Body',
-  [FilterComponentFields.stateId]: 'States',
   [FilterComponentFields.partyId]: 'Political Party',
+  [FilterComponentFields.stateId]: 'States',
+  [FilterComponentFields.statusId]: 'Status',
 } as const;
 
 export type FilterConfig<T extends TabType> = {
@@ -37,13 +38,19 @@ type FilterConfigs = {
 
 export const filterConfigs: FilterConfigs = {
   bill: {
-    fields: [FilterComponentFields.roleId, FilterComponentFields.stateId],
+    fields: [
+      FilterComponentFields.roleId,
+      FilterComponentFields.stateId,
+      FilterComponentFields.statusId,
+    ],
     filterFn: (item, field, filterValue) => {
       if (Array.isArray(filterValue)) {
         switch (field) {
           case FilterComponentFields.roleId:
-            return filterValue.includes(item.legislativeBody.roleId);
+            return filterValue.includes(item.roleId);
           case FilterComponentFields.stateId:
+            return filterValue.includes(item.stateId);
+          case FilterComponentFields.statusId:
             return filterValue.includes(item.stateId);
         }
       }

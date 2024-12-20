@@ -159,7 +159,7 @@ export const componentStyles = StyleSheet.create({
     backgroundColor: colors.tertiary,
     borderRadius: 12,
     marginHorizontal: size.m,
-    marginVertical: size.s,
+    marginBottom: size.l,
     padding: size.m,
     ...Platform.select({
       android: {
@@ -264,6 +264,15 @@ export const componentStyles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  itemRow: {
+    flexDirection: 'row',
+    alignItems: 'center' as const,
+    justifyContent: 'space-between',
+    paddingVertical: size.s,
+    paddingLeft: size.s * 1.5,
+    paddingRight: size.xs,
+    borderTopWidth: StyleSheet.hairlineWidth,
   },
 });
 

@@ -1,64 +1,75 @@
 import React, { useMemo } from 'react';
 import { Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 
-import { BillActionVote, LegislatorVote, VoteChoice } from '@/appTypes';
+import { BillActionVote, LegislatorVotingHistory } from '@/appTypes';
 import Accordion from '@/components/Accordion';
-import Card from '@/components/Card';
-import Icon from '@/components/Icon';
-import { colors } from '@/themes';
+import Table from '@/components/Table';
+import VoteIcon from '@/components/VoteIcon';
+import useBillScreenNav from '@/screens/BillDetail/hooks/useBillScreenNav';
+import { getBillDetailsMap } from '@/screens/BillDetail/redux/selectors';
 
 import styles from './styles';
 
-const TableItem = ({ action }: { action: BillActionVote }) => {
+const BillActionItem = ({ testID, action }: { testID: string; action: BillActionVote }) => {
   return (
-    <View style={styles.itemRow}>
+    <View testID={testID} style={styles.itemRow}>
       <Text style={styles.itemCell} numberOfLines={0}>
         {action.date}
       </Text>
-      <View style={[styles.yesVote, action.voteChoiceId !== VoteChoice.YES && styles.noDisplay]}>
-        <Icon iconFamily="Octicons" iconName="thumbsup" iconSize={20} iconColor={colors.tertiary} />
-      </View>
-      <View style={[styles.noVote, action.voteChoiceId !== VoteChoice.NO && styles.noDisplay]}>
-        <Icon
-          iconFamily="Octicons"
-          iconName="thumbsdown"
-          iconSize={20}
-          iconColor={colors.tertiary}
-        />
-      </View>
+      <Text style={styles.descCell} numberOfLines={0}>
+        {action.actionDescription}
+      </Text>
+      <VoteIcon voteChoice={action.voteChoiceId} size={20} />
     </View>
   );
 };
 
-const Voting = React.memo(({ votingHistory }: { votingHistory: LegislatorVote[] }) => {
+const Voting: React.FC<{ votingHistory: LegislatorVotingHistory[] }> = ({ votingHistory }) => {
+  const billIds = useMemo(() => votingHistory.map(vote => vote.billId), [votingHistory]);
+  const billMap = useSelector(state => getBillDetailsMap(state, billIds));
+  const billNav = useBillScreenNav();
+
   const tableContents = useMemo(
     () =>
       votingHistory.map(vote => {
         const content = vote.billActionVotes.map(action => (
-          <TableItem key={action.billActionId} action={action} />
+          <BillActionItem
+            key={action.billActionId}
+            testID={`bill-item-${action.billActionId}`}
+            action={action}
+          />
         ));
-        return { key: vote.billId, title: vote.identifier, content };
+        const bill = billMap[vote.billId];
+
+        return {
+          key: vote.billId,
+          title: vote.identifier,
+          onPressTitle: bill ? () => billNav(bill) : undefined,
+          content,
+        };
       }),
-    [votingHistory],
+    [billMap, billNav, votingHistory],
   );
 
   return (
-    <Card style={styles.table} contentStyle={styles.cardContent}>
-      <View style={styles.tableHeader}>
-        <Text style={styles.billHeaderText}>Bill/Date</Text>
-        <Text style={styles.tableHeaderText}>For</Text>
-        <Text style={styles.tableHeaderText}>Against</Text>
-      </View>
-      <Accordion
-        data={tableContents}
-        accordionStyles={{
-          item: styles.tableRow,
-          text: styles.tableCell,
-          content: styles.tableContent,
-        }}
-      />
-    </Card>
+    <Table style={styles.cardContainer} headers={['Bill/Date', 'Action', 'Vote']}>
+      {tableContents.length ? (
+        <Accordion
+          data={tableContents}
+          accordionStyles={{
+            item: styles.tableRow,
+            text: styles.tableCell,
+            content: styles.tableContent,
+          }}
+        />
+      ) : (
+        <View style={styles.sectionContent}>
+          <Text style={styles.sectionBody}>No votes found</Text>
+        </View>
+      )}
+    </Table>
   );
-});
+};
 
 export default Voting;
