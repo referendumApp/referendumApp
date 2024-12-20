@@ -2,7 +2,12 @@ import React from 'react';
 
 import CheckBoxList from '@/components/CheckBoxList';
 import MultiSelect from '@/components/MultiSelect';
-import { useGetPartysQuery, useGetRolesQuery, useGetStatesQuery } from '@/store/baseApi';
+import {
+  useGetPartysQuery,
+  useGetRolesQuery,
+  useGetStatesQuery,
+  useGetStatusesQuery,
+} from '@/store/baseApi';
 
 import { useFilterContext } from './FilterProvider';
 
@@ -32,6 +37,19 @@ export const RoleFilter: React.FC = () => {
   );
 };
 
+export const StatusFilter: React.FC = () => {
+  const { data: statuses } = useGetStatusesQuery();
+  const { filterOptions, setFilterOptions } = useFilterContext();
+
+  return (
+    <CheckBoxList
+      options={statuses}
+      onSelect={options => setFilterOptions(prev => ({ ...prev, roleId: options }))}
+      selectedOptions={filterOptions?.roleId}
+    />
+  );
+};
+
 export const StateFilter: React.FC = () => {
   const { states } = useGetStatesQuery(undefined, {
     selectFromResult: ({ data }) => ({
@@ -42,10 +60,10 @@ export const StateFilter: React.FC = () => {
 
   return (
     <MultiSelect
+      testID="stateSelect"
       options={states}
       onSelect={ids => setFilterOptions(prev => ({ ...prev, stateId: ids }))}
       selectedOptions={filterOptions?.stateId}
     />
   );
 };
-

@@ -15,6 +15,11 @@ export interface State {
   name: string;
 }
 
+export interface Status {
+  id: number;
+  name: string;
+}
+
 export interface LegislativeBody {
   id: number;
   roleId: number;
@@ -107,6 +112,7 @@ export interface BillDetail {
   legislativeBodyRole: string;
   sessionId: number;
   sessionName: string;
+  statusId: number;
   status: string;
   statusDate: string;
   sponsors: SponsorDetail[];
