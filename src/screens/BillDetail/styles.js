@@ -40,8 +40,20 @@ const styles = StyleSheet.create({
     ...typography.body,
     color: colors.veryLightGray,
   },
-
-  /* To-Do: Insert Status Label and Status Bar CSS Here*/
+  statusContainer: {
+    flexDirection: 'row',
+    marginTop: '6%',
+    justifyContent: 'center',
+  },
+  statusLabel: {
+    color: colors.lightGray,
+    fontFamily: 'Inter-Regular',
+    fontSize: size.m,
+  },
+  statusText: {
+    fontFamily: 'Inter-Bold',
+    fontSize: size.m,
+  },
 
   subHeader: {
     ...componentStyles.subHeader,

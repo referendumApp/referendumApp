@@ -16,6 +16,7 @@ import {
   useUnfollowBillMutation,
   useGetBillVotingHistoryQuery,
 } from './redux/api';
+import Status from './Status';
 import styles from './styles';
 import { TabType } from './types';
 import Voting from './Voting';
@@ -76,14 +77,7 @@ const BillDetailScreen: React.FC<BillDetailScreenProps> = ({
           textStyle={styles.tagCarouselItemText}
           textSelectedStyle={styles.tagCarouselSelectedItemText}
         /> */}
-
-        {/* To-Do: Insert Status Label and Status Bar Components here*/}
-        {/*
-        <View style={styles.statusContainer}>
-          <Text style={styles.subtitle}>Status: </Text>
-          <Text style={styles.subtitle}>(Status Bar Coming Soon...) </Text>
-        </View>
-        */}
+        <Status status={bill.status} />
       </View>
 
       <View style={styles.tabContainer}>
