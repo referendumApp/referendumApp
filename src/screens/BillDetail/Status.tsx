@@ -21,7 +21,7 @@ const Status: React.FC<{ status: string }> = ({ status }) => {
   return (
     <View style={styles.statusContainer}>
       <Text style={styles.statusLabel}>Status: </Text>
-      <Text style={[styles.statusText, { color: getStatusColor(status) }]}>{`${status}`}</Text>
+      <Text style={[styles.statusText, { color: getStatusColor() }]}>{`${status}`}</Text>
       {/* <Text style={styles.subtitle}>(Status Bar Coming Soon...) </Text> */}
     </View>
   );
