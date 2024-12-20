@@ -118,13 +118,13 @@ const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
           <View style={styles.votingTextContainer}>
             <Text style={styles.voteBody}>Support</Text>
             <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
-              {formatPercentage(userVotes?.yayPercent)}
+              {formatPercentage(userVotes?.yayPct)}
             </Text>
           </View>
           <View style={styles.votingTextContainer}>
             <Text style={styles.voteBody}>Oppose</Text>
             <Text style={[styles.voteCount, !userVote && styles.noDisplay]}>
-              {formatPercentage(userVotes?.nayPercent)}
+              {formatPercentage(userVotes?.nayPct)}
             </Text>
           </View>
         </View>
@@ -145,7 +145,13 @@ const Overview: React.FC<OverviewProps> = ({ bill, initialVote }) => {
         headers={['Sponsor Name', 'Sponsor Type']}
         headerStyle={styles.tableHeader}
         textStyle={styles.tableHeaderText}>
-        {sponsorRows}
+        {bill.sponsors.length ? (
+          sponsorRows
+        ) : (
+          <View style={styles.sectionContent}>
+            <Text style={styles.sectionBody}>No sponsors found</Text>
+          </View>
+        )}
       </Table>
 
       <Card

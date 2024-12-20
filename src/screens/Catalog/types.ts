@@ -7,6 +7,7 @@ export enum FilterComponentFields {
   roleId = 'roleId',
   stateId = 'stateId',
   partyId = 'partyId',
+  statusId = 'statusId',
 }
 export type FilterComponentFieldTypes = keyof typeof FilterComponentFields;
 
@@ -14,6 +15,7 @@ export type FilterOptionValueMap = {
   [FilterComponentFields.partyId]: number[];
   [FilterComponentFields.roleId]: number[];
   [FilterComponentFields.stateId]: number[];
+  [FilterComponentFields.statusId]: number[];
   federal: boolean;
 };
 export type FilterOptionFieldTypes = keyof FilterOptionValueMap;

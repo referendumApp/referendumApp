@@ -51,14 +51,20 @@ const Voting: React.FC<{ votingHistory: LegislatorVoteDetail[] }> = ({ votingHis
 
   return (
     <Table style={styles.cardContainer} headers={['Action/Name', 'Party', 'Vote']}>
-      <Accordion
-        data={tableContents}
-        accordionStyles={{
-          item: styles.tableRow,
-          text: styles.tableText,
-          content: styles.tableContent,
-        }}
-      />
+      {tableContents.length ? (
+        <Accordion
+          data={tableContents}
+          accordionStyles={{
+            item: styles.tableRow,
+            text: styles.tableText,
+            content: styles.tableContent,
+          }}
+        />
+      ) : (
+        <View style={styles.sectionContent}>
+          <Text style={styles.sectionBody}>No votes found</Text>
+        </View>
+      )}
     </Table>
   );
 };
