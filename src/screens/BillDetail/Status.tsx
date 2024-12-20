@@ -6,7 +6,7 @@ import { colors } from '@/themes';
 import styles from './styles';
 
 const Status: React.FC<{ status: string }> = ({ status }) => {
-  const getStatusColor = (status?: string) => {
+  const getStatusColor = () => {
     if (!status) return colors.errorRed;
 
     switch (status) {
