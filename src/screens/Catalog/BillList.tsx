@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { BillDetail } from '@/appTypes';
@@ -66,7 +66,7 @@ const BillList: React.FC<BillListProps> = React.memo(
     );
 
     return (
-      <View testID="billList">
+      <>
         <FilterProvider initialFilters={filter}>
           <FilterModal
             currentFilters={filter}
@@ -84,6 +84,7 @@ const BillList: React.FC<BillListProps> = React.memo(
           sortOptions={sortOptionsMap.bill}
         />
         <List
+          testID="billList"
           ref={flatListRef}
           data={catalogItems}
           renderItem={renderItem}
@@ -95,7 +96,7 @@ const BillList: React.FC<BillListProps> = React.memo(
           initialNumToRender={7}
           windowSize={5}
         />
-      </View>
+      </>
     );
   },
 );

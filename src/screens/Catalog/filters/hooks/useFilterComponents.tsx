@@ -1,7 +1,12 @@
 import React, { ReactNode, useMemo } from 'react';
 
 import { FilterTitles, ToggleOptions } from '@/screens/Catalog/filters/constants';
-import { PartyFilter, RoleFilter, StateFilter } from '@/screens/Catalog/filters/FilterComponents';
+import {
+  PartyFilter,
+  RoleFilter,
+  StateFilter,
+  StatusFilter,
+} from '@/screens/Catalog/filters/FilterComponents';
 import {
   FilterComponentFields,
   FilterComponentFieldTypes,
@@ -30,8 +35,14 @@ const components: FilterComponents = {
     content: <RoleFilter />,
     category: ToggleOptions.federal,
   },
-  [FilterComponentFields.stateId]: {
+  [FilterComponentFields.statusId]: {
     key: 2,
+    title: FilterTitles[FilterComponentFields.statusId],
+    content: <StatusFilter />,
+    category: ToggleOptions.all,
+  },
+  [FilterComponentFields.stateId]: {
+    key: 3,
     title: FilterTitles[FilterComponentFields.stateId],
     content: <StateFilter />,
     category: ToggleOptions.state,
