@@ -8,7 +8,7 @@ import baseApi, {
 } from '@/store/baseApi';
 import { isDevEnv } from '@/store/utils';
 
-import { PasswordResetCredentials } from './types';
+import { PasswordResetCredentials } from '../types';
 
 export type PasswordResetError = FormError<PasswordResetCredentials>;
 

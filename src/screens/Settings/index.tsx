@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { SettingsStackParamList } from '@/navigation/types';
-import { logout } from '@/screens/Login/duck';
+import { logout } from '@/screens/Login/redux/duck';
 
 import styles from './styles';
 
@@ -15,7 +15,7 @@ interface NavItemProps {
   onPress: () => void;
 }
 
-type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'Settings'>;
+type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'SettingsScreen'>;
 
 const NavItem: React.FC<NavItemProps> = ({ title, onPress }) => (
   <TouchableOpacity style={styles.navItem} onPress={onPress}>
@@ -46,7 +46,7 @@ const SettingsScreen: React.FC = () => {
             title="Edit Follow Preferences"
             onPress={() => console.log('Edit Follow Preferences')}
           />
-          <NavItem title="Change Password" onPress={() => navigation.navigate('PasswordReset')} />
+          <NavItem title="Change Password" onPress={() => navigation.navigate('PasswordResetScreen')} />
           {/* <NavItem title="Privacy Settings" onPress={() => console.log('Privacy Settings')} /> */}
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutButtonText}>Log Out</Text>

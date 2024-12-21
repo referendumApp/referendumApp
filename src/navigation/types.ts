@@ -25,5 +25,5 @@ export type CatalogStackParamList = {
 
 export type SettingsStackParamList = {
   SettingsScreen: undefined;
-  PasswordReset: undefined;
+  PasswordResetScreen: undefined;
 }

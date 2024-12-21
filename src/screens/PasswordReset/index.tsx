@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
   SafeAreaView,
 } from 'react-native';
-
 import { useSelector } from 'react-redux';
+
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -19,14 +19,14 @@ import { SettingsStackParamList } from '@/navigation/types';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
-import { PasswordResetError, usePasswordResetMutation } from './api';
+import { PasswordResetError, usePasswordResetMutation } from './redux/api';
 import styles from './styles';
 import { PasswordResetCredentials, PasswordResetFields } from './types';
 
 
 type PasswordResetForm = PasswordResetCredentials & { confirmPassword: string };
 
-type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'PasswordReset'>;
+type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'SettingsScreen'>;
 
 
 const PasswordResetScreen: React.FC = () => {
@@ -69,7 +69,7 @@ const PasswordResetScreen: React.FC = () => {
     } catch (error) {
       setErrorState(error as PasswordResetError);
     }
-  }, [currentUser, navigation, passwordResetForm, passwordReset]);
+  }, [passwordResetForm, passwordReset]);
 
   const isPasswordResetValid = useMemo(() => {
     if (errorState) return false;
@@ -95,15 +95,15 @@ const PasswordResetScreen: React.FC = () => {
           </Pressable>
         </View>
       </SafeAreaView>
-    )
+    );
   }
 
   return (
     <SafeAreaView style={styles.container}>
-      <BackButton 
-        style={styles.backButton} 
-        iconColor={colors.darkGray} 
-        handleBack={() => navigation.goBack()} 
+      <BackButton
+        style={styles.backButton}
+        iconColor={colors.darkGray}
+        handleBack={() => navigation.goBack()}
       />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.content}>
@@ -112,7 +112,7 @@ const PasswordResetScreen: React.FC = () => {
             <Text style={[styles.errorMsg, errorState && errorState?.field && styles.noDisplay]}>
               {errorState?.message}
             </Text>
-            <FormField 
+            <FormField
               name="currentPassword"
               errorState={errorState}
               placeholder="Current Password"
@@ -122,7 +122,7 @@ const PasswordResetScreen: React.FC = () => {
               secureTextEntry
               placeholderTextColor={colors.mediumGray}
             />
-            <FormField 
+            <FormField
               name="newPassword"
               errorState={errorState}
               placeholder="New Password"
@@ -159,7 +159,7 @@ const PasswordResetScreen: React.FC = () => {
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
-  )
+  );
 };
 
 export default PasswordResetScreen;

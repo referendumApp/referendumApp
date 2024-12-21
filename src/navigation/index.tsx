@@ -11,15 +11,14 @@ import CatalogScreen from '@/screens/Catalog';
 import FeedScreen from '@/screens/Feed';
 import LegislatorScreen from '@/screens/LegislatorDetail';
 import LoginScreen from '@/screens/Login';
+import PasswordResetScreen from '@/screens/PasswordReset';
 import SettingsScreen from '@/screens/Settings';
 import SignUpScreen from '@/screens/SignUp';
 import WelcomeScreen from '@/screens/Welcome';
-import PasswordResetScreen from '@/screens/PasswordReset';
 import { RootState } from '@/store';
 import { colors } from '@/themes';
 
 import styles from './styles';
-
 import {
   RootStackParamList,
   AuthStackParamList,
@@ -81,7 +80,7 @@ const SettingsStackScreen = React.memo(() => (
     }}
   >
     <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} />
-    <SettingsStack.Screen name="PasswordReset" component={PasswordResetScreen} />
+    <SettingsStack.Screen name="PasswordResetScreen" component={PasswordResetScreen} />
   </SettingsStack.Navigator>
 ));
 
