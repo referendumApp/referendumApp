@@ -11,6 +11,7 @@ import CatalogScreen from '@/screens/Catalog';
 import FeedScreen from '@/screens/Feed';
 import LegislatorScreen from '@/screens/LegislatorDetail';
 import LoginScreen from '@/screens/Login';
+import PasswordResetScreen from '@/screens/PasswordReset';
 import SettingsScreen from '@/screens/Settings';
 import SignUpScreen from '@/screens/SignUp';
 import WelcomeScreen from '@/screens/Welcome';
@@ -23,12 +24,15 @@ import {
   AuthStackParamList,
   AppStackParamList,
   CatalogStackParamList,
+  SettingsStackParamList,
 } from './types';
+
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const Tab = createBottomTabNavigator<AppStackParamList>();
 const CatalogStack = createNativeStackNavigator<CatalogStackParamList>();
+const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -58,10 +62,26 @@ const CatalogStackScreen = React.memo(() => (
         end: 50,
       },
     }}>
-    <CatalogStack.Screen name="Catalog" component={CatalogScreen} />
+    <CatalogStack.Screen name="CatalogScreen" component={CatalogScreen} />
     <CatalogStack.Screen name="LegislatorScreen" component={LegislatorScreen} />
     <CatalogStack.Screen name="BillScreen" component={BillScreen} />
   </CatalogStack.Navigator>
+));
+
+const SettingsStackScreen = React.memo(() => (
+  <SettingsStack.Navigator
+    screenOptions={{
+      headerShown: false,
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        start: 50,
+        end: 50,
+      },
+    }}
+  >
+    <SettingsStack.Screen name="SettingsScreen" component={SettingsScreen} />
+    <SettingsStack.Screen name="PasswordResetScreen" component={PasswordResetScreen} />
+  </SettingsStack.Navigator>
 ));
 
 const AppNavigator: React.FC = () => {
@@ -83,7 +103,7 @@ const AppNavigator: React.FC = () => {
         case 'Feed':
           iconName = focused ? 'home' : 'home-outline';
           break;
-        case 'CatalogStack':
+        case 'Catalog':
           iconName = focused ? 'book' : 'book-outline';
           break;
         case 'Settings':
@@ -99,7 +119,7 @@ const AppNavigator: React.FC = () => {
   const tabBarLabel = useCallback(({ color, name }: { color: string; name: string }) => {
     return (
       <Text style={[styles.tabBarLabel, { color }]}>
-        {name === 'CatalogStack' ? 'Catalog' : name}
+        {name}
       </Text>
     );
   }, []);
@@ -119,8 +139,8 @@ const AppNavigator: React.FC = () => {
         freezeOnBlur: true,
       })}>
       <Tab.Screen name="Feed" component={FeedScreen} />
-      <Tab.Screen name="CatalogStack" component={CatalogStackScreen} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Catalog" component={CatalogStackScreen} />
+      <Tab.Screen name="Settings" component={SettingsStackScreen} />
     </Tab.Navigator>
   );
 };

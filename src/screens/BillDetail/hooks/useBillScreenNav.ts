@@ -7,7 +7,7 @@ import { BillDetail } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
 import { useGetFollowedBillsQuery, useGetBillVotesQuery } from '@/screens/BillDetail/redux/api';
 
-type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
+type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'CatalogScreen'>;
 
 export default function useBillScreenNav() {
   const navigation = useNavigation<NavigationProp>();
