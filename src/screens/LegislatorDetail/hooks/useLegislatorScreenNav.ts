@@ -7,7 +7,7 @@ import { Legislator } from '@/appTypes';
 import { CatalogStackParamList } from '@/navigation/types';
 import { useGetFollowedLegislatorsQuery } from '@/screens/LegislatorDetail/redux/api';
 
-type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'Catalog'>;
+type NavigationProp = NativeStackNavigationProp<CatalogStackParamList, 'CatalogScreen'>;
 
 export default function useLegislatorScreenNav() {
   const navigation = useNavigation<NavigationProp>();

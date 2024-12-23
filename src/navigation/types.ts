@@ -13,12 +13,17 @@ export type AuthStackParamList = {
 
 export type AppStackParamList = {
   Feed: undefined;
-  CatalogStack: undefined;
+  Catalog: undefined;
   Settings: undefined;
 };
 
 export type CatalogStackParamList = {
-  Catalog: undefined;
+  CatalogScreen: undefined;
   LegislatorScreen: { legislator: Legislator; initialFollow?: boolean };
   BillScreen: { bill: BillDetail; initialFollow?: boolean; initialVote?: VoteChoiceType };
 };
+
+export type SettingsStackParamList = {
+  SettingsScreen: undefined;
+  PasswordResetScreen: undefined;
+}
