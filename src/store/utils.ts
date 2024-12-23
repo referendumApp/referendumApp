@@ -24,7 +24,7 @@ export const getMiddlewareOptions = () => {
 
 const getApiUrl = () => {
   const baseUrl =
-    isDevEnv() && process.env.EXPO_PUBLIC_DEV_SERVER === 'true'
+    isDevEnv() && process.env.EXPO_PUBLIC_DEV_SERVER === 'false'
       ? Constants.expoConfig?.extra?.[Platform.OS].EXPO_PUBLIC_API_URL ?? 'http://localhost'
       : process.env.EXPO_PUBLIC_API_URL;
 
