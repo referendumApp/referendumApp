@@ -25,7 +25,7 @@ const Status: React.FC<{ status: string }> = ({ status }) => {
         return colors.orange;
       case 'Failed':
       case 'Vetoed':
-        colors.errorRed;
+        return colors.errorRed;
       default:
         return colors.errorRed;
     }
