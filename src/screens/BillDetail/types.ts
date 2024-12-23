@@ -10,8 +10,10 @@ export type UserBillVote = BillVote & {
 };
 
 export type UserBillVotes = {
-  yayPercent: number;
-  nayPercent: number;
+  yay: number;
+  nay: number;
+  yayPct: number;
+  nayPct: number;
   total: number;
 };
 

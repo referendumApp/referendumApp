@@ -29,7 +29,7 @@ const LegislatorItem: React.FC<{ legislator: Legislator }> = React.memo(
             style={
               styles.itemDescription
             }>{`${legislator.party.name} - ${legislator.state.name}`}</Text>
-          <Text style={styles.legislatorChamber}>{legislator.role.name}</Text>
+          <Text style={styles.smallText}>{legislator.role.name}</Text>
         </View>
       </Pressable>
     );

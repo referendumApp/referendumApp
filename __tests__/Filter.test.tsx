@@ -38,7 +38,7 @@ const mockRole = jest.fn().mockReturnValue({
 });
 
 const mockState = jest.fn().mockReturnValue({
-  data: [
+  states: [
     {
       id: 1,
       name: 'New York',
@@ -52,10 +52,26 @@ const mockState = jest.fn().mockReturnValue({
   isError: false,
 });
 
+const mockStatus = jest.fn().mockReturnValue({
+  data: [
+    {
+      id: 1,
+      name: 'Introduced',
+    },
+    {
+      id: 2,
+      name: 'Passed',
+    },
+  ],
+  isLoading: false,
+  isError: false,
+});
+
 jest.mock('@/store/baseApi', () => ({
   useGetRolesQuery: () => mockRole(),
   useGetPartysQuery: () => mockParty(),
   useGetStatesQuery: () => mockState(),
+  useGetStatusesQuery: () => mockStatus(),
 }));
 
 jest.mock('@/navigation', () => {
@@ -79,7 +95,6 @@ describe('Filter & Sort', () => {
         fireEvent.press(screen.getByTestId('filterButton'));
       });
       const filterModal = screen.getByTestId('filterModal');
-
       await waitFor(() => {
         expect(within(filterModal).getByText('All')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Federal')).toBeOnTheScreen();
@@ -87,29 +102,28 @@ describe('Filter & Sort', () => {
         expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
         expect(within(filterModal).queryByText('Political Party')).not.toBeOnTheScreen();
         expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Status')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Clear all')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Apply')).toBeOnTheScreen();
       });
 
       const federalButton = screen.getByTestId('federalButton');
-
       await act(async () => {
         fireEvent.press(federalButton);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Status')).toBeOnTheScreen();
         expect(within(filterModal).queryByText('States')).not.toBeOnTheScreen();
       });
 
       const stateButton = screen.getByTestId('stateButton');
-
       await act(async () => {
         fireEvent.press(stateButton);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('States')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Status')).toBeOnTheScreen();
         expect(within(filterModal).queryByText('Legislative Body')).not.toBeOnTheScreen();
       });
     });
@@ -124,7 +138,6 @@ describe('Filter & Sort', () => {
       await act(async () => {
         fireEvent.press(filterOptions[0]);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Representative')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Senate')).toBeOnTheScreen();
@@ -133,9 +146,28 @@ describe('Filter & Sort', () => {
       await act(async () => {
         fireEvent.press(filterOptions[1]);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Select items')).toBeOnTheScreen();
+      });
+
+      await act(async () => {
+        fireEvent.press(
+          within(screen.getByTestId('stateSelect')).getByTestId(
+            `Ionicons-chevron-down-${colors.darkGray}`,
+          ),
+        );
+      });
+      await waitFor(() => {
+        expect(within(filterModal).getByText('New York')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Oregon')).toBeOnTheScreen();
+      });
+
+      await act(async () => {
+        fireEvent.press(filterOptions[2]);
+      });
+      await waitFor(() => {
+        expect(within(filterModal).getByText('Introduced')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Passed')).toBeOnTheScreen();
       });
     });
 
@@ -145,7 +177,6 @@ describe('Filter & Sort', () => {
         fireEvent.press(screen.getByTestId('sortButton'));
       });
       const sortModal = screen.getByTestId('sortModal');
-
       await waitFor(() => {
         expect(within(sortModal).getByText('Bill ID (A-Z)')).toBeOnTheScreen();
         expect(within(sortModal).getByText('Bill Title (A-Z)')).toBeOnTheScreen();
@@ -166,7 +197,6 @@ describe('Filter & Sort', () => {
         fireEvent.press(screen.getByTestId('filterButton'));
       });
       const filterModal = screen.getByTestId('filterModal');
-
       await waitFor(() => {
         expect(screen.getByTestId('legislatorList')).toBeOnTheScreen();
         expect(within(filterModal).getByText('All')).toBeOnTheScreen();
@@ -180,11 +210,9 @@ describe('Filter & Sort', () => {
       });
 
       const federalButton = screen.getByTestId('federalButton');
-
       await act(async () => {
         fireEvent.press(federalButton);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Legislative Body')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Political Party')).toBeOnTheScreen();
@@ -192,11 +220,9 @@ describe('Filter & Sort', () => {
       });
 
       const stateButton = screen.getByTestId('stateButton');
-
       await act(async () => {
         fireEvent.press(stateButton);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Political Party')).toBeOnTheScreen();
         expect(within(filterModal).getByText('States')).toBeOnTheScreen();
@@ -214,7 +240,6 @@ describe('Filter & Sort', () => {
       await act(async () => {
         fireEvent.press(filterOptions[0]);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Representative')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Senate')).toBeOnTheScreen();
@@ -223,7 +248,6 @@ describe('Filter & Sort', () => {
       await act(async () => {
         fireEvent.press(filterOptions[1]);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Democrat')).toBeOnTheScreen();
         expect(within(filterModal).getByText('Republican')).toBeOnTheScreen();
@@ -232,9 +256,20 @@ describe('Filter & Sort', () => {
       await act(async () => {
         fireEvent.press(filterOptions[2]);
       });
-
       await waitFor(() => {
         expect(within(filterModal).getByText('Select items')).toBeOnTheScreen();
+      });
+
+      await act(async () => {
+        fireEvent.press(
+          within(screen.getByTestId('stateSelect')).getByTestId(
+            `Ionicons-chevron-down-${colors.darkGray}`,
+          ),
+        );
+      });
+      await waitFor(() => {
+        expect(within(filterModal).getByText('New York')).toBeOnTheScreen();
+        expect(within(filterModal).getByText('Oregon')).toBeOnTheScreen();
       });
     });
 
@@ -244,7 +279,6 @@ describe('Filter & Sort', () => {
         fireEvent.press(screen.getByTestId('sortButton'));
       });
       const sortModal = screen.getByTestId('sortModal');
-
       await act(async () => {
         await waitFor(() => {
           expect(within(sortModal).getByText('Legislator Name (A-Z)')).toBeOnTheScreen();

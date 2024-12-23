@@ -3,7 +3,7 @@ import { Platform, StyleSheet } from 'react-native';
 import { colors, componentStyles, size, typography, withOpacity } from '@/themes';
 
 export const BILL_ITEM_HEIGHT = 158;
-export const LEGISLATOR_ITEM_HEIGHT = 96;
+export const LEGISLATOR_ITEM_HEIGHT = 98;
 
 const styles = StyleSheet.create({
   container: componentStyles.container,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     fontWeight: 'bold',
   },
-  legislatorChamber: {
+  smallText: {
     ...typography.small,
     color: colors.darkGray,
   },
@@ -97,10 +97,12 @@ const styles = StyleSheet.create({
   },
   itemDescription: typography.body,
   dividerVertical: componentStyles.dividerVertical,
-  statusDate: {
-    ...typography.date,
+  statusContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: size.s * 1.5,
   },
+  statusDate: typography.date,
   tagCarouselContainer: {
     ...componentStyles.carouselContainer,
     flexDirection: 'row',

@@ -8,7 +8,7 @@ import {
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
 
-import { Party, Role, State, Token } from '@/appTypes';
+import { Party, Role, State, Status, Token } from '@/appTypes';
 import { login } from '@/screens/Login/redux/duck';
 import { AppDispatch, RootState } from '@/store';
 
@@ -33,6 +33,7 @@ export enum ApiResource {
   partys = 'partys',
   roles = 'roles',
   states = 'states',
+  statuses = 'statuses',
   topics = 'topics',
   users = 'users',
   votes = 'votes',
@@ -197,11 +198,12 @@ enum BaseTags {
   partys = 'partys',
   roles = 'roles',
   states = 'states',
+  statuses = 'statuses',
 }
 
 const baseApi = createApi({
   baseQuery: baseQueryWithRefresh,
-  tagTypes: [BaseTags.partys, BaseTags.roles, BaseTags.states],
+  tagTypes: [BaseTags.partys, BaseTags.roles, BaseTags.states, BaseTags.statuses],
   endpoints: builder => ({
     getPartys: builder.query<Party[], void>({
       query: () => ({ url: `${ApiResource.partys}/` }),
@@ -215,10 +217,15 @@ const baseApi = createApi({
       query: () => ({ url: `${ApiResource.states}/` }),
       providesTags: result => (result ? [BaseTags.states] : []),
     }),
+    getStatuses: builder.query<Status[], void>({
+      query: () => ({ url: `${ApiResource.statuses}/` }),
+      providesTags: result => (result ? [BaseTags.statuses] : []),
+    }),
   }),
   reducerPath: 'api',
 });
 
 export default baseApi;
 
-export const { useGetRolesQuery, useGetPartysQuery, useGetStatesQuery } = baseApi;
+export const { useGetRolesQuery, useGetPartysQuery, useGetStatesQuery, useGetStatusesQuery } =
+  baseApi;

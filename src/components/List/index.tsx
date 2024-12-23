@@ -10,7 +10,7 @@ const List = forwardRef<FlatList, FlatListProps<any>>((props, ref) => {
 
   return Platform.OS === 'ios' && insets.bottom ? (
     <View style={{ paddingBottom: TAB_HEIGHT }}>
-      <FlatList ref={ref} contentContainerStyle={[contentContainerStyle]} {...listProps} />
+      <FlatList ref={ref} contentContainerStyle={contentContainerStyle} {...listProps} />
     </View>
   ) : (
     <FlatList ref={ref} contentContainerStyle={contentContainerStyle} {...listProps} />
