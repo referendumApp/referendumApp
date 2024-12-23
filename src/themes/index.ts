@@ -21,6 +21,8 @@ export enum colors {
   errorRed = 'rgb(155, 3, 0)', // #EB5757
   linkBlue = 'rgb(53, 149, 250)', // #3595FA
   gold = 'rgb(255, 215, 0)', // #FFD700
+  yellow = 'rgb(255,255,0)', //	#FFFF00
+  orange = 'rgb(255,165,0)', //#FFA500
 }
 
 export const withOpacity = (color: string, opacity: number) => {

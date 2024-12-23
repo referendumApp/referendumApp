@@ -7,12 +7,25 @@ import styles from './styles';
 
 const Status: React.FC<{ status: string }> = ({ status }) => {
   const getStatusColor = () => {
-    if (!status) return colors.errorRed;
-
     switch (status) {
-      // To-Do: Get status -> color coding mappings from Ken
       case 'Introduced':
+      case 'Prefiled':
+      case 'Draft':
+      case 'Refer':
+        return colors.yellow;
+      case 'Passed':
+      case 'Engrossed':
+      case 'Override':
+      case 'Chaptered':
+      case 'Enrolled':
         return colors.successGreen;
+      case 'Report Pass':
+        return colors.yesVoteGreen;
+      case 'Report DNP':
+        return colors.orange;
+      case 'Failed':
+      case 'Vetoed':
+        colors.errorRed;
       default:
         return colors.errorRed;
     }
