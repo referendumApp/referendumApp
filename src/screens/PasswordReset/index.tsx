@@ -32,7 +32,6 @@ type NavigationProp = NativeStackNavigationProp<SettingsStackParamList, 'Setting
 const PasswordResetScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [passwordReset] = usePasswordResetMutation();
-  const currentUser  = useSelector((state: RootState) => state.auth.user?.user);
 
   const [isPasswordChanged, setIsPasswordChanged] = useState<boolean>(false);
   const [passwordResetForm, setPasswordResetForm] = useState<PasswordResetForm>({
