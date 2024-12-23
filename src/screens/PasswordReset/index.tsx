@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   SafeAreaView,
 } from 'react-native';
-import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -16,7 +15,6 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FormField from '@/components/FormField';
 import { BackButton } from '@/components/NavBar';
 import { SettingsStackParamList } from '@/navigation/types';
-import { RootState } from '@/store';
 import { colors } from '@/themes';
 
 import { PasswordResetError, usePasswordResetMutation } from './redux/api';
